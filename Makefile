@@ -15,7 +15,10 @@ DIR_LIB_FT =	./libs/libft
 DIR_LIB_MLX =	./libs/MLX42
 
 # SOURCE NAMES
-NAMES_SRCS =	main.c
+NAMES_SRCS =	main.c \
+				read_map.c \
+				check_input.c \
+				messages.c
 
 # HEADER NAMES
 NAMES_HDRS =	cub3d.h

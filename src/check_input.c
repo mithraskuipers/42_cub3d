@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   cub3d.h                                            :+:    :+:            */
+/*   check_input.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/09/15 17:05:01 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/09/15 20:10:10 by mikuiper      ########   odam.nl         */
+/*   Created: 2022/09/15 20:12:46 by mikuiper      #+#    #+#                 */
+/*   Updated: 2022/09/15 20:35:10 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "../includes/cub3d.h"
 
-#include "../libs/libft/libft.h"
-#include "prototypes.h"
-#include "structs.h"
-#include "splash.h"
-
-#include <fcntl.h>
-
-#endif
+int	check_input(int argc, char **argv)
+{
+	if (argc > 2)
+		return (msg_err("Too many arguments.", 1));
+	// check map
+	(void)argv;
+	return (0);
+}

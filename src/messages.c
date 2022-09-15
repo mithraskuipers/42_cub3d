@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   cub3d.h                                            :+:    :+:            */
+/*   messages.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/09/15 17:05:01 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/09/15 20:10:10 by mikuiper      ########   odam.nl         */
+/*   Created: 2022/09/15 20:17:25 by mikuiper      #+#    #+#                 */
+/*   Updated: 2022/09/15 20:17:34 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "../includes/cub3d.h"
 
-#include "../libs/libft/libft.h"
-#include "prototypes.h"
-#include "structs.h"
-#include "splash.h"
-
-#include <fcntl.h>
-
-#endif
+int	msg_err(char *s, int return_code)
+{
+	if (ft_strlen(s) != 0)
+		printf("Error: %s\n", s);
+	return (return_code);
+}
