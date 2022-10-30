@@ -18,6 +18,8 @@ typedef struct s_mlx
 	int				longest_width;
 	int				longest_height;
 	char			**cpy_map;
+	int				s_posX;
+	int				s_posY;
 }				t_mlx;
 
 void	mapparsing(t_mlx *mlx);

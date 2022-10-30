@@ -5,7 +5,9 @@ void	othercharacters(t_mlx *mlx)
 {
 	int	i;
 	int	a;
+	int	players_counted;
 
+	players_counted = 0;
 	i = 0;
 	while (i < mlx->nr_of_lines)
 	{
@@ -18,9 +20,20 @@ void	othercharacters(t_mlx *mlx)
 				printf("Error\n wrong characters included");
 				return (returnft(mlx));
 			}
+			if (ft_strrchr("NSEW", mlx->map[i][a]))
+			{
+				players_counted++;
+				mlx->s_posX = a;
+				mlx->s_posY = i;
+			}
 			a++;
 		}
 		i++;
+	}
+	if (players_counted > 1)
+	{
+		printf("Error\n no more than 1 player");
+		return (returnft(mlx));
 	}
 }
 

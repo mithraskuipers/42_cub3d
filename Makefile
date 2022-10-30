@@ -4,7 +4,7 @@ OBJS		= $(addsuffix .o, ${OBJ})
 CC			= gcc
 RM			= rm -f
 HEADER		= -I headers/
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -fsanitize=address -g
 LIBFT		= libft/libft.a
 
 all:		${NAME}

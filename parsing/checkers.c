@@ -59,14 +59,6 @@ void	wallchecker(t_mlx *mlx)
 	// }
 }
 
-// int	valid_check(int row, int column, t_mlx *mlx)
-// {
-// 	if (row < 1 || row > mlx->longest_height)
-// 		return (1);
-// 	if (column < 1 || column > mlx->longest_width)
-// 		return (1);
-// 	if (mlx->map[i][a]) != 'x' || 
-// }
 
 void	get_longest_width(t_mlx *mlx)
 {
@@ -119,17 +111,58 @@ void	copy_map(t_mlx *mlx)
 	}
 }
 
+int	valid_check(int x, int y, t_mlx *mlx)
+{
+	// if (row < 1 || row > mlx->longest_height)
+	// 	return (1);
+	// if (column < 1 || column > mlx->longest_width)
+	// 	return (1);
+	// if (mlx->map[i][a]) != 'x' || 
+	if (x < 0 && x >= mlx->longest_width && y < 0 && y >= mlx->nr_of_lines)
+		return (1);
+	printf("x %d\n", x);
+	printf("y %d\n", y);
+
+	if (mlx->cpy_map[y][x] == 'x')
+		return (0);
+	// if (mlx->cpy_map[y][x] == '1')
+	// 	return (1);
+	if (mlx->cpy_map[y][x] == '0' && (x == 0 || y == 0 || x == mlx->longest_width - 1 || y == mlx->nr_of_lines - 1))
+		return (1);
+	mlx->cpy_map[y][x] = 'x';
+	return (0);
+}
+
+int	flood_fill_check(int x, int y, t_mlx *mlx)
+{
+	if (valid_check(x, y, mlx) == 1)
+	{
+		printf("Error\n map not surrounded by walls");
+		returnft(mlx);
+		return (1);
+	}
+	// if (x - 1 >= 0 && x + 1 < mlx->longest_width && y - 1 >= 0 && y + 1 < mlx->nr_of_lines)
+	// {
+	flood_fill_check(x - 1, y, mlx);
+	flood_fill_check(x, y - 1, mlx);
+	flood_fill_check(x + 1, y, mlx);
+	flood_fill_check(x, y + 1, mlx);
+	// }
+	return (0);
+}
+
 /*check if map is rectangular*/
 void	checkmap(t_mlx *mlx)
 {
 	// int x = 3;
 	// int y = 3;
+
 	mlx->cpy_map = ft_calloc(1, sizeof(char *) * (mlx->nr_of_lines + 1));
 	if (!mlx->cpy_map)
 		return (returnft(mlx));
 	get_longest_width(mlx);
 	copy_map(mlx);
-	
+	flood_fill_check(mlx->s_posX, mlx->s_posY, mlx);
 	// wallchecker(mlx, x, y);
 	// free (mlx->cpy_map);
 	free_map(mlx->cpy_map, mlx);
