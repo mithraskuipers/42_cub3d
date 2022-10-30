@@ -1,25 +1,19 @@
 
 #include "../headers/parsing.h"
 
-void	returnft(t_mlx *mlx)
-{
-	mlx->error = 1;
-	return ;
-}
-
 void	othercharacters(t_mlx *mlx)
 {
 	int	i;
 	int	a;
 
 	i = 0;
-	mlx->len = (int)ft_strlen(mlx->map[0]);
 	while (i < mlx->nr_of_lines)
 	{
 		a = 0;
+		mlx->len = (int)ft_strlen(mlx->map[i]);
 		while (a < mlx->len)
 		{
-			if (!ft_strrchr("E01CP", mlx->map[i][a]))
+			if (!ft_strrchr("01NSEW", mlx->map[i][a]))
 			{
 				printf("Error\n wrong characters included");
 				return (returnft(mlx));
@@ -33,7 +27,9 @@ void	othercharacters(t_mlx *mlx)
 void	fillmap(t_mlx *mlx, char *line, char *line2)
 {
 	mlx->ret = 1;
-	mlx->b = 0;
+	int	i;
+
+	i = 0;
 	while (mlx->ret)
 	{
 		mlx->ret = get_next_line(mlx->fd, &line);
@@ -49,8 +45,9 @@ void	fillmap(t_mlx *mlx, char *line, char *line2)
 		}
 		if (ft_strncmp(line, "", 1) != 0)
 		{
-			mlx->map[mlx->b] = line;
-			mlx->b++;
+			mlx->map[i] = line;
+			// printf("%s\n", mlx->map[i]);
+			i++;
 		}
 		else
 			free (line);
@@ -81,7 +78,17 @@ void	countlines(t_mlx *mlx, char *line, char *line2)
 		if (line)
 			free (line);
 	}
+	printf("%d nr of lines\n", mlx->nr_of_lines);
 	close (mlx->fd);
+}
+
+void	checkmapformat(t_mlx *mlx)
+{
+	if (!ft_strnstr(mlx->map_file, ".cub", ft_strlen(mlx->map_file)))
+	{
+		printf("Error\n wrong map file format");
+		return (returnft(mlx));
+	}
 }
 
 void	mapparsing(t_mlx *mlx)
@@ -93,8 +100,9 @@ void	mapparsing(t_mlx *mlx)
 	mlx->nr_of_lines = 0;
 	line = NULL;
 	line2 = NULL;
+	checkmapformat(mlx);
 	countlines(mlx, line, line2);
-	mlx->map = malloc(sizeof(char *) * (mlx->nr_of_lines + 1));
+	mlx->map = ft_calloc(1, sizeof(char *) * (mlx->nr_of_lines + 1));
 	if (!mlx->map)
 		return (returnft(mlx));
 	mlx->fd = open(mlx->map_file, O_RDONLY);
