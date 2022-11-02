@@ -6,7 +6,7 @@
 #    By: dkramer <dkramer@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/11/09 09:51:57 by dkramer       #+#    #+#                  #
-#    Updated: 2022/04/09 14:50:26 by obult         ########   odam.nl          #
+#    Updated: 2022/11/02 14:26:26 by dkramer       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRCS	= ./ft_isalnum.c ./ft_isalpha.c ./ft_isascii.c ./ft_isdigit.c\
 ./ft_substr.c ./ft_memccpy.c ./ft_memchr.c ./ft_memcmp.c ./ft_memcpy.c \
 ./ft_memmove.c ./ft_memset.c ./ft_strchr.c ./ft_strdup.c ./ft_strlcat.c \
 ./ft_strlcpy.c ./ft_strlen.c ./ft_strncmp.c ./ft_strnstr.c ./ft_strrchr.c \
-./ft_tolower.c ./ft_toupper.c ./ft_strrev.c \
+./ft_tolower.c ./ft_toupper.c ./ft_strrev.c ./ft_strreplace.c ./ft_putchar.c ./ft_nrofdigits.c ./ft_itoa_base.c\
 $(ADDITIONS)
 
 ADDITIONS	= gnl.c ph_atoi.c ft_arraylen.c

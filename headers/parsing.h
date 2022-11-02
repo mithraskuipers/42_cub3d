@@ -26,5 +26,6 @@ void	mapparsing(t_mlx *mlx);
 void	checkmap(t_mlx *mlx);
 void	returnft(t_mlx *mlx);
 void	free_map(char **map, t_mlx *mlx);
+void	get_longest_width(t_mlx *mlx);
 
 #endif

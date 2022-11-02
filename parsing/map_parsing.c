@@ -58,8 +58,12 @@ void	fillmap(t_mlx *mlx, char *line, char *line2)
 		}
 		if (ft_strncmp(line, "", 1) != 0)
 		{
-			mlx->map[i] = line;
+			mlx->map[i] = ft_calloc(1, mlx->longest_width + 1);
+			mlx->map[i] = ft_memset(mlx->map[i], '0', mlx->longest_width);
+			line = ft_strreplace(line, ' ', '0');
+			mlx->map[i] = ft_memcpy(mlx->map[i], line, ft_strlen(line));
 			// printf("%s\n", mlx->map[i]);
+			free (line);
 			i++;
 		}
 		else
@@ -70,6 +74,7 @@ void	fillmap(t_mlx *mlx, char *line, char *line2)
 
 void	countlines(t_mlx *mlx, char *line, char *line2)
 {
+	mlx->longest_width = 0;
 	mlx->fd = open(mlx->map_file, O_RDONLY);
 	if (mlx->fd == -1)
 		return (returnft(mlx));
@@ -87,11 +92,15 @@ void	countlines(t_mlx *mlx, char *line, char *line2)
 			free (line2);
 		}
 		if (ft_strncmp(line, "", ft_strlen(line)) != 0)
+		{
 			mlx->nr_of_lines++;
+			mlx->len = (int)ft_strlen(line);
+			if (mlx->len > mlx->longest_width)
+				mlx->longest_width = mlx->len;
+		}
 		if (line)
 			free (line);
 	}
-	printf("%d nr of lines\n", mlx->nr_of_lines);
 	close (mlx->fd);
 }
 
@@ -121,6 +130,7 @@ void	mapparsing(t_mlx *mlx)
 	mlx->fd = open(mlx->map_file, O_RDONLY);
 	if (mlx->fd == -1)
 		return (returnft(mlx));
+	
 	fillmap(mlx, line, line2);
 	othercharacters(mlx);
 	if (mlx->error == 1)
