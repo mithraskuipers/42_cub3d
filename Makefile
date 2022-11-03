@@ -45,4 +45,4 @@ ${NAME}:	${OBJS} ${LIBMLX} ${LIBFT}
 				@${CC} $^ $(CFLAGS) $(LINKER) -o $(NAME)
 				$(info ************  cub3D Ready!)
 
-.PHONY: all clean fclean re cleanft run
+.PHONY: all clean fclean re cleanft run libmlx libft
