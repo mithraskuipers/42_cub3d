@@ -236,10 +236,14 @@ int	flood_fill_check(int x, int y, t_mlx *mlx)
 	// return (0);
 	// if (x - 1 >= 0 && x + 1 < mlx->longest_width && y - 1 >= 0 && y + 1 < mlx->nr_of_lines)
 	// {
-	flood_fill_check(x - 1, y, mlx);
-	flood_fill_check(x, y - 1, mlx);
-	flood_fill_check(x + 1, y, mlx);
-	flood_fill_check(x, y + 1, mlx);
+	if (flood_fill_check(x - 1, y, mlx) == 1)
+		return (1);
+	if (flood_fill_check(x, y - 1, mlx) == 1)
+		return (1);
+	if (flood_fill_check(x + 1, y, mlx) == 1)
+		return (1);
+	if (flood_fill_check(x, y + 1, mlx) == 1)
+		return (1);
 	// }
 	return (0);
 }
@@ -255,7 +259,8 @@ void	checkmap(t_mlx *mlx)
 		return (returnft(mlx));
 	
 	copy_map(mlx);
-	flood_fill_check(mlx->s_posX, mlx->s_posY, mlx);
+	if (flood_fill_check(mlx->s_posX, mlx->s_posY, mlx) == 1)
+		return (returnft(mlx));
 	// wallchecker(mlx, x, y);
 	// free (mlx->cpy_map);
 	free_map(mlx->cpy_map, mlx);

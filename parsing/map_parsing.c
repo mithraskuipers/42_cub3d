@@ -113,6 +113,42 @@ void	checkmapformat(t_mlx *mlx)
 	}
 }
 
+void	get_variables(t_mlx *mlx)
+{
+	// (void)mlx;
+	// 220,100,0
+	mlx->fcolor = get_rgba(220, 100, 0);
+	printf("%d\n", mlx->fcolor);
+
+	mlx_t* mlx42 = mlx_init(5000, 3000, "42Balls", true);
+	if (!mlx42)
+		return ;
+		// ft_error();
+
+	/* Do stuff */
+
+	// Create and display the image.
+	mlx_image_t* img = mlx_new_image(mlx42, 256, 256);
+	if (!img || (mlx_image_to_window(mlx42, img, 0, 0) < 0))
+		return ;
+
+	// Even after the image is being displayed, we can still modify the buffer.
+	mlx_put_pixel(img, 0, 0, mlx->fcolor);
+
+	// Register a hook and pass mlx as an optional param.
+	// NOTE: Do this before calling mlx_loop!
+	// mlx_loop_hook(mlx, ft_hook, mlx);
+	mlx_loop(mlx42);
+	mlx_terminate(mlx42);
+// 	NO ./path_to_the_north_texture
+// SO ./path_to_the_south_texture
+// WE ./path_to_the_west_texture
+// EA ./path_to_the_east_texture
+// F 220,100,0
+// C 225,30,0
+	
+}
+
 void	mapparsing(t_mlx *mlx)
 {
 	char	*line;
@@ -122,6 +158,7 @@ void	mapparsing(t_mlx *mlx)
 	mlx->nr_of_lines = 0;
 	line = NULL;
 	line2 = NULL;
+	get_variables(mlx);
 	checkmapformat(mlx);
 	countlines(mlx, line, line2);
 	mlx->map = ft_calloc(1, sizeof(char *) * (mlx->nr_of_lines + 1));
