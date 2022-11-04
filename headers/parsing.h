@@ -33,6 +33,7 @@ typedef struct s_mlx
 	char			*EA;
 	int				fcolor;
 	int				ccolor;
+	int				amount_of_lines_till_map;
 	// int
 }				t_mlx;
 
@@ -41,6 +42,7 @@ void	checkmap(t_mlx *mlx);
 void	returnft(t_mlx *mlx);
 void	free_map(char **map, t_mlx *mlx);
 void	get_longest_width(t_mlx *mlx);
-int		get_rgba(int r, int g, int b);
+unsigned int		get_rgba(int r, int g, int b);
+int	create_trgb(unsigned char t, unsigned char r, unsigned char g, unsigned char b);
 
 #endif

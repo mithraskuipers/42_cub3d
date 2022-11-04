@@ -113,13 +113,8 @@ void	checkmapformat(t_mlx *mlx)
 	}
 }
 
-void	get_variables(t_mlx *mlx)
+void	mlx_stuff(t_mlx *mlx)
 {
-	// (void)mlx;
-	// 220,100,0
-	mlx->fcolor = get_rgba(220, 100, 0);
-	printf("%d\n", mlx->fcolor);
-
 	mlx_t* mlx42 = mlx_init(5000, 3000, "42Balls", true);
 	if (!mlx42)
 		return ;
@@ -133,13 +128,54 @@ void	get_variables(t_mlx *mlx)
 		return ;
 
 	// Even after the image is being displayed, we can still modify the buffer.
-	mlx_put_pixel(img, 0, 0, mlx->fcolor);
-
+	mlx_put_pixel(img, 100, 100, mlx->fcolor);
+	
 	// Register a hook and pass mlx as an optional param.
 	// NOTE: Do this before calling mlx_loop!
 	// mlx_loop_hook(mlx, ft_hook, mlx);
 	mlx_loop(mlx42);
 	mlx_terminate(mlx42);
+}
+
+void	get_variables(t_mlx *mlx, char *line, char *line2)
+{
+	// (void)mlx;
+	// 220,100,0
+	// mlx->fcolor = get_rgba(255, 255, 255);
+	mlx->amount_of_lines_till_map = 0;
+	mlx->fd = open(mlx->map_file, O_RDONLY);
+	if (mlx->fd == -1)
+		return (returnft(mlx));
+	while (mlx->ret)
+	{
+		mlx->ret = get_next_line(mlx->fd, &line);
+		if (mlx->ret == -1)
+			return (returnft(mlx));
+		if (line)
+		{
+			line2 = line;
+			line = ft_strtrim(line2, "\t\n\v\f\r ");
+			if (!line)
+				return (returnft(mlx));
+			free (line2);
+		}
+		if (ft_strncmp(line, "", ft_strlen(line)) != 0)
+		{
+			mlx->nr_of_lines++;
+			mlx->len = (int)ft_strlen(line);
+			if (mlx->len > mlx->longest_width)
+				mlx->longest_width = mlx->len;
+		}
+		if (line)
+			free (line);
+		mlx->amount_of_lines_till_map++;
+	}
+	close (mlx->fd);
+	mlx->fcolor = create_trgb(255, 255, 255, 255);
+	printf("%ud\n", mlx->fcolor);
+
+	// mlx_stuff(mlx);
+	
 // 	NO ./path_to_the_north_texture
 // SO ./path_to_the_south_texture
 // WE ./path_to_the_west_texture
@@ -158,7 +194,7 @@ void	mapparsing(t_mlx *mlx)
 	mlx->nr_of_lines = 0;
 	line = NULL;
 	line2 = NULL;
-	get_variables(mlx);
+	get_variables(mlx, line, line2);
 	checkmapformat(mlx);
 	countlines(mlx, line, line2);
 	mlx->map = ft_calloc(1, sizeof(char *) * (mlx->nr_of_lines + 1));
