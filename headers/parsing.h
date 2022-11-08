@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   parsing.h                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/11/08 18:00:32 by mikuiper      #+#    #+#                 */
+/*   Updated: 2022/11/08 18:02:19 by mikuiper      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -11,7 +23,7 @@ typedef struct s_mlx
 {
 	char			*map_file;
 	char			**map;
-	int				nr_of_lines;
+	int				n_lines;
 	int				len;
 	int				ret;
 	int				fd;
@@ -37,12 +49,16 @@ typedef struct s_mlx
 	// int
 }				t_mlx;
 
-void	map_parse(t_mlx *mlx);
-void	checkmap(t_mlx *mlx);
-void	returnft(t_mlx *mlx);
-void	free_map(char **map, t_mlx *mlx);
-void	get_longest_width(t_mlx *mlx);
-unsigned int		get_rgba(int r, int g, int b);
-int	create_trgb(unsigned char t, unsigned char r, unsigned char g, unsigned char b);
+
+// prototypes
+void			map_parse(t_mlx *mlx);
+void			checkmap(t_mlx *mlx);
+void			returnft(t_mlx *mlx);
+void			free_map(char **map, t_mlx *mlx);
+void			get_longest_width(t_mlx *mlx);
+unsigned int	get_rgba(int r, int g, int b);
+int				create_trgb(unsigned char t, unsigned char r, unsigned char g, \
+				unsigned char b);
+int				error_msg_ret(char *error_msg, int ret_code);
 
 #endif

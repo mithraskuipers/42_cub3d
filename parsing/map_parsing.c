@@ -1,6 +1,7 @@
 
 #include "../headers/parsing.h"
 
+
 void	othercharacters(t_mlx *mlx)
 {
 	int	i;
@@ -9,7 +10,7 @@ void	othercharacters(t_mlx *mlx)
 
 	players_counted = 0;
 	i = 0;
-	while (i < mlx->nr_of_lines)
+	while (i < mlx->n_lines)
 	{
 		a = 0;
 		mlx->len = (int)ft_strlen(mlx->map[i]);
@@ -37,8 +38,8 @@ void	othercharacters(t_mlx *mlx)
 	}
 }
 
-//
-int	fillmap(t_mlx *mlx, char *line, char *line2)
+// TODO
+int	map_fill(t_mlx *mlx, char *line, char *line2)
 {
 	mlx->ret = 1;
 	int	i;
@@ -81,7 +82,7 @@ int	fillmap(t_mlx *mlx, char *line, char *line2)
 	return (0);
 }
 
-//
+// TODO
 int	countlines(t_mlx *mlx, char *line, char *line2)
 {
 	mlx->longest_width = 0;
@@ -116,7 +117,7 @@ int	countlines(t_mlx *mlx, char *line, char *line2)
 		}
 		if (ft_strncmp(line, "", ft_strlen(line)) != 0)
 		{
-			mlx->nr_of_lines++;
+			mlx->n_lines++;
 			mlx->len = (int)ft_strlen(line);
 			if (mlx->len > mlx->longest_width)
 				mlx->longest_width = mlx->len;
@@ -186,7 +187,7 @@ void	get_variables(t_mlx *mlx, char *line, char *line2)
 		}
 		if (ft_strncmp(line, "", ft_strlen(line)) != 0)
 		{
-			mlx->nr_of_lines++;
+			mlx->n_lines++;
 			mlx->len = (int)ft_strlen(line);
 			if (mlx->len > mlx->longest_width)
 				mlx->longest_width = mlx->len;
@@ -218,20 +219,20 @@ void	map_parse(t_mlx *mlx)
 	char	*line2;
 
 	mlx->ret = 1;
-	mlx->nr_of_lines = 0; // mk: plaats in init function
+	mlx->n_lines = 0; // mk: plaats in init function
 	line = NULL; 
 	line2 = NULL;
 	// get_variables(mlx, line, line2);
 	map_check_ext(mlx);
 	countlines(mlx, line, line2);
-	mlx->map = ft_calloc(1, sizeof(char *) * (mlx->nr_of_lines + 1));
+	mlx->map = ft_calloc(1, sizeof(char *) * (mlx->n_lines + 1));
 	if (!mlx->map)
 		return (returnft(mlx));
 	mlx->fd = open(mlx->map_file, O_RDONLY);
 	if (mlx->fd == -1)
 		return (returnft(mlx));
 	
-	fillmap(mlx, line, line2);
+	map_fill(mlx, line, line2);
 	othercharacters(mlx);
 	if (mlx->error == 1)
 		return ;
