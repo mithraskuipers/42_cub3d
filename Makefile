@@ -1,5 +1,5 @@
 NAME		= cub3D
-OBJ			= main parsing/map_parsing parsing/checkers parsing/utils
+OBJ			= main parsing/map_parsing parsing/checkers parsing/utils tools/error
 OBJS		= $(addsuffix .o, ${OBJ})
 CC			= gcc
 RM			= rm -f

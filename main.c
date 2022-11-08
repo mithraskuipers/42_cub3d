@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/08 14:53:55 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/08 18:07:46 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/08 18:11:11 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,16 @@
 /*
 Hoi Dagmar, voel je vrij om zelf overal je eigen Codam header toe te voegen.
 Norminette decorator kleurde iets teveel code rood dus ik heb tijdelijk hier 
-en daar mijn Codam header geplaatst.
+en daar mijn Codam header geplaatst. 
 */
 
 #include "headers/parsing.h"
-
 
 // TODO
 void	returnft(t_mlx *mlx)
 {
 	mlx->error = 1;
 	return ;
-}
-
-// error_msg_ret()
-// Prints an error message and returns with code.
-int	error_msg_ret(char *error_msg, int ret_code)
-{
-	if (ft_strlen(error_msg) == 0)
-		return (ret_code);
-	printf("Error.\n%s\n", error_msg);
-	return (ret_code);
 }
 
 // free_map()

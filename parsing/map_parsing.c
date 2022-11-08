@@ -132,9 +132,10 @@ int	countlines(t_mlx *mlx, char *line, char *line2)
 // map_check_ext() checks whether the file extension is ".cub".
 void	map_check_ext(t_mlx *mlx)
 {
-	if (!ft_strnstr(mlx->map_file, ".cub", ft_strlen(mlx->map_file)))
+	if (!ft_strrchr(mlx->map_file, '.') || \
+	ft_strncmp(ft_strrchr(mlx->map_file, '.'), ".cub", 5))
 	{
-		printf("Error\n wrong map file format");
+		error_msg_ret("Please provide a map with .cub extension.", 1);
 		return (returnft(mlx));
 	}
 }

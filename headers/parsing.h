@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/08 18:00:32 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/08 18:02:19 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/08 18:17:12 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ void			returnft(t_mlx *mlx);
 void			free_map(char **map, t_mlx *mlx);
 void			get_longest_width(t_mlx *mlx);
 unsigned int	get_rgba(int r, int g, int b);
-int				create_trgb(unsigned char t, unsigned char r, unsigned char g, \
-				unsigned char b);
+int				create_trgb(unsigned char t, unsigned char r, unsigned char g, unsigned char b);
 int				error_msg_ret(char *error_msg, int ret_code);
 
 #endif
