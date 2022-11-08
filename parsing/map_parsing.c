@@ -209,4 +209,6 @@ void	mapparsing(t_mlx *mlx)
 	if (mlx->error == 1)
 		return ;
 	checkmap (mlx);
+	if (mlx->error == 1)
+		return ;
 }

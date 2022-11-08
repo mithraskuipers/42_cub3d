@@ -4,7 +4,7 @@ OBJS		= $(addsuffix .o, ${OBJ})
 CC			= gcc
 RM			= rm -f
 HEADER		= -I headers/ -I $(MLX)/include
-CFLAGS		= -Wall -Wextra -Werror #-lglfw -ldl -lm"/Users/dkramer/.brew/opt/glfw/lib/"#-lglfw -ldl -lm -O3-ldl -lm -O3 #-fsanitize=address
+CFLAGS		= -Wall -Wextra -Werror #-g -fsanitize=address
 LINKER		=  -lglfw -L "/Users/$(USER)/.brew/opt/glfw/lib/" 
 LIBFT		= libft/libft.a
 MLX			= MLX42

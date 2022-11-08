@@ -38,6 +38,27 @@ int	flood_fill_check(int x, int y, t_mlx *mlx)
 	return (0);
 }
 
+void	copy_map(t_mlx *mlx)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	while (y < mlx->nr_of_lines)
+	{
+		x = 0;
+		mlx->len = (int)ft_strlen(mlx->map[y]);
+		mlx->cpy_map[y] = ft_calloc(1, mlx->len * sizeof(char) + 1);
+		while (x < mlx->len)
+		{
+			mlx->cpy_map[y][x] = mlx->map[y][x];
+			x++;
+		}
+		// printf("%s\n", mlx->cpy_map[y]);
+		y++;
+	}
+}
+
 /*check if map is rectangular*/
 void	checkmap(t_mlx *mlx)
 {
@@ -46,6 +67,9 @@ void	checkmap(t_mlx *mlx)
 		return (returnft(mlx));
 	copy_map(mlx);
 	if (flood_fill_check(mlx->s_posX, mlx->s_posY, mlx) == 1)
+	{
+		free_map(mlx->cpy_map, mlx);
 		return (returnft(mlx));
+	}
 	free_map(mlx->cpy_map, mlx);
 }
