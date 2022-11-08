@@ -37,6 +37,7 @@ void	othercharacters(t_mlx *mlx)
 	}
 }
 
+//
 int	fillmap(t_mlx *mlx, char *line, char *line2)
 {
 	mlx->ret = 1;
@@ -80,6 +81,7 @@ int	fillmap(t_mlx *mlx, char *line, char *line2)
 	return (0);
 }
 
+//
 int	countlines(t_mlx *mlx, char *line, char *line2)
 {
 	mlx->longest_width = 0;
@@ -126,7 +128,8 @@ int	countlines(t_mlx *mlx, char *line, char *line2)
 	return (0);
 }
 
-void	checkmapformat(t_mlx *mlx)
+// map_check_ext() checks whether the file extension is ".cub".
+void	map_check_ext(t_mlx *mlx)
 {
 	if (!ft_strnstr(mlx->map_file, ".cub", ft_strlen(mlx->map_file)))
 	{
@@ -207,17 +210,19 @@ void	get_variables(t_mlx *mlx, char *line, char *line2)
 	
 }
 
-void	mapparsing(t_mlx *mlx)
+
+//
+void	map_parse(t_mlx *mlx)
 {
 	char	*line;
 	char	*line2;
 
 	mlx->ret = 1;
-	mlx->nr_of_lines = 0;
-	line = NULL;
+	mlx->nr_of_lines = 0; // mk: plaats in init function
+	line = NULL; 
 	line2 = NULL;
 	// get_variables(mlx, line, line2);
-	checkmapformat(mlx);
+	map_check_ext(mlx);
 	countlines(mlx, line, line2);
 	mlx->map = ft_calloc(1, sizeof(char *) * (mlx->nr_of_lines + 1));
 	if (!mlx->map)

@@ -37,7 +37,7 @@ typedef struct s_mlx
 	// int
 }				t_mlx;
 
-void	mapparsing(t_mlx *mlx);
+void	map_parse(t_mlx *mlx);
 void	checkmap(t_mlx *mlx);
 void	returnft(t_mlx *mlx);
 void	free_map(char **map, t_mlx *mlx);
