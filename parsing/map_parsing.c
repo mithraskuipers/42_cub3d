@@ -194,7 +194,7 @@ void	mapparsing(t_mlx *mlx)
 	mlx->nr_of_lines = 0;
 	line = NULL;
 	line2 = NULL;
-	get_variables(mlx, line, line2);
+	// get_variables(mlx, line, line2);
 	checkmapformat(mlx);
 	countlines(mlx, line, line2);
 	mlx->map = ft_calloc(1, sizeof(char *) * (mlx->nr_of_lines + 1));
