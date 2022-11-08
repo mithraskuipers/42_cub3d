@@ -130,13 +130,14 @@ int	countlines(t_mlx *mlx, char *line, char *line2)
 }
 
 // map_check_ext() checks whether the file extension is ".cub".
-void	map_check_ext(t_mlx *mlx)
+int	map_check_ext(t_mlx *mlx)
 {
 	if (!ft_strnstr(mlx->map_file, ".cub", ft_strlen(mlx->map_file)))
 	{
 		printf("Error\n wrong map file format");
-		return (returnft(mlx));
+		return (1);
 	}
+	return (0);
 }
 
 void	mlx_stuff(t_mlx *mlx)
@@ -221,7 +222,8 @@ int	map_parse(t_mlx *mlx)
 	line = NULL; 
 	line2 = NULL;
 	// get_variables(mlx, line, line2);
-	map_check_ext(mlx);
+	if (map_check_ext(mlx) == 1)
+		return (1);
 	if (countlines(mlx, line, line2) == 1)
 		return (1);
 	mlx->map = ft_calloc(1, sizeof(char *) * (mlx->nr_of_lines + 1));

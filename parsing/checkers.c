@@ -3,7 +3,7 @@
 /*check if surrounded by walls*/
 int	flood_fill_check(int x, int y, t_mlx *mlx)
 {
-	if (x < 0 || x >= (int)ft_strlen(mlx->cpy_map[y]) || y < 0 || y >= mlx->nr_of_lines)
+	if (x <= 0 || x >= mlx->longest_width || y < 0 || y >= mlx->nr_of_lines)
 	{
 		// printf("Error\n map not surrounded by walls");
 		// returnft(mlx);
@@ -15,7 +15,7 @@ int	flood_fill_check(int x, int y, t_mlx *mlx)
 	if (mlx->cpy_map[y][x] == 'x')
 		return (0);
 	if (x == 0 || y == 0 || y == mlx->nr_of_lines - 1 ||
-	x == (int)ft_strlen(mlx->cpy_map[y]) - 1)
+	x == mlx->longest_width - 1)
 	{
 		// data->map.valid_map = 1;
 		printf("Error\n map not surrounded by walls");
