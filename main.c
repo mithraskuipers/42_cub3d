@@ -28,10 +28,9 @@ int main(int argc, char **argv)
 	if (argc == 2)
 	{
 		mlx.map_file = argv[1];
-		mapparsing(&mlx);
-		if (mlx.error == 1)
+		if (mapparsing(&mlx) == 1)
 		{
-			// system ("leaks cub3D");
+			system ("leaks cub3D");
 			return (1);
 		}
 	}
@@ -41,6 +40,6 @@ int main(int argc, char **argv)
 		return (1);
 	}
 	free_map(mlx.map, &mlx);
-	// system ("leaks cub3D");
+	system ("leaks cub3D");
     return (0);
 }

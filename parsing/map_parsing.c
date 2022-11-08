@@ -51,10 +51,10 @@ int	fillmap(t_mlx *mlx, char *line, char *line2)
 		if (line)
 		{
 			line2 = line;
-			line = ft_strtrim(line2, "\n");
-			if(!line)
-				return (1);
-			free (line);
+			// line = ft_strtrim(line2, "\n");
+			// if(!line)
+			// 	return (1);
+			// free (line);
 			line = ft_strdup(line2);
 			free (line2);
 			// line2 = line;
@@ -95,20 +95,21 @@ int	countlines(t_mlx *mlx, char *line, char *line2)
 		if(!ft_strncmp(line, "\n", ft_strlen(line)))
 		{
 			printf("Error\n empty line in map");
+			free (line);
 			return (1);
 		}
 		if (line)
 		{
 			line2 = line;
-			line = ft_strtrim(line2, "\n");
+			// line = ft_strtrim(line2, "\n");
 			
-			if(!line)
-			{
-				printf("Error\n empty line in map");
-				return (1);
-			}
+			// if(!line)
+			// {
+			// 	printf("Error\n empty line in map");
+			// 	return (1);
+			// }
 			
-			free (line);
+			// free (line);
 			line = ft_strdup(line2);
 			free (line2);
 		}
@@ -207,7 +208,7 @@ void	get_variables(t_mlx *mlx, char *line, char *line2)
 	
 }
 
-void	mapparsing(t_mlx *mlx)
+int	mapparsing(t_mlx *mlx)
 {
 	char	*line;
 	char	*line2;
@@ -218,19 +219,21 @@ void	mapparsing(t_mlx *mlx)
 	line2 = NULL;
 	// get_variables(mlx, line, line2);
 	checkmapformat(mlx);
-	countlines(mlx, line, line2);
+	if (countlines(mlx, line, line2) == 1)
+		return (1);
 	mlx->map = ft_calloc(1, sizeof(char *) * (mlx->nr_of_lines + 1));
 	if (!mlx->map)
-		return (returnft(mlx));
+		return (1);
 	mlx->fd = open(mlx->map_file, O_RDONLY);
 	if (mlx->fd == -1)
-		return (returnft(mlx));
+		return (1);
 	
 	fillmap(mlx, line, line2);
 	othercharacters(mlx);
 	if (mlx->error == 1)
-		return ;
+		return (1);
 	checkmap (mlx);
 	if (mlx->error == 1)
-		return ;
+		return (1);
+	return (0);
 }
