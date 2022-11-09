@@ -6,10 +6,9 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/08 14:53:55 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/08 18:11:11 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/09 09:02:20 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 /*
 Hoi Dagmar, voel je vrij om zelf overal je eigen Codam header toe te voegen.
@@ -17,9 +16,8 @@ Norminette decorator kleurde iets teveel code rood dus ik heb tijdelijk hier
 en daar mijn Codam header geplaatst. 
 */
 
-#include "headers/parsing.h"
+#include "./../includes/parsing.h"
 
-// TODO
 void	returnft(t_mlx *mlx)
 {
 	mlx->error = 1;
@@ -41,15 +39,17 @@ void	free_map(char **map, t_mlx *mlx)
 	free(map);
 }
 
+// bzero zet autom error en taken ook op 0.
+//init_mlx(&mlx);
+
 int	main(int argc, char **argv)
 {
 	t_mlx	mlx;
 
-	mlx.error = 0;
-	// mlx.taken = 0;
+	ft_bzero(&mlx, sizeof(t_mlx));
 	if (argc == 2)
 	{
-		mlx.map_file = argv[1];
+		mlx.map_filename = argv[1];
 		map_parse(&mlx);
 		if (mlx.error == 1)
 		{

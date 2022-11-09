@@ -1,4 +1,16 @@
-#include "../headers/parsing.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   checkers.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/11/09 08:47:23 by mikuiper      #+#    #+#                 */
+/*   Updated: 2022/11/09 09:28:39 by mikuiper      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "./../includes/parsing.h"
 
 /*check if surrounded by walls*/
 int	flood_fill_check(int x, int y, t_mlx *mlx)
@@ -18,7 +30,7 @@ int	flood_fill_check(int x, int y, t_mlx *mlx)
 	x == (int)ft_strlen(mlx->cpy_map[y]) - 1)
 	{
 		// data->map.valid_map = 1;
-		printf("Error\n map not surrounded by walls");
+		printf("Error.\nMap not surrounded by walls");
 		returnft(mlx);
 		return (1);
 	}

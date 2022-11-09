@@ -6,22 +6,27 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/08 18:00:32 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/08 18:17:12 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/09 08:57:13 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "../libft/libft.h"
-# include "../libft/ft_printf/libftprintf.h"
+// Custom libraries
+# include "./../libs/libft/libft.h"
+# include "./../libs/libft/ft_printf/libftprintf.h"
+
+// Built-in libraries
 # include <fcntl.h>
 # include <stdio.h>
-#include "../MLX42/include/MLX42/MLX42.h"
+
+// External libraries
+# include "../libs/MLX42/include/MLX42/MLX42.h"
 
 typedef struct s_mlx
 {
-	char			*map_file;
+	char			*map_filename;
 	char			**map;
 	int				n_lines;
 	int				len;
@@ -33,12 +38,12 @@ typedef struct s_mlx
 	char			**cpy_map;
 	int				s_posX;
 	int				s_posY;
-		// NO ./path_to_the_north_texture
-// SO ./path_to_the_south_texture
-// WE ./path_to_the_west_texture
-// EA ./path_to_the_east_texture
-// F 220,100,0
-// C 225,30,0
+	// NO ./path_to_the_north_texture
+	// SO ./path_to_the_south_texture
+	// WE ./path_to_the_west_texture
+	// EA ./path_to_the_east_texture
+	// F 220,100,0
+	// C 225,30,0
 	char			*NO;
 	char			*SO;
 	char			*WE;

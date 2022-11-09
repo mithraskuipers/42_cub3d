@@ -1,6 +1,5 @@
 
-#include "../headers/parsing.h"
-
+#include "./../includes/parsing.h"
 
 void	othercharacters(t_mlx *mlx)
 {
@@ -86,7 +85,7 @@ int	map_fill(t_mlx *mlx, char *line, char *line2)
 int	countlines(t_mlx *mlx, char *line, char *line2)
 {
 	mlx->longest_width = 0;
-	mlx->fd = open(mlx->map_file, O_RDONLY);
+	mlx->fd = open(mlx->map_filename, O_RDONLY);
 	if (mlx->fd == -1)
 		return (1);
 	while (mlx->ret)
@@ -97,8 +96,7 @@ int	countlines(t_mlx *mlx, char *line, char *line2)
 		// printf("%s\n", line);
 		if(!ft_strncmp(line, "\n", ft_strlen(line)))
 		{
-			printf("Error\n empty line in map");
-			return (1);
+			return (error_msg_ret("Empty line in map.", 1));
 		}
 		if (line)
 		{
@@ -107,10 +105,8 @@ int	countlines(t_mlx *mlx, char *line, char *line2)
 			
 			if(!line)
 			{
-				printf("Error\n empty line in map");
-				return (1);
+				return (error_msg_ret("Empty line in map.", 1));
 			}
-			
 			free (line);
 			line = ft_strdup(line2);
 			free (line2);
@@ -132,8 +128,8 @@ int	countlines(t_mlx *mlx, char *line, char *line2)
 // map_check_ext() checks whether the file extension is ".cub".
 void	map_check_ext(t_mlx *mlx)
 {
-	if (!ft_strrchr(mlx->map_file, '.') || \
-	ft_strncmp(ft_strrchr(mlx->map_file, '.'), ".cub", 5))
+	if (!ft_strrchr(mlx->map_filename, '.') || \
+	ft_strncmp(ft_strrchr(mlx->map_filename, '.'), ".cub", 5))
 	{
 		error_msg_ret("Please provide a map with .cub extension.", 1);
 		return (returnft(mlx));
@@ -170,7 +166,7 @@ void	get_variables(t_mlx *mlx, char *line, char *line2)
 	// 220,100,0
 	// mlx->fcolor = get_rgba(255, 255, 255);
 	mlx->amount_of_lines_till_map = 0;
-	mlx->fd = open(mlx->map_file, O_RDONLY);
+	mlx->fd = open(mlx->map_filename, O_RDONLY);
 	if (mlx->fd == -1)
 		return (returnft(mlx));
 	while (mlx->ret)
@@ -229,7 +225,7 @@ void	map_parse(t_mlx *mlx)
 	mlx->map = ft_calloc(1, sizeof(char *) * (mlx->n_lines + 1));
 	if (!mlx->map)
 		return (returnft(mlx));
-	mlx->fd = open(mlx->map_file, O_RDONLY);
+	mlx->fd = open(mlx->map_filename, O_RDONLY);
 	if (mlx->fd == -1)
 		return (returnft(mlx));
 	

@@ -6,11 +6,11 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/08 18:10:26 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/08 18:10:42 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/09 09:08:35 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/parsing.h"
+#include "../includes/parsing.h"
 
 // error_msg_ret()
 // Prints an error message and returns with code.
