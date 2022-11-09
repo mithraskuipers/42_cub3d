@@ -6,11 +6,11 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 08:47:23 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/09 09:28:39 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/09 09:58:38 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../includes/parsing.h"
+#include "./../../includes/parsing.h"
 
 /*check if surrounded by walls*/
 int	flood_fill_check(int x, int y, t_mlx *mlx)
