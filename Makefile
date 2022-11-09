@@ -14,8 +14,6 @@ DIR_INC =		includes
 DIR_OBJ =		obj
 DIR_LIB_FT =	./libs/libft
 DIR_LIB_MLX =	./libs/MLX42
-DIR_LIB_MLX_INCS =	./libs/MLX42/include
-
 
 # SOURCE NAMES
 NAMES_SRCS =	main.c \
