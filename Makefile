@@ -84,4 +84,3 @@ make_obj_dirs:
 	@mkdir -p $(DIR_OBJ)
 	@mkdir -p $(DIR_OBJ)/parsing
 	@mkdir -p $(DIR_OBJ)/tools
-	
