@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 08:47:23 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/09 10:27:43 by dkramer       ########   odam.nl         */
+/*   Updated: 2022/11/09 12:57:33 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,38 +16,21 @@
 int	flood_fill_check(int x, int y, t_mlx *mlx)
 {
 	if (x < 0 || x >= mlx->longest_width || y < 0 || y >= mlx->n_lines)
-	{
-		// printf("Error\n map not surrounded by walls");
-		// returnft(mlx);
 		return (0);
-	}
-
 	if (mlx->cpy_map[y][x] == '1')
 		return (0);
 	if (mlx->cpy_map[y][x] == 'x')
 		return (0);
-	if (x + 1 < mlx->longest_width && mlx->cpy_map[y][x + 1] == ' ')
-	{
-		if (mlx->cpy_map[y][x] == '0')	
-		{
-			// data->map.valid_map = 1;
-			printf("Error\n map not surrounded by walls");
-			// returnft(mlx);
-			return (1);
-		}
-	}
-	if (x == 0 || y == 0 || y == mlx->n_lines - 1 ||
-	x == mlx->longest_width - 1)
-	{
-		// data->map.valid_map = 1;
-		printf("Error\n map not surrounded by walls");
-		// returnft(mlx);
-		return (1);
-	}
+	if ((x + 1 < mlx->longest_width && mlx->cpy_map[y][x + 1] == ' ')
+		|| (x - 1 >= 0 && mlx->cpy_map[y][x - 1] == ' ') || (y + 1
+		< mlx->n_lines && mlx->cpy_map[y + 1][x] == ' ') || (y - 1
+		>= 0 && mlx->cpy_map[y - 1][x] == ' '))
+		if (mlx->cpy_map[y][x] == '0')
+			return (error_msg_ret("Map not surrounded by walls.", 1));
+	if (x == 0 || y == 0 || y == mlx->n_lines - 1
+		|| x == mlx->longest_width - 1)
+		return (error_msg_ret("Map not surrounded by walls.", 1));
 	mlx->cpy_map[y][x] = 'x';
-	// return (0);
-	// if (x - 1 >= 0 && x + 1 < mlx->longest_width && y - 1 >= 0 && y + 1 < mlx->n_lines)
-	// {
 	if (flood_fill_check(x - 1, y, mlx) == 1)
 		return (1);
 	if (flood_fill_check(x, y - 1, mlx) == 1)
@@ -56,7 +39,6 @@ int	flood_fill_check(int x, int y, t_mlx *mlx)
 		return (1);
 	if (flood_fill_check(x, y + 1, mlx) == 1)
 		return (1);
-	// }
 	return (0);
 }
 
@@ -78,13 +60,11 @@ int	copy_map(t_mlx *mlx)
 			mlx->cpy_map[y][x] = mlx->map[y][x];
 			x++;
 		}
-		// printf("%s\n", mlx->cpy_map[y]);
 		y++;
 	}
 	return (0);
 }
 
-/*check if map is rectangular*/
 int	checkmap(t_mlx *mlx)
 {
 	mlx->cpy_map = ft_calloc(1, sizeof(char *) * (mlx->n_lines + 1));

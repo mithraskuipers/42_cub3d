@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 10:34:24 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/09 10:40:38 by dkramer       ########   odam.nl         */
+/*   Updated: 2022/11/09 13:24:11 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,11 @@ en daar mijn Codam header geplaatst.
 // Frees  the char **map stored in the mlx struct.
 void	free_map(char **map, t_mlx *mlx)
 {
-	int	i;
-
-	i = 0;
-	while (i < mlx->n_lines)
+	mlx->i = 0;
+	while (mlx->i < mlx->n_lines)
 	{
-		free (map[i]);
-		i++;
+		free (map[mlx->i]);
+		mlx->i++;
 	}
 	free(map);
 }
@@ -45,7 +43,7 @@ int	main(int argc, char **argv)
 		mlx.map_filename = argv[1];
 		if (map_parse(&mlx) == 1)
 		{
-			system ("leaks cub3D");
+			// system ("leaks cub3D");
 			return (1);
 		}
 	}
@@ -55,5 +53,5 @@ int	main(int argc, char **argv)
 	}
 	free_map(mlx.map, &mlx);
 	// system ("leaks cub3D");
-    return (0);
+	return (0);
 }

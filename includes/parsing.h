@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/08 18:00:32 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/09 10:38:28 by dkramer       ########   odam.nl         */
+/*   Updated: 2022/11/09 13:13:28 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,9 @@ typedef struct s_mlx
 	int				fcolor;
 	int				ccolor;
 	int				amount_of_lines_till_map;
+	int				i;
+	int				a;
 }				t_mlx;
-
 
 // prototypes
 int			map_parse(t_mlx *mlx);

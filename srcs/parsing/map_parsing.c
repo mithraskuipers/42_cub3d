@@ -1,83 +1,67 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   map_parsing.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/11/09 13:02:20 by dkramer       #+#    #+#                 */
+/*   Updated: 2022/11/09 13:23:01 by dkramer       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "./../../includes/parsing.h"
 
 int	othercharacters(t_mlx *mlx)
 {
-	int	i;
-	int	a;
 	int	players_counted;
 
 	players_counted = 0;
-	i = 0;
-	while (i < mlx->n_lines)
+	mlx->i = 0;
+	while (mlx->i < mlx->n_lines)
 	{
-		a = 0;
-		mlx->len = (int)ft_strlen(mlx->map[i]);
-		while (a < mlx->len)
+		mlx->a = 0;
+		mlx->len = (int)ft_strlen(mlx->map[mlx->i]);
+		while (mlx->a < mlx->len)
 		{
-			if (!ft_strrchr("01NSEW ", mlx->map[i][a]))
-			{
-				printf("Error\n wrong characters included");
-				return (1);
-			}
-			if (ft_strrchr("NSEW", mlx->map[i][a]))
+			if (!ft_strrchr("01NSEW ", mlx->map[mlx->i][mlx->a]))
+				return (error_msg_ret("Wrong characters included.", 1));
+			if (ft_strrchr("NSEW", mlx->map[mlx->i][mlx->a]))
 			{
 				players_counted++;
-				mlx->s_posX = a;
-				mlx->s_posY = i;
+				mlx->s_posX = mlx->a;
+				mlx->s_posY = mlx->i;
 			}
-			a++;
+			mlx->a++;
 		}
-		i++;
+		mlx->i++;
 	}
 	if (players_counted > 1)
-	{
-		printf("Error\n no more than 1 player");
-		return (1);
-	}
+		return (error_msg_ret("No more than 1 player.", 1));
 	return (0);
 }
 
 // TODO
-int	map_fill(t_mlx *mlx, char *line, char *line2)
+int	map_fill(t_mlx *mlx, char *line)
 {
 	mlx->ret = 1;
-	int	i;
-
-	i = 0;
+	mlx->i = 0;
 	while (mlx->ret)
 	{
 		mlx->ret = get_next_line(mlx->fd, &line);
 		if (mlx->ret == -1)
 			return (1);
-		if (line)
-		{
-			line2 = line;
-			// line = ft_strtrim(line2, "\n");
-			// if(!line)
-			// 	return (1);
-			// free (line);
-			line = ft_strdup(line2);
-			if (!line)
-				return (1);
-			free (line2);
-			// line2 = line;
-			// line = ft_strtrim(line2, "\t\n\v\f\r ");
-			// if (!line)
-			// 	return (returnft(mlx));
-			// free (line2);
-		}
 		if (ft_strncmp(line, "", 1) != 0)
 		{
-			mlx->map[i] = ft_calloc(1, mlx->longest_width + 1);
-			if (!mlx->map[i])
+			mlx->map[mlx->i] = ft_calloc(1, mlx->longest_width + 1);
+			if (!mlx->map[mlx->i])
 				return (1);
-			mlx->map[i] = ft_memset(mlx->map[i], '0', mlx->longest_width);
-			// line = ft_strreplace(line, ' ', '0');
-			mlx->map[i] = ft_memcpy(mlx->map[i], line, ft_strlen(line));
-			// printf("%s\n", mlx->map[i]);
+			mlx->map[mlx->i] = ft_memset(mlx->map[mlx->i], '0',
+					mlx->longest_width);
+			mlx->map[mlx->i] = ft_memcpy(mlx->map[mlx->i], line,
+					ft_strlen(line));
 			free (line);
-			i++;
+			mlx->i++;
 		}
 		else
 			free (line);
@@ -87,9 +71,8 @@ int	map_fill(t_mlx *mlx, char *line, char *line2)
 }
 
 // TODO
-int	countlines(t_mlx *mlx, char *line, char *line2)
+int	countlines(t_mlx *mlx, char *line)
 {
-	mlx->longest_width = 0;
 	mlx->fd = open(mlx->map_filename, O_RDONLY);
 	if (mlx->fd == -1)
 		return (1);
@@ -98,19 +81,10 @@ int	countlines(t_mlx *mlx, char *line, char *line2)
 		mlx->ret = get_next_line(mlx->fd, &line);
 		if (mlx->ret == -1)
 			return (1);
-		// printf("%s\n", line);
-		if(!ft_strncmp(line, "\n", ft_strlen(line)))
+		if (!ft_strncmp(line, "\n", ft_strlen(line)))
 		{
 			free (line);
 			return (error_msg_ret("Empty line in map.", 1));
-		}
-		if (line)
-		{
-			line2 = line;
-			line = ft_strdup(line2);
-			if (!line)
-				return (1);
-			free (line2);
 		}
 		if (ft_strncmp(line, "", ft_strlen(line)) != 0)
 		{
@@ -137,11 +111,11 @@ int	map_check_ext(t_mlx *mlx)
 
 int	mlx_stuff(t_mlx *mlx)
 {
-	mlx_t* mlx42 = mlx_init(5000, 3000, "42Balls", true);
+	mlx_t	*mlx42;
+
+	mlx42 = mlx_init(5000, 3000, "42Balls", true);
 	if (!mlx42)
 		return (1);
-		// ft_error();
-
 	/* Do stuff */
 
 	// Create and display the image.
@@ -211,16 +185,15 @@ int	get_variables(t_mlx *mlx, char *line, char *line2)
 int	map_parse(t_mlx *mlx)
 {
 	char	*line;
-	char	*line2;
 
 	mlx->ret = 1;
 	mlx->n_lines = 0; // mk: plaats in init function
-	line = NULL; 
-	line2 = NULL;
+	line = NULL;
+	mlx->longest_width = 0;
 	// get_variables(mlx, line, line2);
 	if (map_check_ext(mlx) == 1)
 		return (1);
-	if (countlines(mlx, line, line2) == 1)
+	if (countlines(mlx, line) == 1)
 		return (1);
 	mlx->map = ft_calloc(1, sizeof(char *) * (mlx->n_lines + 1));
 	if (!mlx->map)
@@ -228,7 +201,7 @@ int	map_parse(t_mlx *mlx)
 	mlx->fd = open(mlx->map_filename, O_RDONLY);
 	if (mlx->fd == -1)
 		return (1);
-	if (map_fill(mlx, line, line2) == 1)
+	if (map_fill(mlx, line) == 1)
 		return (1);
 	if (othercharacters(mlx) == 1)
 		return (1);
