@@ -15,9 +15,9 @@ typedef struct s_mlx
 	int				len;
 	int				ret;
 	int				fd;
-	int				error;
+	// int				error;
 	int				longest_width;
-	int				longest_height;
+	// int				longest_height;
 	char			**cpy_map;
 	int				s_posX;
 	int				s_posY;
@@ -38,8 +38,8 @@ typedef struct s_mlx
 }				t_mlx;
 
 int	map_parse(t_mlx *mlx);
-void	checkmap(t_mlx *mlx);
-void	returnft(t_mlx *mlx);
+int		checkmap(t_mlx *mlx);
+// void	returnft(t_mlx *mlx);
 void	free_map(char **map, t_mlx *mlx);
 void	get_longest_width(t_mlx *mlx);
 unsigned int		get_rgba(int r, int g, int b);

@@ -1,7 +1,7 @@
 
 #include "../headers/parsing.h"
 
-void	othercharacters(t_mlx *mlx)
+int	othercharacters(t_mlx *mlx)
 {
 	int	i;
 	int	a;
@@ -15,10 +15,10 @@ void	othercharacters(t_mlx *mlx)
 		mlx->len = (int)ft_strlen(mlx->map[i]);
 		while (a < mlx->len)
 		{
-			if (!ft_strrchr("01NSEW", mlx->map[i][a]))
+			if (!ft_strrchr("01NSEW ", mlx->map[i][a]))
 			{
 				printf("Error\n wrong characters included");
-				return (returnft(mlx));
+				return (1);
 			}
 			if (ft_strrchr("NSEW", mlx->map[i][a]))
 			{
@@ -33,8 +33,9 @@ void	othercharacters(t_mlx *mlx)
 	if (players_counted > 1)
 	{
 		printf("Error\n no more than 1 player");
-		return (returnft(mlx));
+		return (1);
 	}
+	return (0);
 }
 
 //
@@ -57,6 +58,8 @@ int	fillmap(t_mlx *mlx, char *line, char *line2)
 			// 	return (1);
 			// free (line);
 			line = ft_strdup(line2);
+			if (!line)
+				return (1);
 			free (line2);
 			// line2 = line;
 			// line = ft_strtrim(line2, "\t\n\v\f\r ");
@@ -67,9 +70,12 @@ int	fillmap(t_mlx *mlx, char *line, char *line2)
 		if (ft_strncmp(line, "", 1) != 0)
 		{
 			mlx->map[i] = ft_calloc(1, mlx->longest_width + 1);
+			if (!mlx->map[i])
+				return (1);
 			mlx->map[i] = ft_memset(mlx->map[i], '0', mlx->longest_width);
-			line = ft_strreplace(line, ' ', '0');
+			// line = ft_strreplace(line, ' ', '0');
 			mlx->map[i] = ft_memcpy(mlx->map[i], line, ft_strlen(line));
+			printf("%s\n", mlx->map[i]);
 			// printf("%s\n", mlx->map[i]);
 			free (line);
 			i++;
@@ -113,6 +119,8 @@ int	countlines(t_mlx *mlx, char *line, char *line2)
 			
 			// free (line);
 			line = ft_strdup(line2);
+			if (!line)
+				return (1);
 			free (line2);
 		}
 		if (ft_strncmp(line, "", ft_strlen(line)) != 0)
@@ -140,11 +148,11 @@ int	map_check_ext(t_mlx *mlx)
 	return (0);
 }
 
-void	mlx_stuff(t_mlx *mlx)
+int	mlx_stuff(t_mlx *mlx)
 {
 	mlx_t* mlx42 = mlx_init(5000, 3000, "42Balls", true);
 	if (!mlx42)
-		return ;
+		return (1);
 		// ft_error();
 
 	/* Do stuff */
@@ -152,7 +160,7 @@ void	mlx_stuff(t_mlx *mlx)
 	// Create and display the image.
 	mlx_image_t* img = mlx_new_image(mlx42, 256, 256);
 	if (!img || (mlx_image_to_window(mlx42, img, 0, 0) < 0))
-		return ;
+		return (1);
 
 	// Even after the image is being displayed, we can still modify the buffer.
 	mlx_put_pixel(img, 100, 100, mlx->fcolor);
@@ -162,9 +170,10 @@ void	mlx_stuff(t_mlx *mlx)
 	// mlx_loop_hook(mlx, ft_hook, mlx);
 	mlx_loop(mlx42);
 	mlx_terminate(mlx42);
+	return (0);
 }
 
-void	get_variables(t_mlx *mlx, char *line, char *line2)
+int	get_variables(t_mlx *mlx, char *line, char *line2)
 {
 	// (void)mlx;
 	// 220,100,0
@@ -172,18 +181,18 @@ void	get_variables(t_mlx *mlx, char *line, char *line2)
 	mlx->amount_of_lines_till_map = 0;
 	mlx->fd = open(mlx->map_file, O_RDONLY);
 	if (mlx->fd == -1)
-		return (returnft(mlx));
+		return (1);
 	while (mlx->ret)
 	{
 		mlx->ret = get_next_line(mlx->fd, &line);
 		if (mlx->ret == -1)
-			return (returnft(mlx));
+			return (1);
 		if (line)
 		{
 			line2 = line;
 			line = ft_strtrim(line2, "\t\n\v\f\r ");
 			if (!line)
-				return (returnft(mlx));
+				return (1);
 			free (line2);
 		}
 		if (ft_strncmp(line, "", ft_strlen(line)) != 0)
@@ -200,7 +209,7 @@ void	get_variables(t_mlx *mlx, char *line, char *line2)
 	close (mlx->fd);
 	mlx->fcolor = create_trgb(255, 255, 255, 255);
 	printf("%ud\n", mlx->fcolor);
-
+	return (0);
 	// mlx_stuff(mlx);
 	
 // 	NO ./path_to_the_north_texture
@@ -233,12 +242,11 @@ int	map_parse(t_mlx *mlx)
 	if (mlx->fd == -1)
 		return (1);
 	
-	fillmap(mlx, line, line2);
-	othercharacters(mlx);
-	if (mlx->error == 1)
+	if (fillmap(mlx, line, line2) == 1)
 		return (1);
-	checkmap (mlx);
-	if (mlx->error == 1)
+	if (othercharacters(mlx) == 1)
+		return (1);
+	if (checkmap (mlx) == 1)
 		return (1);
 	return (0);
 }

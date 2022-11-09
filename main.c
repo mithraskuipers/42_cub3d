@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/08 14:53:55 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/08 16:12:17 by dkramer       ########   odam.nl         */
+/*   Updated: 2022/11/08 17:18:24 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 
 
 */
-void	returnft(t_mlx *mlx)
-{
-	mlx->error = 1;
-	return ;
-}
+// void	returnft(t_mlx *mlx)
+// {
+// 	mlx->error = 1;
+// 	return ;
+// }
 
 /*
 
@@ -53,7 +53,7 @@ int		main(int argc, char **argv)
 {
 	t_mlx	mlx;
 
-	mlx.error = 0;
+	// mlx.error = 0;
 	// mlx.taken = 0;
 	if (argc == 2)
 	{
