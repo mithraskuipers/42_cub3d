@@ -1,5 +1,5 @@
 
-#include "../headers/parsing.h"
+#include "./../../includes/parsing.h"
 
 int	othercharacters(t_mlx *mlx)
 {
@@ -9,7 +9,7 @@ int	othercharacters(t_mlx *mlx)
 
 	players_counted = 0;
 	i = 0;
-	while (i < mlx->nr_of_lines)
+	while (i < mlx->n_lines)
 	{
 		a = 0;
 		mlx->len = (int)ft_strlen(mlx->map[i]);
@@ -38,8 +38,8 @@ int	othercharacters(t_mlx *mlx)
 	return (0);
 }
 
-//
-int	fillmap(t_mlx *mlx, char *line, char *line2)
+// TODO
+int	map_fill(t_mlx *mlx, char *line, char *line2)
 {
 	mlx->ret = 1;
 	int	i;
@@ -75,7 +75,6 @@ int	fillmap(t_mlx *mlx, char *line, char *line2)
 			mlx->map[i] = ft_memset(mlx->map[i], '0', mlx->longest_width);
 			// line = ft_strreplace(line, ' ', '0');
 			mlx->map[i] = ft_memcpy(mlx->map[i], line, ft_strlen(line));
-			printf("%s\n", mlx->map[i]);
 			// printf("%s\n", mlx->map[i]);
 			free (line);
 			i++;
@@ -87,11 +86,11 @@ int	fillmap(t_mlx *mlx, char *line, char *line2)
 	return (0);
 }
 
-//
+// TODO
 int	countlines(t_mlx *mlx, char *line, char *line2)
 {
 	mlx->longest_width = 0;
-	mlx->fd = open(mlx->map_file, O_RDONLY);
+	mlx->fd = open(mlx->map_filename, O_RDONLY);
 	if (mlx->fd == -1)
 		return (1);
 	while (mlx->ret)
@@ -102,22 +101,12 @@ int	countlines(t_mlx *mlx, char *line, char *line2)
 		// printf("%s\n", line);
 		if(!ft_strncmp(line, "\n", ft_strlen(line)))
 		{
-			printf("Error\n empty line in map");
 			free (line);
-			return (1);
+			return (error_msg_ret("Empty line in map.", 1));
 		}
 		if (line)
 		{
 			line2 = line;
-			// line = ft_strtrim(line2, "\n");
-			
-			// if(!line)
-			// {
-			// 	printf("Error\n empty line in map");
-			// 	return (1);
-			// }
-			
-			// free (line);
 			line = ft_strdup(line2);
 			if (!line)
 				return (1);
@@ -125,7 +114,7 @@ int	countlines(t_mlx *mlx, char *line, char *line2)
 		}
 		if (ft_strncmp(line, "", ft_strlen(line)) != 0)
 		{
-			mlx->nr_of_lines++;
+			mlx->n_lines++;
 			mlx->len = (int)ft_strlen(line);
 			if (mlx->len > mlx->longest_width)
 				mlx->longest_width = mlx->len;
@@ -140,11 +129,9 @@ int	countlines(t_mlx *mlx, char *line, char *line2)
 // map_check_ext() checks whether the file extension is ".cub".
 int	map_check_ext(t_mlx *mlx)
 {
-	if (!ft_strnstr(mlx->map_file, ".cub", ft_strlen(mlx->map_file)))
-	{
-		printf("Error\n wrong map file format");
-		return (1);
-	}
+	if (!ft_strrchr(mlx->map_filename, '.') || \
+	ft_strncmp(ft_strrchr(mlx->map_filename, '.'), ".cub", 5))
+		return (error_msg_ret("Please provide a map with .cub extension.", 1));
 	return (0);
 }
 
@@ -179,7 +166,7 @@ int	get_variables(t_mlx *mlx, char *line, char *line2)
 	// 220,100,0
 	// mlx->fcolor = get_rgba(255, 255, 255);
 	mlx->amount_of_lines_till_map = 0;
-	mlx->fd = open(mlx->map_file, O_RDONLY);
+	mlx->fd = open(mlx->map_filename, O_RDONLY);
 	if (mlx->fd == -1)
 		return (1);
 	while (mlx->ret)
@@ -197,7 +184,7 @@ int	get_variables(t_mlx *mlx, char *line, char *line2)
 		}
 		if (ft_strncmp(line, "", ft_strlen(line)) != 0)
 		{
-			mlx->nr_of_lines++;
+			mlx->n_lines++;
 			mlx->len = (int)ft_strlen(line);
 			if (mlx->len > mlx->longest_width)
 				mlx->longest_width = mlx->len;
@@ -227,7 +214,7 @@ int	map_parse(t_mlx *mlx)
 	char	*line2;
 
 	mlx->ret = 1;
-	mlx->nr_of_lines = 0; // mk: plaats in init function
+	mlx->n_lines = 0; // mk: plaats in init function
 	line = NULL; 
 	line2 = NULL;
 	// get_variables(mlx, line, line2);
@@ -235,14 +222,13 @@ int	map_parse(t_mlx *mlx)
 		return (1);
 	if (countlines(mlx, line, line2) == 1)
 		return (1);
-	mlx->map = ft_calloc(1, sizeof(char *) * (mlx->nr_of_lines + 1));
+	mlx->map = ft_calloc(1, sizeof(char *) * (mlx->n_lines + 1));
 	if (!mlx->map)
 		return (1);
-	mlx->fd = open(mlx->map_file, O_RDONLY);
+	mlx->fd = open(mlx->map_filename, O_RDONLY);
 	if (mlx->fd == -1)
 		return (1);
-	
-	if (fillmap(mlx, line, line2) == 1)
+	if (map_fill(mlx, line, line2) == 1)
 		return (1);
 	if (othercharacters(mlx) == 1)
 		return (1);

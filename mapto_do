@@ -31,7 +31,8 @@ more empty line(s). -->
 
 <!-- leaks checken
 spaces zijkanten niet trimmen -->
-.cub extention check niet goed genoeg
+<!-- .cub extention check niet goed genoeg -->
+line2 weg
 
 map niet valid in het midden:
 111111
