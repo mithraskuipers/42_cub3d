@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 08:47:23 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/09 12:57:33 by dkramer       ########   odam.nl         */
+/*   Updated: 2022/11/12 22:31:08 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	copy_map(t_mlx *mlx)
 	return (0);
 }
 
-int	checkmap(t_mlx *mlx)
+int	map_check(t_mlx *mlx)
 {
 	mlx->cpy_map = ft_calloc(1, sizeof(char *) * (mlx->n_lines + 1));
 	if (!mlx->cpy_map)
@@ -77,6 +77,8 @@ int	checkmap(t_mlx *mlx)
 		free_map(mlx->cpy_map, mlx);
 		return (1);
 	}
+	// TODO: Add check if player position is in the map at all
+	// Also check if there is only 1 player in the game, not more / less than 1
 	free_map(mlx->cpy_map, mlx);
 	return (0);
 }

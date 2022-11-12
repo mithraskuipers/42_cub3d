@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 13:02:20 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/09 13:23:01 by dkramer       ########   odam.nl         */
+/*   Updated: 2022/11/12 22:31:08 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int	othercharacters(t_mlx *mlx)
 		mlx->len = (int)ft_strlen(mlx->map[mlx->i]);
 		while (mlx->a < mlx->len)
 		{
-			if (!ft_strrchr("01NSEW ", mlx->map[mlx->i][mlx->a]))
+			if (!ft_strrchr("01NESW ", mlx->map[mlx->i][mlx->a]))
 				return (error_msg_ret("Wrong characters included.", 1));
-			if (ft_strrchr("NSEW", mlx->map[mlx->i][mlx->a]))
+			if (ft_strrchr("NESW", mlx->map[mlx->i][mlx->a]))
 			{
 				players_counted++;
 				mlx->s_posX = mlx->a;
@@ -41,7 +41,6 @@ int	othercharacters(t_mlx *mlx)
 	return (0);
 }
 
-// TODO
 int	map_fill(t_mlx *mlx, char *line)
 {
 	mlx->ret = 1;
@@ -70,7 +69,6 @@ int	map_fill(t_mlx *mlx, char *line)
 	return (0);
 }
 
-// TODO
 int	countlines(t_mlx *mlx, char *line)
 {
 	mlx->fd = open(mlx->map_filename, O_RDONLY);
@@ -187,7 +185,7 @@ int	map_parse(t_mlx *mlx)
 	char	*line;
 
 	mlx->ret = 1;
-	mlx->n_lines = 0; // mk: plaats in init function
+	mlx->n_lines = 0;
 	line = NULL;
 	mlx->longest_width = 0;
 	// get_variables(mlx, line, line2);
@@ -205,7 +203,7 @@ int	map_parse(t_mlx *mlx)
 		return (1);
 	if (othercharacters(mlx) == 1)
 		return (1);
-	if (checkmap (mlx) == 1)
+	if (map_check (mlx) == 1)
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: mikuiper <mikuiper@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/11/09 09:56:21 by mikuiper      #+#    #+#                  #
-#    Updated: 2022/11/09 10:40:05 by dkramer       ########   odam.nl          #
+#    Updated: 2022/11/12 22:25:53 by mikuiper      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,7 @@ all: lib_ft $(NAME)
 
 $(NAME): make_obj_dirs lib_ft lib_mlx $(FULL_OBJS)
 	@$(COMP) -g $(INC_HDRS) $(FULL_OBJS) $(INC_LIBS) $(MLX_LINKER) -o $(NAME)
-	@echo "$(GREEN)[cub3D] - Compiled cub3D!$(NOCOLOR)"
+	@echo "$(GREEN)[$(NAME)] - Compiled $(NAME)!$(NOCOLOR)"
 
 lib_ft:
 	@make -sC $(DIR_LIB_FT)
@@ -64,7 +64,7 @@ lib_mlx:
 
 leaks: make_obj_dirs lib_ft lib_mlx $(FULL_OBJS)
 	@$(COMP) $(FLAGS_LEAKS) -g $(INC_HDRS) $(FULL_OBJS) $(INC_LIBS) $(MLX_LINKER) -o $(NAME)
-	@echo "$(GREEN)[cub3D] - Compiled cub3D!$(NOCOLOR)"
+	@echo "$(GREEN)[$(NAME)] - Compiled $(NAME)!$(NOCOLOR)"
 
 make_obj_dirs:
 	@mkdir -p $(DIR_OBJ)
@@ -79,13 +79,13 @@ clean:
 	@rm -rf $(DIR_OBJ)
 	@make clean -C $(DIR_LIB_FT)
 	@make clean -C $(DIR_LIB_MLX)
-	@echo "$(GREEN)[cub3D] - Running clean.$(NOCOLOR)"
+	@echo "$(GREEN)[$(NAME)] - Running clean.$(NOCOLOR)"
 
 fclean: clean
 	@rm -rf $(NAME)
 	@make fclean -C $(DIR_LIB_FT)
 	@make fclean -C $(DIR_LIB_MLX)
-	@echo "$(GREEN)[cub3D] - Running fclean.$(NOCOLOR)"
+	@echo "$(GREEN)[$(NAME)] - Running fclean.$(NOCOLOR)"
 
 re : fclean all
 

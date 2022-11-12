@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/08 18:00:32 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/09 13:13:28 by dkramer       ########   odam.nl         */
+/*   Updated: 2022/11/12 22:31:08 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_mlx
 
 // prototypes
 int			map_parse(t_mlx *mlx);
-int			checkmap(t_mlx *mlx);
+int			map_check(t_mlx *mlx);
 int			returnft(t_mlx *mlx);
 void		free_map(char **map, t_mlx *mlx);
 int			get_longest_width(t_mlx *mlx);
