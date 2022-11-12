@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/08 18:00:32 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/12 22:31:08 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/12 22:46:01 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,9 @@ void		free_map(char **map, t_mlx *mlx);
 int			get_longest_width(t_mlx *mlx);
 int			create_trgb(unsigned char t, unsigned char r, unsigned char g, unsigned char b);
 int			error_msg_ret(char *error_msg, int ret_code);
+
+// TEMPORARY PROTOTYPES: DEBUG FUNCTIONS
+void	debug_print_map(t_mlx *mlx);
+void	debug_highlight_player(t_mlx *mlx);
 
 #endif

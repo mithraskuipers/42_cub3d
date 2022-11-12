@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 10:34:24 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/12 21:16:38 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/12 22:47:35 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	main(int argc, char **argv)
 			// system ("leaks cub3D");
 			return (1);
 		}
+		//debug_print_map(&mlx);
+		debug_highlight_player(&mlx);
 	}
 	else
 	{

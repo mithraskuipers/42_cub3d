@@ -6,7 +6,7 @@
 #    By: mikuiper <mikuiper@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/11/09 09:56:21 by mikuiper      #+#    #+#                  #
-#    Updated: 2022/11/12 22:25:53 by mikuiper      ########   odam.nl          #
+#    Updated: 2022/11/12 22:39:31 by mikuiper      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ NAMES_SRCS =	main.c \
 				parsing/checkers.c \
 				parsing/map_parsing.c \
 				parsing/utils.c \
-				tools/error.c
+				tools/error.c \
+				debug/misc.c
 
 # HEADER NAMES
 NAMES_HDRS =	parsing.h
@@ -70,6 +71,7 @@ make_obj_dirs:
 	@mkdir -p $(DIR_OBJ)
 	@mkdir -p $(DIR_OBJ)/parsing
 	@mkdir -p $(DIR_OBJ)/tools
+	@mkdir -p $(DIR_OBJ)/debug
 
 $(DIR_OBJ)/%.o: $(DIR_SRC)/%.c $(FULL_HDRS)
 	@mkdir -p $(DIR_OBJ) 
