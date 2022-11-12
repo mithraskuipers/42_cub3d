@@ -6,15 +6,9 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 10:34:24 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/09 13:24:11 by dkramer       ########   odam.nl         */
+/*   Updated: 2022/11/12 21:16:38 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*
-Hoi Dagmar, voel je vrij om zelf overal je eigen Codam header toe te voegen.
-Norminette decorator kleurde iets teveel code rood dus ik heb tijdelijk hier 
-en daar mijn Codam header geplaatst. 
-*/
 
 #include "./../includes/parsing.h"
 
