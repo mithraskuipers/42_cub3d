@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/12 22:33:51 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/13 15:47:02 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/13 17:25:43 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	debug_highlight_player(t_mlx *mlx)
 				{
 					player_found = 0;
 					color_orange();
-					printf(" <-------- PLAYER FOUND");
+					printf(" <-------- PLAYER");
 					color_reset();
 				}
 				printf("\n");

@@ -5,13 +5,13 @@
 /*                                                     +:+                    */
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/11/08 18:00:32 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/13 17:17:06 by mikuiper      ########   odam.nl         */
+/*   Created: 2022/11/13 17:24:29 by mikuiper      #+#    #+#                 */
+/*   Updated: 2022/11/13 17:24:41 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef PARSING_H
+# define PARSING_H
 
 // Custom libraries
 # include "./../libs/libft/libft.h"
@@ -28,7 +28,7 @@ typedef struct	s_mlx
 {
 	char	*map_filename;
 	char	**map;
-	int		n_lines;
+	int		n_rows;
 	int		len;
 	int		ret;
 	int		fd;
@@ -57,6 +57,7 @@ void	map_free(char **map, t_mlx *mlx);
 int		get_longest_width(t_mlx *mlx);
 int		create_trgb(unsigned char t, unsigned char r, unsigned char g, unsigned char b);
 int		error_msg_ret(char *error_msg, int ret_code);
+void	map_free(char **map, t_mlx *mlx);
 
 // TEMPORARY PROTOTYPES: DEBUG FUNCTIONS
 void	debug_print_map(t_mlx *mlx);

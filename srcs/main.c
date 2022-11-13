@@ -6,27 +6,11 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 10:34:24 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/13 15:49:22 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/13 17:22:07 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/parsing.h"
-
-// map_free()
-// Frees  the char **map stored in the mlx struct.
-void	map_free(char **map, t_mlx *mlx)
-{
-	mlx->map_row = 0;
-	while (mlx->map_row < mlx->n_lines)
-	{
-		free (map[mlx->map_row]);
-		mlx->map_row++;
-	}
-	free(map);
-}
-
-// bzero zet autom error en taken ook op 0.
-//init_mlx(&mlx);
 
 int	main(int argc, char **argv)
 {

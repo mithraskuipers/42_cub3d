@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   map_parsing.c                                      :+:    :+:            */
+/*   parsing.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 13:02:20 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/13 15:51:55 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/13 17:20:59 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	map_check_chars(t_mlx *mlx)
 
 	n_players = 0;
 	mlx->map_row = 0; 															// Is deze in de mlx struct alleen om minder regels te gebruiken? Of is er nog een reden?
-	while (mlx->map_row < mlx->n_lines)
+	while (mlx->map_row < mlx->n_rows)
 	{
 		mlx->map_col = 0;
 		mlx->len = (int)ft_strlen(mlx->map[mlx->map_row]);						// Waarom typecasting?
@@ -69,7 +69,7 @@ int	map_fill(t_mlx *mlx, char *line)
 	return (0);
 }
 
-int	countlines(t_mlx *mlx, char *line)
+int	map_count_rows(t_mlx *mlx, char *line)
 {
 	mlx->fd = open(mlx->map_filename, O_RDONLY);
 	if (mlx->fd == -1)
@@ -78,7 +78,7 @@ int	countlines(t_mlx *mlx, char *line)
 	{
 		mlx->ret = get_next_line(mlx->fd, &line);
 		if (mlx->ret == -1)
-			return (1);
+			return (error_msg_ret("Failed to read map.", 1));
 		if (!ft_strncmp(line, "\n", ft_strlen(line)))
 		{
 			free (line);
@@ -86,7 +86,7 @@ int	countlines(t_mlx *mlx, char *line)
 		}
 		if (ft_strncmp(line, "", ft_strlen(line)) != 0)
 		{
-			mlx->n_lines++;
+			mlx->n_rows++;
 			mlx->len = (int)ft_strlen(line);
 			if (mlx->len > mlx->longest_width)
 				mlx->longest_width = mlx->len;
@@ -156,7 +156,7 @@ int	get_variables(t_mlx *mlx, char *line, char *line2)
 		}
 		if (ft_strncmp(line, "", ft_strlen(line)) != 0)
 		{
-			mlx->n_lines++;
+			mlx->n_rows++;
 			mlx->len = (int)ft_strlen(line);
 			if (mlx->len > mlx->longest_width)
 				mlx->longest_width = mlx->len;
@@ -185,15 +185,15 @@ int	map_parse(t_mlx *mlx)
 	char	*line;
 
 	mlx->ret = 1;
-	mlx->n_lines = 0;
+	mlx->n_rows = 0;
 	line = NULL;
 	mlx->longest_width = 0;
 	// get_variables(mlx, line, line2);
 	if (map_check_ext(mlx) == 1)
 		return (1);
-	if (countlines(mlx, line) == 1)
+	if (map_count_rows(mlx, line) == 1)
 		return (1);
-	mlx->map = ft_calloc(1, sizeof(char *) * (mlx->n_lines + 1));
+	mlx->map = ft_calloc(1, sizeof(char *) * (mlx->n_rows + 1));
 	if (!mlx->map)
 		return (1);
 	mlx->fd = open(mlx->map_filename, O_RDONLY);

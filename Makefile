@@ -1,94 +1,48 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
-#                                                      +:+                     #
-#    By: mikuiper <mikuiper@student.codam.nl>         +#+                      #
-#                                                    +#+                       #
-#    Created: 2022/11/09 09:56:21 by mikuiper      #+#    #+#                  #
-#    Updated: 2022/11/12 22:39:31 by mikuiper      ########   odam.nl          #
-#                                                                              #
-# **************************************************************************** #
+NAME		= cub3D
+OBJ			= srcs/main srcs/debug/misc srcs/free/misc srcs/parsing/checkers srcs/parsing/parsing srcs/parsing/utils srcs/tools/error
+OBJS		= $(addsuffix .o, ${OBJ})
+CC			= gcc
+RM			= rm -f
+HEADER		= -I headers/ -I $(MLX)/include
+CFLAGS		= -Wall -Wextra -Werror #-g -fsanitize=address
+LINKER		=  -lglfw -L "/Users/$(USER)/.brew/opt/glfw/lib/" 
+LIBFT		= ./libs/libft/libft.a
+MLX			= ./libs/MLX42
+LIBMLX		= ./libs/MLX42/libmlx42.a
 
-NAME = 			cub3D
-COMP =			gcc
-FLAGS_COMP =	-Wall -Wextra -Werror
-FLAGS_LEAKS =	-g3 -fsanitize=address
+all:		 libmlx ${NAME}
 
-# COLOR CONFIG
-GREEN =			\033[92m
-NOCOLOR =		\033[m
+${LIBMLX}:
+				@$(MAKE) -C $(MLX)
 
-# DIRECTORY NAMES
-DIR_SRC =		srcs
-DIR_INC =		includes
-DIR_OBJ =		obj
-DIR_LIB_FT =	./libs/libft
-DIR_LIB_MLX =	./libs/MLX42
+${LIBFT}:
+				@${MAKE} bonus -C ./libs/libft --no-print-directory
 
-# SOURCE NAMES
-NAMES_SRCS =	main.c \
-				parsing/checkers.c \
-				parsing/map_parsing.c \
-				parsing/utils.c \
-				tools/error.c \
-				debug/misc.c
-
-# HEADER NAMES
-NAMES_HDRS =	parsing.h
-
-# OBJECT NAMES
-NAMES_OBJS =	$(NAMES_SRCS:.c=.o)
-FULL_OBJS =		$(addprefix $(DIR_OBJ)/,$(NAMES_OBJS))
-FULL_HDRS =		$(addprefix $(DIR_INC)/,$(NAMES_HDRS))
-
-NAME_LIB_FT =	libft.a
-NAME_LIB_MLX =	libmlx42.a
-MLX_LINKER =	-lglfw -L "/Users/$(USER)/.brew/opt/glfw/lib/" 
-
-INC_LIB_FT =	$(DIR_LIB_FT) $(DIR_LIB_FT)/$(NAME_LIB_FT)
-INC_LIB_MLX =	$(DIR_LIB_MLX)/$(NAME_LIB_MLX)
-INC_HDRS =		-I $(DIR_INC)
-INC_LIBS =		-L $(INC_LIB_FT) $(INC_LIB_MLX) 
-
-all: lib_ft $(NAME)
-
-$(NAME): make_obj_dirs lib_ft lib_mlx $(FULL_OBJS)
-	@$(COMP) -g $(INC_HDRS) $(FULL_OBJS) $(INC_LIBS) $(MLX_LINKER) -o $(NAME)
-	@echo "$(GREEN)[$(NAME)] - Compiled $(NAME)!$(NOCOLOR)"
-
-lib_ft:
-	@make -sC $(DIR_LIB_FT)
-
-lib_mlx:
-	@make -sC $(DIR_LIB_MLX)
-
-leaks: make_obj_dirs lib_ft lib_mlx $(FULL_OBJS)
-	@$(COMP) $(FLAGS_LEAKS) -g $(INC_HDRS) $(FULL_OBJS) $(INC_LIBS) $(MLX_LINKER) -o $(NAME)
-	@echo "$(GREEN)[$(NAME)] - Compiled $(NAME)!$(NOCOLOR)"
-
-make_obj_dirs:
-	@mkdir -p $(DIR_OBJ)
-	@mkdir -p $(DIR_OBJ)/parsing
-	@mkdir -p $(DIR_OBJ)/tools
-	@mkdir -p $(DIR_OBJ)/debug
-
-$(DIR_OBJ)/%.o: $(DIR_SRC)/%.c $(FULL_HDRS)
-	@mkdir -p $(DIR_OBJ) 
-	@$(COMP) -g $(FLAGS_COMP) $(INC_HDRS) -o $@ -c $<
+obj/%.o:		%.c
+				$(CC) $(CFLAGS) $(HEADER) -c -o $@ $<
 
 clean:
-	@rm -rf $(DIR_OBJ)
-	@make clean -C $(DIR_LIB_FT)
-	@make clean -C $(DIR_LIB_MLX)
-	@echo "$(GREEN)[$(NAME)] - Running clean.$(NOCOLOR)"
+				@${RM} ${OBJS} 
+				@$(MAKE) clean -C $(MLX)
+				$(info ************  cub3D Clean)
 
-fclean: clean
-	@rm -rf $(NAME)
-	@make fclean -C $(DIR_LIB_FT)
-	@make fclean -C $(DIR_LIB_MLX)
-	@echo "$(GREEN)[$(NAME)] - Running fclean.$(NOCOLOR)"
+cleanft:
+				@${MAKE} clean -C ./libs/libft --no-print-directory
+				@${MAKE} clean -C ./libs/MLX42 --no-print-directory
 
-re : fclean all
+fclean:		clean
+				@${MAKE} fclean -C ./libs/libft --no-print-directory
+				@${MAKE} fclean -C ./libs/MLX42 --no-print-directory
+				@${RM}  -f ${NAME}
+				$(info ************  cub3D Removed)
 
-.PHONY: all clean fclean re leaks lib_ft
+re:			fclean all
+
+run:		${NAME}
+				./${NAME} examplemap.cub
+
+${NAME}:	${OBJS} ${LIBMLX} ${LIBFT}
+				@${CC} $^ $(CFLAGS) $(LINKER) -o $(NAME)
+				$(info ************  cub3D Ready!)
+
+.PHONY: all clean fclean re cleanft run libmlx libft
