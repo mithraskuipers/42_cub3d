@@ -6,16 +6,16 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 08:47:23 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/12 22:31:08 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/13 15:38:33 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../includes/parsing.h"
 
 /*check if surrounded by walls*/
-int	flood_fill_check(int x, int y, t_mlx *mlx)
+int	map_floodfill(int x, int y, t_mlx *mlx)
 {
-	if (x < 0 || x >= mlx->longest_width || y < 0 || y >= mlx->n_lines)
+	if ((x < 0) || (x >= mlx->longest_width) || (y < 0) || (y >= mlx->n_lines))
 		return (0);
 	if (mlx->cpy_map[y][x] == '1')
 		return (0);
@@ -31,18 +31,18 @@ int	flood_fill_check(int x, int y, t_mlx *mlx)
 		|| x == mlx->longest_width - 1)
 		return (error_msg_ret("Map not surrounded by walls.", 1));
 	mlx->cpy_map[y][x] = 'x';
-	if (flood_fill_check(x - 1, y, mlx) == 1)
+	if (map_floodfill(x - 1, y, mlx) == 1)
 		return (1);
-	if (flood_fill_check(x, y - 1, mlx) == 1)
+	if (map_floodfill(x, y - 1, mlx) == 1)
 		return (1);
-	if (flood_fill_check(x + 1, y, mlx) == 1)
+	if (map_floodfill(x + 1, y, mlx) == 1)
 		return (1);
-	if (flood_fill_check(x, y + 1, mlx) == 1)
+	if (map_floodfill(x, y + 1, mlx) == 1)
 		return (1);
 	return (0);
 }
 
-int	copy_map(t_mlx *mlx)
+int	map_copy(t_mlx *mlx)
 {
 	int	y;
 	int	x;
@@ -70,15 +70,15 @@ int	map_check(t_mlx *mlx)
 	mlx->cpy_map = ft_calloc(1, sizeof(char *) * (mlx->n_lines + 1));
 	if (!mlx->cpy_map)
 		return (1);
-	if (copy_map(mlx) == 1)
+	if (map_copy(mlx) == 1)
 		return (1);
-	if (flood_fill_check(mlx->s_posX, mlx->s_posY, mlx) == 1)
+	if (map_floodfill(mlx->s_posX, mlx->s_posY, mlx) == 1)
 	{
-		free_map(mlx->cpy_map, mlx);
+		map_free(mlx->cpy_map, mlx);
 		return (1);
 	}
 	// TODO: Add check if player position is in the map at all
 	// Also check if there is only 1 player in the game, not more / less than 1
-	free_map(mlx->cpy_map, mlx);
+	map_free(mlx->cpy_map, mlx);
 	return (0);
 }

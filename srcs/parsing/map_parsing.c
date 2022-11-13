@@ -6,45 +6,45 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 13:02:20 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/12 22:31:08 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/13 15:51:55 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../includes/parsing.h"
 
-int	othercharacters(t_mlx *mlx)
+int	map_check_chars(t_mlx *mlx)
 {
-	int	players_counted;
+	size_t	n_players;
 
-	players_counted = 0;
-	mlx->i = 0;
-	while (mlx->i < mlx->n_lines)
+	n_players = 0;
+	mlx->map_row = 0; 															// Is deze in de mlx struct alleen om minder regels te gebruiken? Of is er nog een reden?
+	while (mlx->map_row < mlx->n_lines)
 	{
-		mlx->a = 0;
-		mlx->len = (int)ft_strlen(mlx->map[mlx->i]);
-		while (mlx->a < mlx->len)
+		mlx->map_col = 0;
+		mlx->len = (int)ft_strlen(mlx->map[mlx->map_row]);						// Waarom typecasting?
+		while (mlx->map_col < mlx->len)
 		{
-			if (!ft_strrchr("01NESW ", mlx->map[mlx->i][mlx->a]))
+			if (!ft_strrchr("01NESW ", mlx->map[mlx->map_row][mlx->map_col]))
 				return (error_msg_ret("Wrong characters included.", 1));
-			if (ft_strrchr("NESW", mlx->map[mlx->i][mlx->a]))
+			if (ft_strrchr("NESW", mlx->map[mlx->map_row][mlx->map_col]))
 			{
-				players_counted++;
-				mlx->s_posX = mlx->a;
-				mlx->s_posY = mlx->i;
+				n_players++;
+				mlx->s_posX = mlx->map_col;
+				mlx->s_posY = mlx->map_row;
 			}
-			mlx->a++;
+			mlx->map_col++;
 		}
-		mlx->i++;
+		mlx->map_row++;
 	}
-	if (players_counted > 1)
-		return (error_msg_ret("No more than 1 player.", 1));
+	if (n_players > 1)
+		return (error_msg_ret("Only 1 player is allowed.", 1));
 	return (0);
 }
 
 int	map_fill(t_mlx *mlx, char *line)
 {
 	mlx->ret = 1;
-	mlx->i = 0;
+	mlx->map_row = 0;
 	while (mlx->ret)
 	{
 		mlx->ret = get_next_line(mlx->fd, &line);
@@ -52,15 +52,15 @@ int	map_fill(t_mlx *mlx, char *line)
 			return (1);
 		if (ft_strncmp(line, "", 1) != 0)
 		{
-			mlx->map[mlx->i] = ft_calloc(1, mlx->longest_width + 1);
-			if (!mlx->map[mlx->i])
+			mlx->map[mlx->map_row] = ft_calloc(1, mlx->longest_width + 1);
+			if (!mlx->map[mlx->map_row])
 				return (1);
-			mlx->map[mlx->i] = ft_memset(mlx->map[mlx->i], '0',
+			mlx->map[mlx->map_row] = ft_memset(mlx->map[mlx->map_row], '0',
 					mlx->longest_width);
-			mlx->map[mlx->i] = ft_memcpy(mlx->map[mlx->i], line,
+			mlx->map[mlx->map_row] = ft_memcpy(mlx->map[mlx->map_row], line,
 					ft_strlen(line));
 			free (line);
-			mlx->i++;
+			mlx->map_row++;
 		}
 		else
 			free (line);
@@ -201,7 +201,7 @@ int	map_parse(t_mlx *mlx)
 		return (1);
 	if (map_fill(mlx, line) == 1)
 		return (1);
-	if (othercharacters(mlx) == 1)
+	if (map_check_chars(mlx) == 1)
 		return (1);
 	if (map_check (mlx) == 1)
 		return (1);

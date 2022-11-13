@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/12 22:33:51 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/12 22:48:44 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/13 15:47:02 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static void	color_red()
 	printf("\033[0;31m");
 }
 
-// static void	color_orange()
-// {
-// 	printf("\033[38;5;214m");
-// }
+static void	color_orange()
+{
+	printf("\033[38;5;214m");
+}
 
 // static void	color_green()
 // {
@@ -59,28 +59,44 @@ void	debug_print_map(t_mlx *mlx)
 	}
 }
 
+static int cell_is_player(char c)
+{
+	if ((c == 'N') || (c == 'E') || (c == 'S') || (c == 'W'))
+		return (1);
+	return (0);
+}
+
 void	debug_highlight_player(t_mlx *mlx)
 {
 	size_t	i;
 	size_t	j;
+	int		player_found;
 	char	**map;
 
 	i = 0;
 	map = mlx->map;
+	player_found = 0;
 	while (map[i])
 	{
 		j = 0;
 		while (map[i][j])
 		{
-			if ((map[i][j] == 'N') | (map[i][j] == 'E') | (map[i][j] == 'S') | \
-				(map[i][j] == 'W'))
+			if (cell_is_player(map[i][j]))
 			{
+				player_found = 1;
 				color_red();
 				printf("%c", map[i][j]);
 				color_reset();
 			}
 			if (!map[i][j+1])
 			{
+				if (player_found)
+				{
+					player_found = 0;
+					color_orange();
+					printf(" <-------- PLAYER FOUND");
+					color_reset();
+				}
 				printf("\n");
 				break ;
 			}

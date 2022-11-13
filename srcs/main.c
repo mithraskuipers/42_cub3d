@@ -6,21 +6,21 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 10:34:24 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/12 22:47:35 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/13 15:49:22 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/parsing.h"
 
-// free_map()
+// map_free()
 // Frees  the char **map stored in the mlx struct.
-void	free_map(char **map, t_mlx *mlx)
+void	map_free(char **map, t_mlx *mlx)
 {
-	mlx->i = 0;
-	while (mlx->i < mlx->n_lines)
+	mlx->map_row = 0;
+	while (mlx->map_row < mlx->n_lines)
 	{
-		free (map[mlx->i]);
-		mlx->i++;
+		free (map[mlx->map_row]);
+		mlx->map_row++;
 	}
 	free(map);
 }
@@ -47,7 +47,7 @@ int	main(int argc, char **argv)
 	{
 		return (error_msg_ret("Incorrect number of arguments.", 1));
 	}
-	free_map(mlx.map, &mlx);
+	map_free(mlx.map, &mlx);
 	// system ("leaks cub3D");
 	return (0);
 }
