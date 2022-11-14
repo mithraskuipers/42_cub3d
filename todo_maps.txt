@@ -22,6 +22,9 @@ This is a simple valid map:
 
 <!-- altijd met de lengte / breedte van DIE regel werken -->
 
+variable op foute plek
+checken of alle variables
+
 <!-- 
 ◦ The map must be closed/surrounded by walls, if not the program must return
 an error.

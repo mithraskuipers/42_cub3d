@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/13 17:24:29 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/13 17:24:41 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/14 13:59:57 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct	s_mlx
 	char	*EA;
 	int		fcolor;
 	int		ccolor;
-	int		amount_of_lines_till_map;
+	int		n_till_map;
 	int		map_row;
 	int		map_col;
 }				t_mlx;
@@ -58,6 +58,8 @@ int		get_longest_width(t_mlx *mlx);
 int		create_trgb(unsigned char t, unsigned char r, unsigned char g, unsigned char b);
 int		error_msg_ret(char *error_msg, int ret_code);
 void	map_free(char **map, t_mlx *mlx);
+void	init_map_variables(t_mlx *mlx);
+int		get_variables(t_mlx *mlx, char *line);
 
 // TEMPORARY PROTOTYPES: DEBUG FUNCTIONS
 void	debug_print_map(t_mlx *mlx);

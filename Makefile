@@ -1,10 +1,10 @@
 NAME		= cub3D
-OBJ			= srcs/main srcs/debug/misc srcs/free/misc srcs/parsing/checkers srcs/parsing/parsing srcs/parsing/utils srcs/tools/error
+OBJ			= srcs/main srcs/debug/misc srcs/free/misc srcs/parsing/checkers srcs/parsing/parsing srcs/parsing/utils srcs/tools/error srcs/parsing/variables
 OBJS		= $(addsuffix .o, ${OBJ})
 CC			= gcc
 RM			= rm -f
 HEADER		= -I headers/ -I $(MLX)/include
-CFLAGS		= -Wall -Wextra -Werror #-g -fsanitize=address
+CFLAGS		= -Wall -Wextra -Werror -g -fsanitize=address
 LINKER		=  -lglfw -L "/Users/$(USER)/.brew/opt/glfw/lib/" 
 LIBFT		= ./libs/libft/libft.a
 MLX			= ./libs/MLX42

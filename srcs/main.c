@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 10:34:24 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/13 17:22:07 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/14 14:06:51 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int argc, char **argv)
 			return (1);
 		}
 		//debug_print_map(&mlx);
-		debug_highlight_player(&mlx);
+		// debug_highlight_player(&mlx);
 	}
 	else
 	{
