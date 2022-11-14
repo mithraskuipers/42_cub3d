@@ -131,12 +131,78 @@ int	mlx_stuff(t_mlx *mlx)
 	mlx_terminate(mlx42);
 	return (0);
 }
-
-int	get_variables(t_mlx *mlx, char *line, char *line2)
+void	free_split(char **split)
 {
-	// (void)mlx;
-	// 220,100,0
-	// mlx->fcolor = get_rgba(255, 255, 255);
+	int	i;
+
+	i = 0;
+	while (split[i])
+	{
+		free (split[i]);
+		i++;
+	}
+	free (split);
+}
+
+int	get_one_variable(t_mlx *mlx, char *line)
+{
+	//1 check for matching first characters skipping spaces ft_split
+		//2 skip new lines
+		//3 check if have all elements before map
+	char	**split_line;
+	char	**split_color;
+
+	split_color = NULL;
+	split_line = ft_split(line, ' ');
+	if (!ft_strncmp("NO", split_line[0], 2))
+	{
+		if (mlx->NO)
+			error_msg_ret("Double variable in map.", 1);
+		mlx->NO= split_line[1];
+	}
+	if (!ft_strncmp("SO", split_line[0], 2))
+	{
+		if (mlx->SO)
+			error_msg_ret("Double variable in map.", 1);
+		mlx->SO = split_line[1];
+	}
+	if (!ft_strncmp("WE", split_line[0], 2))
+	{
+		if (mlx->WE)
+			error_msg_ret("Double variable in map.", 1);
+		mlx->WE = split_line[1];
+	}
+	if (!ft_strncmp("EA", split_line[0], 2))
+	{
+		if (mlx->EA)
+			error_msg_ret("Double variable in map.", 1);
+		mlx->EA = split_line[1];
+	}
+	if (!ft_strncmp("F", split_line[0], 2))
+	{
+		if (mlx->fcolor)
+			error_msg_ret("Double variable in map.", 1);
+		split_color = ft_split(split_line[1], ',');
+		mlx->fcolor = ft_atoi(split_color[0]) << 24 | ft_atoi(split_color[1]) << 16 | ft_atoi(split_color[2]) << 8 | 0xff;
+		free_split(split_color);
+	}
+	if (!ft_strncmp("C", split_line[0], 2))
+	{
+		if (mlx->ccolor)
+			error_msg_ret("Double variable in map.", 1);
+		split_color = ft_split(split_line[1], ',');
+		mlx->ccolor = ft_atoi(split_color[0]) << 24 | ft_atoi(split_color[1]) << 16 | ft_atoi(split_color[2]) << 8 | 0xff;
+		free_split(split_color);
+	}
+	free (split_line);
+	free (split_line[0]);
+	printf("%s\n", split_line[1]);
+	return (0);
+}
+
+
+int	get_variables(t_mlx *mlx, char *line)
+{
 	mlx->amount_of_lines_till_map = 0;
 	mlx->fd = open(mlx->map_filename, O_RDONLY);
 	if (mlx->fd == -1)
@@ -146,38 +212,25 @@ int	get_variables(t_mlx *mlx, char *line, char *line2)
 		mlx->ret = get_next_line(mlx->fd, &line);
 		if (mlx->ret == -1)
 			return (1);
-		if (line)
-		{
-			line2 = line;
-			line = ft_strtrim(line2, "\t\n\v\f\r ");
-			if (!line)
-				return (1);
-			free (line2);
-		}
 		if (ft_strncmp(line, "", ft_strlen(line)) != 0)
-		{
-			mlx->n_rows++;
-			mlx->len = (int)ft_strlen(line);
-			if (mlx->len > mlx->longest_width)
-				mlx->longest_width = mlx->len;
-		}
+			if (get_one_variable(mlx, line) == 1)
+				return (1);
 		if (line)
 			free (line);
 		mlx->amount_of_lines_till_map++;
 	}
 	close (mlx->fd);
-	mlx->fcolor = create_trgb(255, 255, 255, 255);
-	printf("%ud\n", mlx->fcolor);
 	return (0);
-	// mlx_stuff(mlx);
-	
-// 	NO ./path_to_the_north_texture
-// SO ./path_to_the_south_texture
-// WE ./path_to_the_west_texture
-// EA ./path_to_the_east_texture
-// F 220,100,0
-// C 225,30,0
-	
+}
+
+void	init_map_variables(t_mlx *mlx)
+{
+	mlx->fcolor = 0;
+	mlx->ccolor = 0;
+	mlx->NO = NULL;
+	mlx->SO = NULL;
+	mlx->EA = NULL;
+	mlx->WE = NULL;
 }
 
 int	map_parse(t_mlx *mlx)
@@ -188,7 +241,9 @@ int	map_parse(t_mlx *mlx)
 	mlx->n_rows = 0;
 	line = NULL;
 	mlx->longest_width = 0;
-	// get_variables(mlx, line, line2);
+	init_map_variables(mlx);
+	if (get_variables(mlx, line) == 1)
+		return (1);
 	if (map_check_ext(mlx) == 1)
 		return (1);
 	if (map_count_rows(mlx, line) == 1)
@@ -205,5 +260,6 @@ int	map_parse(t_mlx *mlx)
 		return (1);
 	if (map_check (mlx) == 1)
 		return (1);
+	mlx_stuff(mlx);
 	return (0);
 }
