@@ -194,9 +194,9 @@ int	get_one_variable(t_mlx *mlx, char *line)
 		mlx->ccolor = ft_atoi(split_color[0]) << 24 | ft_atoi(split_color[1]) << 16 | ft_atoi(split_color[2]) << 8 | 0xff;
 		free_split(split_color);
 	}
-	free (split_line);
 	free (split_line[0]);
 	printf("%s\n", split_line[1]);
+	free (split_line);
 	return (0);
 }
 
