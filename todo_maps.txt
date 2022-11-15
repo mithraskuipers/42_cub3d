@@ -25,6 +25,7 @@ This is a simple valid map:
 variable op foute plek
 checken of alle variables
 wrong format color ex
+lege regels buiten map skippen
 
 <!-- 
 ◦ The map must be closed/surrounded by walls, if not the program must return
