@@ -22,10 +22,12 @@ This is a simple valid map:
 
 <!-- altijd met de lengte / breedte van DIE regel werken -->
 
-variable op foute plek
-checken of alle variables
-wrong format color ex
-lege regels buiten map skippen
+//variable op foute plek
+//checken of alle variables
+//wrong format color ex
+//lege regels buiten map skippen
+norminette
+maaloc checks
 
 <!-- 
 ◦ The map must be closed/surrounded by walls, if not the program must return
