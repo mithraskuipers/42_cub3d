@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/13 17:24:29 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/14 13:59:57 by dkramer       ########   odam.nl         */
+/*   Updated: 2022/11/15 09:55:25 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct	s_mlx
 	int		n_till_map;
 	int		map_row;
 	int		map_col;
+	int		stop;
 }				t_mlx;
 
 // prototypes

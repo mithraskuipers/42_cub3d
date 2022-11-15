@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/14 13:50:36 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/14 15:36:27 by dkramer       ########   odam.nl         */
+/*   Updated: 2022/11/15 10:17:45 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@ void	free_split(char **split)
 
 int	get_one_variable(t_mlx *mlx, char *line)
 {
-	//1 check for matching first characters skipping spaces ft_split
-		//2 skip new lines
-		//3 check if have all elements before map
 	char	**split_line;
 	char	**split_color;
 
@@ -77,13 +74,13 @@ int	get_one_variable(t_mlx *mlx, char *line)
 	}
 	else
 	{
-		printf("%s\n", split_line[1]);
-		if (!ft_strrchr("01NESW ", split_line[0][0]))
+		if (ft_strncmp("C", split_line[0], 2) || ft_strncmp("F", split_line[0], 2) || ft_strncmp("EA", split_line[0], 2) || ft_strncmp("WE", split_line[0], 2) || ft_strncmp("SO", split_line[0], 2) || ft_strncmp("NO", split_line[0], 2))
 			return (error_msg_ret("Unknown variable in map.", 1));
-		return (1);
+		if (ft_strrchr("01NESW ", split_line[0][0]))
+			mlx->stop = 1;
+		
 	}
 	free (split_line[0]);
-	printf("%s\n", split_line[1]);
 	free (split_line);
 	return (0);
 }
@@ -102,19 +99,26 @@ int	get_variables(t_mlx *mlx, char *line)
 			return (1);
 		if (ft_strncmp(line, "", ft_strlen(line)) != 0)
 		{
+			// printf("%s\n", line);
+			if (mlx->stop == 1)
+				break;
             if (mlx->fcolor && mlx->ccolor && mlx->NO && mlx->SO && mlx->WE && mlx->EA)
                 break ;
-            if (get_one_variable(mlx, line) == 1)
-                return (1);
+			// if (!ft_strrchr("01NESW", line))
+			if (get_one_variable(mlx, line) == 1)
+				return (1);
         }
+
 		if (line)
 			free (line);
 		mlx->n_till_map++;
 	}
 	close (mlx->fd);
+	// printf("%s\n", mlx->EA);
+	printf("%d\n", mlx->n_till_map);
 	if (!mlx->fcolor || !mlx->ccolor || !mlx->NO || !mlx->SO || !mlx->WE || !mlx->EA)
 		return (error_msg_ret("Variable in map is missing.", 1));
-    printf("%d\n", mlx->n_till_map);
+    // printf("%d\n", mlx->n_till_map);
 	return (0);
 }
 
@@ -126,4 +130,5 @@ void	init_map_variables(t_mlx *mlx)
 	mlx->SO = NULL;
 	mlx->EA = NULL;
 	mlx->WE = NULL;
+	mlx->stop = 0;
 }

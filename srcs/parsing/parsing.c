@@ -53,7 +53,7 @@ int	map_fill(t_mlx *mlx, char *line)
 		mlx->ret = get_next_line(mlx->fd, &line);
 		if (mlx->ret == -1)
 			return (1);
-		if (i > mlx->n_till_map - 1 && ft_strncmp(line, "", 1) != 0)
+		if (i >= mlx->n_till_map && ft_strncmp(line, "", 1) != 0)
 		{
 			mlx->map[mlx->map_row] = ft_calloc(1, mlx->longest_width + 1);
 			if (!mlx->map[mlx->map_row])
@@ -87,12 +87,13 @@ int	map_count_rows(t_mlx *mlx, char *line)
 		mlx->ret = get_next_line(mlx->fd, &line);
 		if (mlx->ret == -1)
 			return (error_msg_ret("Failed to read map.", 1));
-		if (i > mlx->n_till_map - 1 && !ft_strncmp(line, "\n", ft_strlen(line)))
+		if (i >= mlx->n_till_map && !ft_strncmp(line, "", ft_strlen(line)))
 		{
+			// printf("%d\n", i);
 			free (line);
 			return (error_msg_ret("Empty line in map.", 1));
 		}
-		if (i > mlx->n_till_map - 1 && ft_strncmp(line, "", ft_strlen(line)) != 0)
+		if (i >= mlx->n_till_map && ft_strncmp(line, "", ft_strlen(line)) != 0)
 		{
 			mlx->n_rows++;
 			mlx->len = (int)ft_strlen(line);
