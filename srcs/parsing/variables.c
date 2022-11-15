@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/14 13:50:36 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/15 13:51:53 by dkramer       ########   odam.nl         */
+/*   Updated: 2022/11/15 15:24:25 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ void	free_split(char **split)
 	free (split);
 }
 
-int	get_colors(t_mlx *mlx, char	**split_line)
+int	get_colors(char	**split_line, t_parse *parse)
 {
 	char	**split_color;
 
-	if ((!ft_strncmp("C", split_line[0], 1) && mlx->ccolor)
-		|| (!ft_strncmp("F", split_line[0], 1) && mlx->fcolor))
+	if ((!ft_strncmp("C", split_line[0], 1) && parse->ccolor)
+		|| (!ft_strncmp("F", split_line[0], 1) && parse->fcolor))
 	{
 		free_split(split_line);
 		return (error_msg_ret("Double variable in map.", 1));
@@ -44,20 +44,20 @@ int	get_colors(t_mlx *mlx, char	**split_line)
 	}
 	if (!ft_strncmp("F", split_line[0], 1))
 	{
-		mlx->fcolor = ft_atoi(split_color[0]) << 24 | ft_atoi(split_color[1])
+		parse->fcolor = ft_atoi(split_color[0]) << 24 | ft_atoi(split_color[1])
 			<< 16 | ft_atoi(split_color[2]) << 8 | 0xff;
 		free_split(split_color);
 	}
 	if (!ft_strncmp("C", split_line[0], 1))
 	{
-		mlx->ccolor = ft_atoi(split_color[0]) << 24 | ft_atoi(split_color[1])
+		parse->ccolor = ft_atoi(split_color[0]) << 24 | ft_atoi(split_color[1])
 			<< 16 | ft_atoi(split_color[2]) << 8 | 0xff;
 		free_split(split_color);
 	}
 	return (0);
 }
 
-int	get_one_variable(t_mlx *mlx, char *line)
+int	get_one_variable(t_mlx *mlx, char *line, t_parse *parse)
 {
 	char	**split_line;
 	
@@ -72,43 +72,43 @@ int	get_one_variable(t_mlx *mlx, char *line)
 	}
 	if (!ft_strncmp("NO", split_line[0], 2))
 	{
-		if (mlx->NO)
+		if (parse->NO)
 		{
 			free_split(split_line);
 			return (error_msg_ret("Double variable in map.", 1));
 		}
-		mlx->NO = split_line[1];
+		parse->NO = split_line[1];
 	}
 	else if (!ft_strncmp("SO", split_line[0], 2))
 	{
-		if (mlx->SO)
+		if (parse->SO)
 		{
 			free_split(split_line);
 			return (error_msg_ret("Double variable in map.", 1));
 		}
-		mlx->SO = split_line[1];
+		parse->SO = split_line[1];
 	}
 	else if (!ft_strncmp("WE", split_line[0], 2))
 	{
-		if (mlx->WE)
+		if (parse->WE)
 		{
 			free_split(split_line);
 			return (error_msg_ret("Double variable in map.", 1));
 		}
-		mlx->WE = split_line[1];
+		parse->WE = split_line[1];
 	}
 	else if (!ft_strncmp("EA", split_line[0], 2))
 	{
-		if (mlx->EA)
+		if (parse->EA)
 		{
 			free_split(split_line);
 			return (error_msg_ret("Double variable in map.", 1));
 		}
-		mlx->EA = split_line[1];
+		parse->EA = split_line[1];
 	}
 	else if (!ft_strncmp("F", split_line[0], 1) || !ft_strncmp("C", split_line[0], 1))
 	{
-		if (get_colors(mlx, split_line) == 1)
+		if (get_colors(split_line, parse) == 1)
 			return (1);
 	}
 	else
@@ -126,7 +126,7 @@ int	get_one_variable(t_mlx *mlx, char *line)
 }
 
 
-int	get_variables(t_mlx *mlx, char *line)
+int	get_variables(t_mlx *mlx, char *line, t_parse *parse)
 {
 	mlx->n_till_map = 0;
 	mlx->fd = open(mlx->map_filename, O_RDONLY);
@@ -144,7 +144,7 @@ int	get_variables(t_mlx *mlx, char *line)
 				free (line);
 				break;
 			}
-			if (get_one_variable(mlx, line) == 1)
+			if (get_one_variable(mlx, line, parse) == 1)
 			{
 				free (line);
 				return (1);
@@ -155,18 +155,18 @@ int	get_variables(t_mlx *mlx, char *line)
 		mlx->n_till_map++;
 	}
 	close (mlx->fd);
-	if (!mlx->fcolor || !mlx->ccolor || !mlx->NO || !mlx->SO || !mlx->WE || !mlx->EA)
+	if (!parse->fcolor || !parse->ccolor || !parse->NO || !parse->SO || !parse->WE || !parse->EA)
 		return (error_msg_ret("Variable in map is missing.", 1));
 	return (0);
 }
 
-void	init_map_variables(t_mlx *mlx)
+void	init_map_variables(t_mlx *mlx, t_parse *parse)
 {
-	mlx->fcolor = 0;
-	mlx->ccolor = 0;
-	mlx->NO = NULL;
-	mlx->SO = NULL;
-	mlx->EA = NULL;
-	mlx->WE = NULL;
+	parse->fcolor = 0;
+	parse->ccolor = 0;
+	parse->NO = NULL;
+	parse->SO = NULL;
+	parse->EA = NULL;
+	parse->WE = NULL;
 	mlx->stop = 0;
 }

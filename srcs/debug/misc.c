@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/12 22:33:51 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/13 17:25:43 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/15 15:14:55 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ static void	color_reset()
 	printf("\033[0m");
 }
 
-void	debug_print_map(t_mlx *mlx)
+void	debug_print_map(t_parse *parse)
 {
 	size_t	i;
 	size_t	j;
 	char	**map;
 
 	i = 0;
-	map = mlx->map;
+	map = parse->map;
 	while (map[i])
 	{
 		j = 0;
@@ -66,7 +66,7 @@ static int cell_is_player(char c)
 	return (0);
 }
 
-void	debug_highlight_player(t_mlx *mlx)
+void	debug_highlight_player(t_parse *parse)
 {
 	size_t	i;
 	size_t	j;
@@ -74,7 +74,7 @@ void	debug_highlight_player(t_mlx *mlx)
 	char	**map;
 
 	i = 0;
-	map = mlx->map;
+	map = parse->map;
 	player_found = 0;
 	while (map[i])
 	{

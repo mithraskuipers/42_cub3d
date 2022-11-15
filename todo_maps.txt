@@ -28,6 +28,8 @@ This is a simple valid map:
 //lege regels buiten map skippen
 norminette
 maaloc checks
+functienamen
+structs
 
 <!-- 
 ◦ The map must be closed/surrounded by walls, if not the program must return

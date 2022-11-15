@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 08:47:23 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/13 17:20:59 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/15 15:18:44 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	map_floodfill(int x, int y, t_mlx *mlx)
 	return (0);
 }
 
-int	map_copy(t_mlx *mlx)
+int	map_copy(t_mlx *mlx, t_parse *parse)
 {
 	int	y;
 	int	x;
@@ -51,13 +51,13 @@ int	map_copy(t_mlx *mlx)
 	while (y < mlx->n_rows)
 	{
 		x = 0;
-		mlx->len = (int)ft_strlen(mlx->map[y]);
+		mlx->len = (int)ft_strlen(parse->map[y]);
 		mlx->cpy_map[y] = ft_calloc(1, mlx->len * sizeof(char) + 1);
 		if (!mlx->cpy_map[y])
 			return (1);
 		while (x < mlx->len)
 		{
-			mlx->cpy_map[y][x] = mlx->map[y][x];
+			mlx->cpy_map[y][x] = parse->map[y][x];
 			x++;
 		}
 		y++;
@@ -65,12 +65,12 @@ int	map_copy(t_mlx *mlx)
 	return (0);
 }
 
-int	map_check(t_mlx *mlx)
+int	map_check(t_mlx *mlx, t_parse *parse)
 {
 	mlx->cpy_map = ft_calloc(1, sizeof(char *) * (mlx->n_rows + 1));
 	if (!mlx->cpy_map)
 		return (1);
-	if (map_copy(mlx) == 1)
+	if (map_copy(mlx, parse) == 1)
 		return (1);
 	if (map_floodfill(mlx->s_posX, mlx->s_posY, mlx) == 1)
 	{
