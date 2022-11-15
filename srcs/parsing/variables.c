@@ -6,20 +6,24 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/14 13:50:36 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/15 15:24:25 by dkramer       ########   odam.nl         */
+/*   Updated: 2022/11/15 16:06:21 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../includes/parsing.h"
 
-void	free_split(char **split)
+
+void	free_split(char **split, bool skip, int index)
 {
 	int	i;
 
 	i = 0;
 	while (split[i])
 	{
-		free (split[i]);
+		if (skip == false)
+			free (split[i]);
+		else if (skip == true && i != index)
+			free (split[i]);
 		i++;
 	}
 	free (split);
@@ -32,28 +36,28 @@ int	get_colors(char	**split_line, t_parse *parse)
 	if ((!ft_strncmp("C", split_line[0], 1) && parse->ccolor)
 		|| (!ft_strncmp("F", split_line[0], 1) && parse->fcolor))
 	{
-		free_split(split_line);
+		free_split(split_line, false, 0);
 		return (error_msg_ret("Double variable in map.", 1));
 	}
 	split_color = ft_split(split_line[1], ',');
 	if (!split_color[0] || !split_color[1] || !split_color[2])
 	{
-		free_split(split_color);
-		free_split(split_line);
+		free_split(split_color, false, 0);
+		free_split(split_line, false, 0);
 		return (error_msg_ret("Wrong format variable in map.", 1));
 	}
 	if (!ft_strncmp("F", split_line[0], 1))
 	{
 		parse->fcolor = ft_atoi(split_color[0]) << 24 | ft_atoi(split_color[1])
 			<< 16 | ft_atoi(split_color[2]) << 8 | 0xff;
-		free_split(split_color);
 	}
 	if (!ft_strncmp("C", split_line[0], 1))
 	{
 		parse->ccolor = ft_atoi(split_color[0]) << 24 | ft_atoi(split_color[1])
 			<< 16 | ft_atoi(split_color[2]) << 8 | 0xff;
-		free_split(split_color);
 	}
+	free_split(split_color, false, 0);
+	free_split(split_line, false, 0);
 	return (0);
 }
 
@@ -66,7 +70,7 @@ int	get_one_variable(t_mlx *mlx, char *line, t_parse *parse)
 	{
 		if (!split_line[1])
 		{
-			free_split(split_line);
+			free_split(split_line, false, 0);
 			return (error_msg_ret("Wrong format variable in map.", 1));
 		}
 	}
@@ -74,7 +78,7 @@ int	get_one_variable(t_mlx *mlx, char *line, t_parse *parse)
 	{
 		if (parse->NO)
 		{
-			free_split(split_line);
+			free_split(split_line, false, 0);
 			return (error_msg_ret("Double variable in map.", 1));
 		}
 		parse->NO = split_line[1];
@@ -83,7 +87,7 @@ int	get_one_variable(t_mlx *mlx, char *line, t_parse *parse)
 	{
 		if (parse->SO)
 		{
-			free_split(split_line);
+			free_split(split_line, false, 0);
 			return (error_msg_ret("Double variable in map.", 1));
 		}
 		parse->SO = split_line[1];
@@ -92,7 +96,7 @@ int	get_one_variable(t_mlx *mlx, char *line, t_parse *parse)
 	{
 		if (parse->WE)
 		{
-			free_split(split_line);
+			free_split(split_line, false, 0);
 			return (error_msg_ret("Double variable in map.", 1));
 		}
 		parse->WE = split_line[1];
@@ -101,7 +105,7 @@ int	get_one_variable(t_mlx *mlx, char *line, t_parse *parse)
 	{
 		if (parse->EA)
 		{
-			free_split(split_line);
+			free_split(split_line, false, 0);
 			return (error_msg_ret("Double variable in map.", 1));
 		}
 		parse->EA = split_line[1];
@@ -110,21 +114,21 @@ int	get_one_variable(t_mlx *mlx, char *line, t_parse *parse)
 	{
 		if (get_colors(split_line, parse) == 1)
 			return (1);
+		return (0);
 	}
 	else
 	{
 		if (split_line[1] && (ft_strncmp("C", split_line[0], 2) || ft_strncmp("F", split_line[0], 2) || ft_strncmp("EA", split_line[0], 2) || ft_strncmp("WE", split_line[0], 2) || ft_strncmp("SO", split_line[0], 2) || ft_strncmp("NO", split_line[0], 2)))
 		{
-			free_split(split_line);
+			free_split(split_line, false, 0);
 			return (error_msg_ret("Unknown variable in map.", 1));
 		}
 		if (ft_strrchr("01NESW ", split_line[0][0]))
 			mlx->stop = 1;
 	}
-	free_split(split_line);
+	free_split(split_line, true, 1);
 	return (0);
 }
-
 
 int	get_variables(t_mlx *mlx, char *line, t_parse *parse)
 {
@@ -149,12 +153,19 @@ int	get_variables(t_mlx *mlx, char *line, t_parse *parse)
 				free (line);
 				return (1);
 			}
+			// if (parse->fcolor && parse->ccolor && parse->NO && parse->SO && parse->EA && parse->WE)
+			// {
+			// 	free (line);
+			// 	break ;
+			// }
         }
 		if (line)
 			free (line);
+		// if (!parse->fcolor || !parse->ccolor || !parse->NO || !parse->SO || !parse->EA || !parse->WE)
 		mlx->n_till_map++;
 	}
 	close (mlx->fd);
+	printf("%d\n", mlx->n_till_map);
 	if (!parse->fcolor || !parse->ccolor || !parse->NO || !parse->SO || !parse->WE || !parse->EA)
 		return (error_msg_ret("Variable in map is missing.", 1));
 	return (0);

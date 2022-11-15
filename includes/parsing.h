@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/13 17:24:29 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/15 15:21:49 by dkramer       ########   odam.nl         */
+/*   Updated: 2022/11/15 15:54:59 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ typedef struct	s_mlx
 	char	**cpy_map;
 	int		s_posX;
 	int		s_posY;
-	char	*NO;
-	char	*SO;
-	char	*WE;
-	char	*EA;
-	int		fcolor;
-	int		ccolor;
+	// char	*NO;
+	// char	*SO;
+	// char	*WE;
+	// char	*EA;
+	// int		fcolor;
+	// int		ccolor;
 	int		n_till_map;
 	int		map_row;
 	int		map_col;

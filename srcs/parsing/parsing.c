@@ -144,6 +144,25 @@ int	map_check_ext(t_mlx *mlx)
 // 	mlx_terminate(mlx42);
 // 	return (0);
 // }
+void	print_parse(t_parse *parse)
+{
+	// char	*NO;
+	// char	*SO;
+	// char	*WE;
+	// char	*EA;
+	// int		fcolor;
+	// int		ccolor;
+	// char	**map;
+	printf("%s\n", parse->map[0]);
+	printf("%s\n", parse->NO);
+	printf("%s\n", parse->SO);
+	printf("%s\n", parse->EA);
+	printf("%s\n", parse->WE);
+	printf("%d\n", parse->fcolor);
+	printf("%d\n", parse->ccolor);
+
+
+}
 
 int	map_parse(t_mlx *mlx, t_parse *parse)
 {
@@ -173,5 +192,6 @@ int	map_parse(t_mlx *mlx, t_parse *parse)
 	if (map_check (mlx, parse) == 1)
 		return (1);
 	// mlx_stuff(mlx);
+	print_parse(parse);
 	return (0);
 }

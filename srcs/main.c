@@ -6,11 +6,13 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 10:34:24 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/15 15:19:16 by dkramer       ########   odam.nl         */
+/*   Updated: 2022/11/15 15:30:27 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/parsing.h"
+
+
 
 int	main(int argc, char **argv)
 {

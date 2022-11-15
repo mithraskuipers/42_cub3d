@@ -30,6 +30,9 @@ norminette
 maaloc checks
 functienamen
 structs
+5
+Error.
+Empty line in map.
 
 <!-- 
 ◦ The map must be closed/surrounded by walls, if not the program must return
