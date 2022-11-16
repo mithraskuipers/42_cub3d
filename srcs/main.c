@@ -12,6 +12,29 @@
 
 #include "./../includes/parsing.h"
 
+typedef struct s_gamedata
+{
+	mlx_texture_t	*textures[4];
+}				t_gamedata;
+
+int	init_textures(t_parse *parse)
+{
+	printf("%s\n", parse->NO);
+	printf("%s\n", parse->EA);
+	printf("%s\n", parse->SO);
+	printf("%s\n", parse->WE);
+	t_gamedata	*gamedata;
+	gamedata = ft_calloc(1, sizeof(t_gamedata));
+	gamedata->textures[0] = mlx_load_png(parse->NO);
+	gamedata->textures[1] = mlx_load_png(parse->EA);
+	gamedata->textures[2] = mlx_load_png(parse->SO);
+	gamedata->textures[3] = mlx_load_png(parse->WE);
+
+	return (0);
+}
+
+
+
 int	main(int argc, char **argv)
 {
 	t_mlx	mlx;
@@ -23,10 +46,8 @@ int	main(int argc, char **argv)
 		if (map_parse(&mlx, &parse) == 1)
 			return (1);
 		// Ik zit hier even te experimenteren
-		printf("%s\n", parse.NO);
-		printf("%s\n", parse.EA);
-		printf("%s\n", parse.SO);
-		printf("%s\n", parse.WE);
+		init_textures(&parse);
+
 	}
 	else
 	{
@@ -36,4 +57,3 @@ int	main(int argc, char **argv)
 	// system ("leaks cub3D");
 	return (0);
 }
-
