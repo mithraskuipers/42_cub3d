@@ -29,11 +29,10 @@ This is a simple valid map:
 norminette
 maaloc checks
 functienamen
-structs
-5
-Error.
-Empty line in map.
-
+//structs
+//ook foute maps leak testen
+hoe splitline[1] achteraf free'en?
+hoe weet je het begin van de map
 <!-- 
 ◦ The map must be closed/surrounded by walls, if not the program must return
 an error.
