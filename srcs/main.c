@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 10:34:24 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/17 13:39:02 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/17 14:33:50 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,16 @@ int	main(int argc, char **argv)
 	if ((map_parse(&mlx, &parse)) || (init_textures(&mlx, &parse)))
 		return (1);
 
-	if (pv == 'N')
-		parse.player_direction= PI / 2; // N
-	else if (pv == 'E')
-		parse.player_direction= PI * 2; // E
-	else if (pv == 'S')
-		parse.player_direction= 1.5 * PI; // S
-	else if (pv == 'W')
-		parse.player_direction= 2 * PI; // W
+	if (mlx.player_orientation == 'N') // 0 degrees
+		parse.player_direction = 2 * PI;
+	else if (mlx.player_orientation == 'E') // 90 degrees
+		parse.player_direction = PI * 2;
+	else if (mlx.player_orientation == 'S') // 180 degrees
+		parse.player_direction = 1.5 * PI;
+	else if (mlx.player_orientation == 'W') // 270 degrees
+		parse.player_direction = 2 * PI;
 	// printf("%u", mlx.gamedata.ceiling_rgb);
+	printf("%f\n", parse.player_direction);
 	map_free(parse.map, &mlx);
 	return (0);
 }
