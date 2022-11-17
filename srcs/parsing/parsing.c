@@ -63,6 +63,7 @@ int	map_fill(t_mlx *mlx, char *line, t_parse *parse)
 			parse->map[mlx->map_row] = ft_memcpy(parse->map[mlx->map_row], line,
 					ft_strlen(line));
 			free (line);
+			printf("%s\n", parse->map[mlx->map_row]);
 			mlx->map_row++;
 		}
 		else

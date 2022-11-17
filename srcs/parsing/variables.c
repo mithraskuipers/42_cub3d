@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/14 13:50:36 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/15 16:44:09 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/17 13:13:48 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,28 +144,16 @@ int	get_variables(t_mlx *mlx, char *line, t_parse *parse)
 		if (ft_strncmp(line, "", ft_strlen(line)) != 0)
 		{
 			if (mlx->stop == 1)
-			{
-				free (line);
 				break;
-			}
 			if (get_one_variable(mlx, line, parse) == 1)
-			{
-				free (line);
 				return (1);
-			}
-			// if (parse->fcolor && parse->ccolor && parse->NO && parse->SO && parse->EA && parse->WE)
-			// {
-			// 	free (line);
-			// 	break ;
-			// }
         }
 		if (line)
 			free (line);
-		// if (!parse->fcolor || !parse->ccolor || !parse->NO || !parse->SO || !parse->EA || !parse->WE)
-		mlx->n_till_map++;
+		if (!mlx->stop)
+			mlx->n_till_map++;
 	}
 	close (mlx->fd);
-	// printf("%d\n", mlx->n_till_map);
 	if (!parse->fcolor || !parse->ccolor || !parse->NO || !parse->SO || !parse->WE || !parse->EA)
 		return (error_msg_ret("Variable in map is missing.", 1));
 	return (0);

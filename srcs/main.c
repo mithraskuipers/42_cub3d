@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 10:34:24 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/16 09:19:12 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/17 13:03:19 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@ int	init_textures(t_parse *parse)
 	printf("%s\n", parse->EA);
 	printf("%s\n", parse->SO);
 	printf("%s\n", parse->WE);
+	printf("%u\n", parse->fcolor);
+	printf("%u\n", parse->ccolor);
+	// printf("%s\n", parse->map[0]);
+
 	t_gamedata	*gamedata;
 	gamedata = ft_calloc(1, sizeof(t_gamedata));
 	gamedata->textures[0] = mlx_load_png(parse->NO);
