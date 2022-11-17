@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 10:34:24 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/17 13:03:19 by dkramer       ########   odam.nl         */
+/*   Updated: 2022/11/17 13:21:41 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,17 @@ int	init_textures(t_parse *parse)
 	gamedata->textures[1] = mlx_load_png(parse->EA);
 	gamedata->textures[2] = mlx_load_png(parse->SO);
 	gamedata->textures[3] = mlx_load_png(parse->WE);
+	free (parse->NO);
+	free (parse->EA);
+	free (parse->SO);
+	free (parse->WE);
+	free (gamedata->textures[0]);
+	free (gamedata->textures[1]);
+	free (gamedata->textures[2]);
+	free (gamedata->textures[3]);
+	free (gamedata);
+	// free (parse->fcolor);
+	// free (parse->ccolor);
 
 	return (0);
 }
@@ -48,7 +59,10 @@ int	main(int argc, char **argv)
 	{
 		mlx.map_filename = argv[1];
 		if (map_parse(&mlx, &parse) == 1)
+		{
+			system ("leaks cub3D");
 			return (1);
+		}
 		// Ik zit hier even te experimenteren
 		init_textures(&parse);
 
@@ -58,6 +72,6 @@ int	main(int argc, char **argv)
 		return (error_msg_ret("Incorrect number of arguments.", 1));
 	}
 	map_free(parse.map, &mlx);
-	// system ("leaks cub3D");
+	system ("leaks cub3D");
 	return (0);
 }
