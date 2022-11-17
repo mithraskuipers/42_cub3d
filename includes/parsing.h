@@ -6,12 +6,14 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/13 17:24:29 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/15 15:54:59 by dkramer       ########   odam.nl         */
+/*   Updated: 2022/11/17 14:03:53 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
+
+# define PI 3.14159265
 
 // Custom libraries
 # include "./../libs/libft/libft.h"
@@ -23,6 +25,15 @@
 
 // External libraries
 # include "../libs/MLX42/include/MLX42/MLX42.h"
+
+
+typedef struct s_gamedata
+{
+	mlx_texture_t	*textures[4];
+	char		p_orientation;
+	uint32_t	ceiling_rgb;
+	uint32_t	floor_rgb;
+}					t_gamedata;
 
 typedef struct	s_mlx
 {
@@ -47,6 +58,8 @@ typedef struct	s_mlx
 	int		map_row;
 	int		map_col;
 	int		stop;
+	t_gamedata	gamedata;
+	char	player_orientation;
 }				t_mlx;
 
 typedef struct	s_parse
@@ -55,9 +68,10 @@ typedef struct	s_parse
 	char	*SO;
 	char	*WE;
 	char	*EA;
-	int		fcolor;
-	int		ccolor;
+	uint32_t		fcolor;
+	uint32_t		ccolor;
 	char	**map;
+	float	player_direction;
 }				t_parse;
 
 // prototypes
