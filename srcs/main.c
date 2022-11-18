@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 10:34:24 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/18 14:14:39 by dkramer       ########   odam.nl         */
+/*   Updated: 2022/11/18 20:10:33 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,27 @@ int	init_textures(t_game *game, t_mapdata *mapdata)
 	return (0);
 }
 
-void	init_player_angle(t_game *game, t_mapdata *mapdata)
+void	init_player_angle(t_game *game)
 {
-	if (game->player_orientation == 'N')
-		mapdata->player_direction = degrees_to_radians(0);
-	else if (game->player_orientation == 'E')
-		mapdata->player_direction = degrees_to_radians(90);
-	else if (game->player_orientation == 'S')
-		mapdata->player_direction = degrees_to_radians(180);
-	else if (game->player_orientation == 'W')
-		mapdata->player_direction = degrees_to_radians(270);
+	if (game->mapdata.player_cardinaldir == 'N')
+		game->gamedata.player_radians = degrees_to_radians(0);
+	else if (game->mapdata.player_cardinaldir == 'E')
+		game->gamedata.player_radians = degrees_to_radians(90);
+	else if (game->mapdata.player_cardinaldir == 'S')
+		game->gamedata.player_radians = degrees_to_radians(180);
+	else if (game->mapdata.player_cardinaldir == 'W')
+		game->gamedata.player_radians = degrees_to_radians(270);
+}
+
+int	init_mlx(t_game *game)
+{
+	printf("Running init_mlx()\n");
+	game->mlx.mlx_instance = mlx_init(RES_X, RES_Y, "cub3D", true); // difference dimensions?
+	if (!game->mlx.mlx_instance)
+		return (error_msg_ret("MLX initialization failed.", 1));
+	game->mlx.mlx_image = mlx_new_image(game->mlx.mlx_instance, RES_X, RES_Y); // difference dimensions?
+	mlx_loop(game->mlx.mlx_instance);
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -52,13 +63,13 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (error_msg_ret("Incorrect number of arguments.", 1));
 	game.map_filename = argv[1];
-	if ((map_parse(&game, &game.mapdata)) || (init_textures(&game, &game.mapdata)))
-	{
-		// system ("leaks cub3D");
+	if (map_parse(&game, &game.mapdata))
 		return (1);
-	}
-	init_player_angle(&game, &game.mapdata);
-	debug_print_2darray(game.mapdata.map);
+	if (init_textures(&game, &game.mapdata))
+		return (1);
+	init_player_angle(&game);
+	init_mlx(&game);
+	// debug_print_2darray(game.mapdata.map);
 	map_free(game.mapdata.map, &game);
 	// system ("leaks cub3D");
 	return (0);

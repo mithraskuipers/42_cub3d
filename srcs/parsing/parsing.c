@@ -31,7 +31,7 @@ int	map_check_chars(t_game *game, t_mapdata *mapdata)
 				n_players++;
 				game->s_posX = game->map_col;
 				game->s_posY = game->map_row;
-				game->player_orientation = mapdata->map[game->map_row][game->map_col];
+				game->mapdata.player_cardinaldir = mapdata->map[game->map_row][game->map_col];
 			}
 			game->map_col++;
 		}
