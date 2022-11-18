@@ -1,5 +1,14 @@
 NAME		= cub3D
-OBJ			= srcs/main srcs/debug/misc srcs/free/misc srcs/parsing/checkers srcs/parsing/parsing srcs/parsing/utils srcs/tools/error srcs/parsing/variables
+OBJ			=	srcs/main \
+				srcs/debug/misc \
+				srcs/free/misc \
+				srcs/parsing/checkers \
+				srcs/parsing/parsing \
+				srcs/parsing/utils \
+				srcs/tools/error \
+				srcs/parsing/variables \
+				srcs/math/conversions
+
 OBJS		= $(addsuffix .o, ${OBJ})
 CC			= gcc
 RM			= rm -f
@@ -24,7 +33,7 @@ obj/%.o:		%.c
 clean:
 				@${RM} ${OBJS} 
 				@$(MAKE) clean -C $(MLX)
-				$(info ************  cub3D Clean)
+				$(info ************  $(NAME) Clean)
 
 cleanft:
 				@${MAKE} clean -C ./libs/libft --no-print-directory
@@ -34,7 +43,7 @@ fclean:		clean
 				@${MAKE} fclean -C ./libs/libft --no-print-directory
 				@${MAKE} fclean -C ./libs/MLX42 --no-print-directory
 				@${RM}  -f ${NAME}
-				$(info ************  cub3D Removed)
+				$(info ************  $(NAME) Removed)
 
 re:			fclean all
 
@@ -43,6 +52,6 @@ run:		${NAME}
 
 ${NAME}:	${OBJS} ${LIBMLX} ${LIBFT}
 				@${CC} $^ $(CFLAGS) $(LINKER) -o $(NAME)
-				$(info ************  cub3D Ready!)
+				$(info ************  $(NAME) Ready!)
 
 .PHONY: all clean fclean re cleanft run libmlx libft

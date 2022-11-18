@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   utils.c                                            :+:    :+:            */
+/*   conversions.c                                      :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
+/*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/11/09 13:23:27 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/18 08:05:29 by mikuiper      ########   odam.nl         */
+/*   Created: 2022/11/18 07:45:46 by mikuiper      #+#    #+#                 */
+/*   Updated: 2022/11/18 07:46:03 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../includes/parsing.h"
 
-int	create_trgb(unsigned char t, unsigned char r,
-unsigned char g, unsigned char b)
+float	radians_to_degrees(float radians)
 {
-	return (*(int *)(unsigned char [4]){b, g, r, t});
+	return ((radians) * (180 / PI));
+}
+
+float	degrees_to_radians(float degrees)
+{
+	return ((degrees) * (PI / 180));
 }

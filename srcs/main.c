@@ -6,35 +6,43 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 10:34:24 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/17 19:15:32 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/18 08:25:46 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/parsing.h"
 
 
-
+// I deviate from the subject in the order of the cardinal directions (NESW).
+// I think the subject's order (NSEW) is only a source of confusion.
 
 int	init_textures(t_mlx *mlx, t_parse *parse)
 {
-	printf("%s\n", parse->NO);
-	printf("%s\n", parse->EA);
-	printf("%s\n", parse->SO);
-	printf("%s\n", parse->WE);
-	printf("%d\n", parse->ccolor);
 	mlx->gamedata.textures[0] = mlx_load_png(parse->NO);
 	if (!mlx->gamedata.textures[0])
-		error_msg_ret("Failed to load NO map texture.", 1);
+		return (error_msg_ret("Failed to load NO map texture.", 1));
 	mlx->gamedata.textures[1] = mlx_load_png(parse->EA);
 	if (!mlx->gamedata.textures[1])
-		error_msg_ret("Failed to load EA map texture.", 1);
+		return (error_msg_ret("Failed to load EA map texture.", 1));
 	mlx->gamedata.textures[2] = mlx_load_png(parse->SO);
 	if (!mlx->gamedata.textures[2])
-		error_msg_ret("Failed to load SO map texture.", 1);
+		return (error_msg_ret("Failed to load SO map texture.", 1));
 	mlx->gamedata.textures[3] = mlx_load_png(parse->WE);
 	if (!mlx->gamedata.textures[3])
-		error_msg_ret("Failed to load WE map texture.", 1);
+		return (error_msg_ret("Failed to load WE map texture.", 1));
 	return (0);
+}
+
+void	init_player_angle(t_mlx *mlx, t_parse *parse)
+{
+	if (mlx->player_orientation == 'N')
+		parse->player_direction = degrees_to_radians(0);
+	else if (mlx->player_orientation == 'E')
+		parse->player_direction = degrees_to_radians(90);
+	else if (mlx->player_orientation == 'S')
+		parse->player_direction = degrees_to_radians(180);
+	else if (mlx->player_orientation == 'W')
+		parse->player_direction = degrees_to_radians(270);
 }
 
 int	main(int argc, char **argv)
@@ -47,17 +55,7 @@ int	main(int argc, char **argv)
 	mlx.map_filename = argv[1];
 	if ((map_parse(&mlx, &parse)) || (init_textures(&mlx, &parse)))
 		return (1);
-
-	if (mlx.player_orientation == 'N') // 0 degrees
-		parse.player_direction = 2 * PI;
-	else if (mlx.player_orientation == 'E') // 90 degrees
-		parse.player_direction = PI * 2;
-	else if (mlx.player_orientation == 'S') // 180 degrees
-		parse.player_direction = 1.5 * PI;
-	else if (mlx.player_orientation == 'W') // 270 degrees
-		parse.player_direction = 2 * PI;
-	// printf("%u", mlx.gamedata.ceiling_rgb);
-	printf("%f\n", parse.player_direction);
+	init_player_angle(&mlx, &parse);
 	map_free(parse.map, &mlx);
 	return (0);
 }
