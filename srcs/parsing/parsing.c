@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../../includes/parsing.h"
+#include "./../../includes/cub3d.h"
 
 int	map_check_chars(t_game *game, t_mapdata *mapdata)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../../includes/parsing.h"
+#include "./../../includes/cub3d.h"
 
 #include <stdio.h>
 

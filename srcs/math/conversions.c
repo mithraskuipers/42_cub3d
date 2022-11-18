@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../../includes/parsing.h"
+#include "./../../includes/cub3d.h"
 
 float	radians_to_degrees(float radians)
 {

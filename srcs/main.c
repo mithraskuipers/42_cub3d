@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../includes/parsing.h"
+#include "./../includes/cub3d.h"
 
 
 // I deviate from the subject in the order of the cardinal directions (NESW).

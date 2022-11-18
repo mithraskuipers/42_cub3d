@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../../includes/parsing.h"
+#include "./../../includes/cub3d.h"
 
 /*check if surrounded by walls*/
 int	map_floodfill(int x, int y, t_game *game)

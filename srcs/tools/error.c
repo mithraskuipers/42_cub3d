@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/parsing.h"
+#include "../../includes/cub3d.h"
 
 // error_msg_ret()
 // Prints an error message and returns with code.

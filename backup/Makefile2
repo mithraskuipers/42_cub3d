@@ -36,7 +36,7 @@ NAMES_SRCS =	main.c \
 				free/misc.c
 
 # HEADER NAMES
-NAMES_HDRS =	parsing.h
+NAMES_HDRS =	cub3d.h
 
 # OBJECT NAMES
 NAMES_OBJS =	$(NAMES_SRCS:.c=.o)

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../../includes/parsing.h"
+#include "./../../includes/cub3d.h"
 
 // map_free()
 // Frees  the char **map stored in the game struct.
