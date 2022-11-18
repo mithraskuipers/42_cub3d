@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/13 17:24:29 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/18 08:09:42 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/18 08:57:38 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define PARSING_H
 
 # define PI 3.14159265359
+# define RES_X	480
+# define RES_Y	320
 
 // Custom libraries
 # include "./../libs/libft/libft.h"
@@ -40,6 +42,13 @@ typedef struct s_gamedata
 
 typedef struct	s_mlx
 {
+	mlx_t			*mlx_ins;
+	mlx_image_t		*mlx_img;
+	mlx_texture_t	*assets[4];
+}				t_mlxs;
+
+typedef struct	s_game
+{
 	char	*map_filename;
 	int		n_rows;
 	int		len;
@@ -63,36 +72,36 @@ typedef struct	s_mlx
 	int		stop;
 	t_gamedata	gamedata;
 	char	player_orientation;
-}				t_mlx;
+
+}				t_game;
 
 typedef struct	s_parse
 {
-	char	*NO;
-	char	*SO;
-	char	*WE;
-	char	*EA;
-	uint32_t		fcolor;
-	uint32_t		ccolor;
-	char	**map;
-	float	player_direction;
+	char		*NO;
+	char		*SO;
+	char		*WE;
+	char		*EA;
+	uint32_t	fcolor;
+	uint32_t	ccolor;
+	char		**map;
+	float		player_direction;
 }				t_parse;
-
 
 /******************************************************************************/
 /* PROTOTYPES                                                                 */
 /******************************************************************************/
 
 // [PARSING]: CHECKERS.C
-int	map_floodfill(int x, int y, t_mlx *mlx);
-int	map_copy(t_mlx *mlx, t_parse *parse);
-int	map_check(t_mlx *mlx, t_parse *parse);
+int	map_floodfill(int x, int y, t_game *mlx);
+int	map_copy(t_game *mlx, t_parse *parse);
+int	map_check(t_game *mlx, t_parse *parse);
 
 // [PARSING]: PARSING.C
-int	map_check_chars(t_mlx *mlx, t_parse *parse);
-int	map_fill(t_mlx *mlx, char *line, t_parse *parse);
-int	map_count_rows(t_mlx *mlx, char *line);
-int	map_check_ext(t_mlx *mlx);
-int	mlx_stuff(t_parse *parse, t_mlx *mlx);
+int	map_check_chars(t_game *mlx, t_parse *parse);
+int	map_fill(t_game *mlx, char *line, t_parse *parse);
+int	map_count_rows(t_game *mlx, char *line);
+int	map_check_ext(t_game *mlx);
+int	mlx_stuff(t_parse *parse, t_game *mlx);
 
 // [PARSING]: UTILS.C
 int	create_trgb(unsigned char t, unsigned char r, unsigned char g, unsigned char b);
@@ -101,13 +110,13 @@ int	create_trgb(unsigned char t, unsigned char r, unsigned char g, unsigned char
 void	free_split(char **split, bool skip, int index);
 int		free_all_and_error(char	**split_line, char *str);
 int		get_colors(char	**split_line, t_parse *parse);
-int		get_other_cases(char **split_line, t_parse *parse, t_mlx *mlx);
-int		get_one_variable(t_mlx *mlx, char *line, t_parse *parse);
-int		loop_through_lines(t_mlx *mlx, char *line, t_parse *parse);
-int		get_variables(t_mlx *mlx, char *line, t_parse *parse);
-void	init_map_variables(t_mlx *mlx, t_parse *parse);
+int		get_other_cases(char **split_line, t_parse *parse, t_game *mlx);
+int		get_one_variable(t_game *mlx, char *line, t_parse *parse);
+int		loop_through_lines(t_game *mlx, char *line, t_parse *parse);
+int		get_variables(t_game *mlx, char *line, t_parse *parse);
+void	init_map_variables(t_game *mlx, t_parse *parse);
 void	print_parse(t_parse *parse);
-int		map_parse(t_mlx *mlx, t_parse *parse);
+int		map_parse(t_game *mlx, t_parse *parse);
 
 
 // [TOOLS]: ERROR.C
@@ -122,6 +131,6 @@ float	radians_to_degrees(float radians);
 float	degrees_to_radians(float degrees);
 
 // [FREE]: MISC.C
-void	map_free(char **map, t_mlx *mlx);
+void	map_free(char **map, t_game *mlx);
 
 #endif

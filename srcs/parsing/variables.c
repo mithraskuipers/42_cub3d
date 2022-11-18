@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/14 13:50:36 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/17 16:05:42 by dkramer       ########   odam.nl         */
+/*   Updated: 2022/11/18 08:56:23 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	get_colors(char	**split_line, t_parse *parse)
 	return (0);
 }
 
-int	get_other_cases(char **split_line, t_parse *parse, t_mlx *mlx)
+int	get_other_cases(char **split_line, t_parse *parse, t_game *mlx)
 {
 	if (!ft_strncmp("F", split_line[0], 1)
 		|| !ft_strncmp("C", split_line[0], 1))
@@ -78,7 +78,7 @@ int	get_other_cases(char **split_line, t_parse *parse, t_mlx *mlx)
 	return (0);
 }
 
-int	get_one_variable(t_mlx *mlx, char *line, t_parse *parse)
+int	get_one_variable(t_game *mlx, char *line, t_parse *parse)
 {
 	char	**split_line;
 
@@ -107,7 +107,7 @@ int	get_one_variable(t_mlx *mlx, char *line, t_parse *parse)
 	return (0);
 }
 
-int	loop_through_lines(t_mlx *mlx, char *line, t_parse *parse)
+int	loop_through_lines(t_game *mlx, char *line, t_parse *parse)
 {
 	while (mlx->ret)
 	{
@@ -135,7 +135,7 @@ int	loop_through_lines(t_mlx *mlx, char *line, t_parse *parse)
 	return (0);
 }
 
-int	get_variables(t_mlx *mlx, char *line, t_parse *parse)
+int	get_variables(t_game *mlx, char *line, t_parse *parse)
 {
 	mlx->fd = open(mlx->map_filename, O_RDONLY);
 	if (mlx->fd == -1)
@@ -149,7 +149,7 @@ int	get_variables(t_mlx *mlx, char *line, t_parse *parse)
 	return (0);
 }
 
-void	init_map_variables(t_mlx *mlx, t_parse *parse)
+void	init_map_variables(t_game *mlx, t_parse *parse)
 {
 	parse->fcolor = 0;
 	parse->ccolor = 0;

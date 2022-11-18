@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 10:34:24 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/18 08:25:46 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/18 08:57:44 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 // I deviate from the subject in the order of the cardinal directions (NESW).
 // I think the subject's order (NSEW) is only a source of confusion.
 
-int	init_textures(t_mlx *mlx, t_parse *parse)
+int	init_textures(t_game *mlx, t_parse *parse)
 {
 	mlx->gamedata.textures[0] = mlx_load_png(parse->NO);
 	if (!mlx->gamedata.textures[0])
@@ -33,7 +33,7 @@ int	init_textures(t_mlx *mlx, t_parse *parse)
 	return (0);
 }
 
-void	init_player_angle(t_mlx *mlx, t_parse *parse)
+void	init_player_angle(t_game *mlx, t_parse *parse)
 {
 	if (mlx->player_orientation == 'N')
 		parse->player_direction = degrees_to_radians(0);
@@ -47,7 +47,7 @@ void	init_player_angle(t_mlx *mlx, t_parse *parse)
 
 int	main(int argc, char **argv)
 {
-	t_mlx	mlx;
+	t_game	mlx;
 	t_parse	parse;
 
 	if (argc != 2)
@@ -56,6 +56,8 @@ int	main(int argc, char **argv)
 	if ((map_parse(&mlx, &parse)) || (init_textures(&mlx, &parse)))
 		return (1);
 	init_player_angle(&mlx, &parse);
+
+
 	map_free(parse.map, &mlx);
 	return (0);
 }

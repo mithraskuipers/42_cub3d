@@ -12,7 +12,7 @@
 
 #include "./../../includes/parsing.h"
 
-int	map_check_chars(t_mlx *mlx, t_parse *parse)
+int	map_check_chars(t_game *mlx, t_parse *parse)
 {
 	size_t	n_players;
 
@@ -42,7 +42,7 @@ int	map_check_chars(t_mlx *mlx, t_parse *parse)
 	return (0);
 }
 
-int	map_fill(t_mlx *mlx, char *line, t_parse *parse)
+int	map_fill(t_game *mlx, char *line, t_parse *parse)
 {
 	int	i;
 
@@ -75,7 +75,7 @@ int	map_fill(t_mlx *mlx, char *line, t_parse *parse)
 	return (0);
 }
 
-int	map_count_rows(t_mlx *mlx, char *line)
+int	map_count_rows(t_game *mlx, char *line)
 {
 	int	i;
 	int	prev_empty;
@@ -113,7 +113,7 @@ int	map_count_rows(t_mlx *mlx, char *line)
 }
 
 // map_check_ext() checks whether the file extension is ".cub".
-int	map_check_ext(t_mlx *mlx)
+int	map_check_ext(t_game *mlx)
 {
 	if (!ft_strrchr(mlx->map_filename, '.') || \
 	ft_strncmp(ft_strrchr(mlx->map_filename, '.'), ".cub", 5))
@@ -121,7 +121,7 @@ int	map_check_ext(t_mlx *mlx)
 	return (0);
 }
 
-int	mlx_stuff(t_parse *parse, t_mlx *mlx)
+int	mlx_stuff(t_parse *parse, t_game *mlx)
 {
 	mlx_t	*mlx42;
 
@@ -165,7 +165,7 @@ void	print_parse(t_parse *parse)
 	(void)parse;
 }
 
-int	map_parse(t_mlx *mlx, t_parse *parse)
+int	map_parse(t_game *mlx, t_parse *parse)
 {
 	char	*line;
 

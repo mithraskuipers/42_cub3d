@@ -6,14 +6,14 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 08:47:23 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/15 15:18:44 by dkramer       ########   odam.nl         */
+/*   Updated: 2022/11/18 08:56:23 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../includes/parsing.h"
 
 /*check if surrounded by walls*/
-int	map_floodfill(int x, int y, t_mlx *mlx)
+int	map_floodfill(int x, int y, t_game *mlx)
 {
 	if ((x < 0) || (x >= mlx->longest_width) || (y < 0) || (y >= mlx->n_rows))
 		return (0);
@@ -42,7 +42,7 @@ int	map_floodfill(int x, int y, t_mlx *mlx)
 	return (0);
 }
 
-int	map_copy(t_mlx *mlx, t_parse *parse)
+int	map_copy(t_game *mlx, t_parse *parse)
 {
 	int	y;
 	int	x;
@@ -65,7 +65,7 @@ int	map_copy(t_mlx *mlx, t_parse *parse)
 	return (0);
 }
 
-int	map_check(t_mlx *mlx, t_parse *parse)
+int	map_check(t_game *mlx, t_parse *parse)
 {
 	mlx->cpy_map = ft_calloc(1, sizeof(char *) * (mlx->n_rows + 1));
 	if (!mlx->cpy_map)

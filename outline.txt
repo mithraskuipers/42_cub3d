@@ -5,7 +5,7 @@ main()
 		This includes the configuration data
 	-	map_extract_config()
 		Store map configuration data in char **
-		Store it in its own struct, or as part of t_mlx
+		Store it in its own struct, or as part of t_game
 		Map config char ** will have 6 strings/char arrays, and a 7th for \0
 		Iterate over each empty array element and give it the corresponding value in map.
 		mlx->map_config[0] <- map[0]
