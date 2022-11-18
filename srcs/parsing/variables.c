@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/14 13:50:36 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/18 08:56:23 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/18 14:12:37 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,12 @@ int	get_colors(char	**split_line, t_mapdata *mapdata)
 		return (free_all_and_error(split_line, "Wrong format variable."));
 	}
 	if (!ft_strncmp("F", split_line[0], 1))
-		mapdata->fcolor = ft_atoi(split_color[0]) << 24 | ft_atoi(split_color[1])
-			<< 16 | ft_atoi(split_color[2]) << 8 | 0xff;
+		mapdata->fcolor = ft_atoi(split_color[0]) << 24
+			| ft_atoi(split_color[1]) << 16
+			| ft_atoi(split_color[2]) << 8 | 0xff;
 	if (!ft_strncmp("C", split_line[0], 1))
-		mapdata->ccolor = ft_atoi(split_color[0]) << 24 | ft_atoi(split_color[1])
+		mapdata->ccolor = ft_atoi(split_color[0]) << 24
+			| ft_atoi(split_color[1])
 			<< 16 | ft_atoi(split_color[2]) << 8 | 0xff;
 	free_split(split_color, false, 0);
 	free_split(split_line, false, 0);
@@ -69,9 +71,8 @@ int	get_other_cases(char **split_line, t_mapdata *mapdata, t_game *game)
 	}
 	else if (ft_strrchr("01 ", split_line[0][0]))
 	{
-		free_split(split_line, false, 0);
 		game->stop = 1;
-		return (0);
+		return (free_split(split_line, false, 0), 0);
 	}
 	else if (split_line[1])
 		return (free_all_and_error(split_line, "Unknown variable in map."));
@@ -122,10 +123,7 @@ int	loop_through_lines(t_game *game, char *line, t_mapdata *mapdata)
 				break ;
 			}
 			if (get_one_variable(game, line, mapdata) == 1)
-			{
-				free (line);
-				return (1);
-			}
+				return (free (line), 1);
 		}
 		if (line)
 			free (line);

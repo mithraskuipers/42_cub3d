@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 10:34:24 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/18 08:57:44 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/18 14:14:39 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,13 @@ int	main(int argc, char **argv)
 		return (error_msg_ret("Incorrect number of arguments.", 1));
 	game.map_filename = argv[1];
 	if ((map_parse(&game, &game.mapdata)) || (init_textures(&game, &game.mapdata)))
+	{
+		// system ("leaks cub3D");
 		return (1);
+	}
 	init_player_angle(&game, &game.mapdata);
 	debug_print_2darray(game.mapdata.map);
 	map_free(game.mapdata.map, &game);
-
+	// system ("leaks cub3D");
 	return (0);
 }
