@@ -13,14 +13,14 @@
 #include "./../../includes/parsing.h"
 
 // map_free()
-// Frees  the char **map stored in the mlx struct.
-void	map_free(char **map, t_game *mlx)
+// Frees  the char **map stored in the game struct.
+void	map_free(char **map, t_game *game)
 {
-	mlx->map_row = 0;
-	while (mlx->map_row < mlx->n_rows)
+	game->map_row = 0;
+	while (game->map_row < game->n_rows)
 	{
-		free (map[mlx->map_row]);
-		mlx->map_row++;
+		free (map[game->map_row]);
+		game->map_row++;
 	}
 	free(map);
 }

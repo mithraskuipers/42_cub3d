@@ -34,12 +34,12 @@ int	free_all_and_error(char	**split_line, char *str)
 	return (error_msg_ret(str, 1));
 }
 
-int	get_colors(char	**split_line, t_parse *parse)
+int	get_colors(char	**split_line, t_mapdata *mapdata)
 {
 	char	**split_color;
 
-	if ((!ft_strncmp("C", split_line[0], 1) && parse->ccolor)
-		|| (!ft_strncmp("F", split_line[0], 1) && parse->fcolor))
+	if ((!ft_strncmp("C", split_line[0], 1) && mapdata->ccolor)
+		|| (!ft_strncmp("F", split_line[0], 1) && mapdata->fcolor))
 		return (free_all_and_error(split_line, "Double variable in map."));
 	split_color = ft_split(split_line[1], ',');
 	if (!split_color[0] || !split_color[1] || !split_color[2])
@@ -48,29 +48,29 @@ int	get_colors(char	**split_line, t_parse *parse)
 		return (free_all_and_error(split_line, "Wrong format variable."));
 	}
 	if (!ft_strncmp("F", split_line[0], 1))
-		parse->fcolor = ft_atoi(split_color[0]) << 24 | ft_atoi(split_color[1])
+		mapdata->fcolor = ft_atoi(split_color[0]) << 24 | ft_atoi(split_color[1])
 			<< 16 | ft_atoi(split_color[2]) << 8 | 0xff;
 	if (!ft_strncmp("C", split_line[0], 1))
-		parse->ccolor = ft_atoi(split_color[0]) << 24 | ft_atoi(split_color[1])
+		mapdata->ccolor = ft_atoi(split_color[0]) << 24 | ft_atoi(split_color[1])
 			<< 16 | ft_atoi(split_color[2]) << 8 | 0xff;
 	free_split(split_color, false, 0);
 	free_split(split_line, false, 0);
 	return (0);
 }
 
-int	get_other_cases(char **split_line, t_parse *parse, t_game *mlx)
+int	get_other_cases(char **split_line, t_mapdata *mapdata, t_game *game)
 {
 	if (!ft_strncmp("F", split_line[0], 1)
 		|| !ft_strncmp("C", split_line[0], 1))
 	{
-		if (get_colors(split_line, parse) == 1)
+		if (get_colors(split_line, mapdata) == 1)
 			return (1);
 		return (0);
 	}
 	else if (ft_strrchr("01 ", split_line[0][0]))
 	{
 		free_split(split_line, false, 0);
-		mlx->stop = 1;
+		game->stop = 1;
 		return (0);
 	}
 	else if (split_line[1])
@@ -78,7 +78,7 @@ int	get_other_cases(char **split_line, t_parse *parse, t_game *mlx)
 	return (0);
 }
 
-int	get_one_variable(t_game *mlx, char *line, t_parse *parse)
+int	get_one_variable(t_game *game, char *line, t_mapdata *mapdata)
 {
 	char	**split_line;
 
@@ -88,40 +88,40 @@ int	get_one_variable(t_game *mlx, char *line, t_parse *parse)
 				split_line[0], 2) || !ft_strncmp("F", split_line[0], 1)
 			|| !ft_strncmp("C", split_line[0], 1)) && !split_line[1])
 		return (free_all_and_error(split_line, "Wrong format variable."));
-	if ((parse->NO && !ft_strncmp("NO", split_line[0], 2)) || (parse->SO
-			&& !ft_strncmp("SO", split_line[0], 2)) || (parse->EA
-			&& !ft_strncmp("EA", split_line[0], 2)) || (parse->WE
+	if ((mapdata->NO && !ft_strncmp("NO", split_line[0], 2)) || (mapdata->SO
+			&& !ft_strncmp("SO", split_line[0], 2)) || (mapdata->EA
+			&& !ft_strncmp("EA", split_line[0], 2)) || (mapdata->WE
 			&& !ft_strncmp("WE", split_line[0], 2)))
 		return (free_all_and_error(split_line, "Double variable in map."));
 	if (!ft_strncmp("NO", split_line[0], 2))
-		parse->NO = split_line[1];
+		mapdata->NO = split_line[1];
 	else if (!ft_strncmp("SO", split_line[0], 2))
-		parse->SO = split_line[1];
+		mapdata->SO = split_line[1];
 	else if (!ft_strncmp("WE", split_line[0], 2))
-		parse->WE = split_line[1];
+		mapdata->WE = split_line[1];
 	else if (!ft_strncmp("EA", split_line[0], 2))
-		parse->EA = split_line[1];
+		mapdata->EA = split_line[1];
 	else
-		return (get_other_cases(split_line, parse, mlx));
+		return (get_other_cases(split_line, mapdata, game));
 	free_split(split_line, true, 1);
 	return (0);
 }
 
-int	loop_through_lines(t_game *mlx, char *line, t_parse *parse)
+int	loop_through_lines(t_game *game, char *line, t_mapdata *mapdata)
 {
-	while (mlx->ret)
+	while (game->ret)
 	{
-		mlx->ret = get_next_line(mlx->fd, &line);
-		if (mlx->ret == -1)
+		game->ret = get_next_line(game->fd, &line);
+		if (game->ret == -1)
 			return (1);
 		if (ft_strncmp(line, "", ft_strlen(line)) != 0)
 		{
-			if (mlx->stop == 1)
+			if (game->stop == 1)
 			{
 				free (line);
 				break ;
 			}
-			if (get_one_variable(mlx, line, parse) == 1)
+			if (get_one_variable(game, line, mapdata) == 1)
 			{
 				free (line);
 				return (1);
@@ -129,34 +129,34 @@ int	loop_through_lines(t_game *mlx, char *line, t_parse *parse)
 		}
 		if (line)
 			free (line);
-		if (!mlx->stop)
-			mlx->n_till_map++;
+		if (!game->stop)
+			game->n_till_map++;
 	}
 	return (0);
 }
 
-int	get_variables(t_game *mlx, char *line, t_parse *parse)
+int	get_variables(t_game *game, char *line, t_mapdata *mapdata)
 {
-	mlx->fd = open(mlx->map_filename, O_RDONLY);
-	if (mlx->fd == -1)
+	game->fd = open(game->map_filename, O_RDONLY);
+	if (game->fd == -1)
 		return (1);
-	if (loop_through_lines(mlx, line, parse) == 1)
+	if (loop_through_lines(game, line, mapdata) == 1)
 		return (1);
-	close (mlx->fd);
-	if (!parse->fcolor || !parse->ccolor || !parse->NO || !parse->SO
-		|| !parse->WE || !parse->EA)
+	close (game->fd);
+	if (!mapdata->fcolor || !mapdata->ccolor || !mapdata->NO || !mapdata->SO
+		|| !mapdata->WE || !mapdata->EA)
 		return (error_msg_ret("Variable in map is missing.", 1));
 	return (0);
 }
 
-void	init_map_variables(t_game *mlx, t_parse *parse)
+void	init_map_variables(t_game *game, t_mapdata *mapdata)
 {
-	parse->fcolor = 0;
-	parse->ccolor = 0;
-	parse->NO = NULL;
-	parse->SO = NULL;
-	parse->EA = NULL;
-	parse->WE = NULL;
-	mlx->stop = 0;
-	mlx->n_till_map = 0;
+	mapdata->fcolor = 0;
+	mapdata->ccolor = 0;
+	mapdata->NO = NULL;
+	mapdata->SO = NULL;
+	mapdata->EA = NULL;
+	mapdata->WE = NULL;
+	game->stop = 0;
+	game->n_till_map = 0;
 }

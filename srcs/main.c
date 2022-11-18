@@ -16,48 +16,47 @@
 // I deviate from the subject in the order of the cardinal directions (NESW).
 // I think the subject's order (NSEW) is only a source of confusion.
 
-int	init_textures(t_game *mlx, t_parse *parse)
+int	init_textures(t_game *game, t_mapdata *mapdata)
 {
-	mlx->gamedata.textures[0] = mlx_load_png(parse->NO);
-	if (!mlx->gamedata.textures[0])
+	game->gamedata.textures[0] = mlx_load_png(mapdata->NO);
+	if (!game->gamedata.textures[0])
 		return (error_msg_ret("Failed to load NO map texture.", 1));
-	mlx->gamedata.textures[1] = mlx_load_png(parse->EA);
-	if (!mlx->gamedata.textures[1])
+	game->gamedata.textures[1] = mlx_load_png(mapdata->EA);
+	if (!game->gamedata.textures[1])
 		return (error_msg_ret("Failed to load EA map texture.", 1));
-	mlx->gamedata.textures[2] = mlx_load_png(parse->SO);
-	if (!mlx->gamedata.textures[2])
+	game->gamedata.textures[2] = mlx_load_png(mapdata->SO);
+	if (!game->gamedata.textures[2])
 		return (error_msg_ret("Failed to load SO map texture.", 1));
-	mlx->gamedata.textures[3] = mlx_load_png(parse->WE);
-	if (!mlx->gamedata.textures[3])
+	game->gamedata.textures[3] = mlx_load_png(mapdata->WE);
+	if (!game->gamedata.textures[3])
 		return (error_msg_ret("Failed to load WE map texture.", 1));
 	return (0);
 }
 
-void	init_player_angle(t_game *mlx, t_parse *parse)
+void	init_player_angle(t_game *game, t_mapdata *mapdata)
 {
-	if (mlx->player_orientation == 'N')
-		parse->player_direction = degrees_to_radians(0);
-	else if (mlx->player_orientation == 'E')
-		parse->player_direction = degrees_to_radians(90);
-	else if (mlx->player_orientation == 'S')
-		parse->player_direction = degrees_to_radians(180);
-	else if (mlx->player_orientation == 'W')
-		parse->player_direction = degrees_to_radians(270);
+	if (game->player_orientation == 'N')
+		mapdata->player_direction = degrees_to_radians(0);
+	else if (game->player_orientation == 'E')
+		mapdata->player_direction = degrees_to_radians(90);
+	else if (game->player_orientation == 'S')
+		mapdata->player_direction = degrees_to_radians(180);
+	else if (game->player_orientation == 'W')
+		mapdata->player_direction = degrees_to_radians(270);
 }
 
 int	main(int argc, char **argv)
 {
-	t_game	mlx;
-	t_parse	parse;
+	t_game		game;
 
 	if (argc != 2)
 		return (error_msg_ret("Incorrect number of arguments.", 1));
-	mlx.map_filename = argv[1];
-	if ((map_parse(&mlx, &parse)) || (init_textures(&mlx, &parse)))
+	game.map_filename = argv[1];
+	if ((map_parse(&game, &game.mapdata)) || (init_textures(&game, &game.mapdata)))
 		return (1);
-	init_player_angle(&mlx, &parse);
+	init_player_angle(&game, &game.mapdata);
+	debug_print_2darray(game.mapdata.map);
+	map_free(game.mapdata.map, &game);
 
-
-	map_free(parse.map, &mlx);
 	return (0);
 }

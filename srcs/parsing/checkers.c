@@ -13,51 +13,51 @@
 #include "./../../includes/parsing.h"
 
 /*check if surrounded by walls*/
-int	map_floodfill(int x, int y, t_game *mlx)
+int	map_floodfill(int x, int y, t_game *game)
 {
-	if ((x < 0) || (x >= mlx->longest_width) || (y < 0) || (y >= mlx->n_rows))
+	if ((x < 0) || (x >= game->longest_width) || (y < 0) || (y >= game->n_rows))
 		return (0);
-	if (mlx->cpy_map[y][x] == '1')
+	if (game->cpy_map[y][x] == '1')
 		return (0);
-	if (mlx->cpy_map[y][x] == 'x')
+	if (game->cpy_map[y][x] == 'x')
 		return (0);
-	if ((x + 1 < mlx->longest_width && mlx->cpy_map[y][x + 1] == ' ')
-		|| (x - 1 >= 0 && mlx->cpy_map[y][x - 1] == ' ') || (y + 1
-		< mlx->n_rows && mlx->cpy_map[y + 1][x] == ' ') || (y - 1
-		>= 0 && mlx->cpy_map[y - 1][x] == ' '))
-		if (mlx->cpy_map[y][x] == '0')
+	if ((x + 1 < game->longest_width && game->cpy_map[y][x + 1] == ' ')
+		|| (x - 1 >= 0 && game->cpy_map[y][x - 1] == ' ') || (y + 1
+		< game->n_rows && game->cpy_map[y + 1][x] == ' ') || (y - 1
+		>= 0 && game->cpy_map[y - 1][x] == ' '))
+		if (game->cpy_map[y][x] == '0')
 			return (error_msg_ret("Map not surrounded by walls.", 1));
-	if (x == 0 || y == 0 || y == mlx->n_rows - 1
-		|| x == mlx->longest_width - 1)
+	if (x == 0 || y == 0 || y == game->n_rows - 1
+		|| x == game->longest_width - 1)
 		return (error_msg_ret("Map not surrounded by walls.", 1));
-	mlx->cpy_map[y][x] = 'x';
-	if (map_floodfill(x - 1, y, mlx) == 1)
+	game->cpy_map[y][x] = 'x';
+	if (map_floodfill(x - 1, y, game) == 1)
 		return (1);
-	if (map_floodfill(x, y - 1, mlx) == 1)
+	if (map_floodfill(x, y - 1, game) == 1)
 		return (1);
-	if (map_floodfill(x + 1, y, mlx) == 1)
+	if (map_floodfill(x + 1, y, game) == 1)
 		return (1);
-	if (map_floodfill(x, y + 1, mlx) == 1)
+	if (map_floodfill(x, y + 1, game) == 1)
 		return (1);
 	return (0);
 }
 
-int	map_copy(t_game *mlx, t_parse *parse)
+int	map_copy(t_game *game, t_mapdata *mapdata)
 {
 	int	y;
 	int	x;
 
 	y = 0;
-	while (y < mlx->n_rows)
+	while (y < game->n_rows)
 	{
 		x = 0;
-		mlx->len = (int)ft_strlen(parse->map[y]);
-		mlx->cpy_map[y] = ft_calloc(1, mlx->len * sizeof(char) + 1);
-		if (!mlx->cpy_map[y])
+		game->len = (int)ft_strlen(mapdata->map[y]);
+		game->cpy_map[y] = ft_calloc(1, game->len * sizeof(char) + 1);
+		if (!game->cpy_map[y])
 			return (1);
-		while (x < mlx->len)
+		while (x < game->len)
 		{
-			mlx->cpy_map[y][x] = parse->map[y][x];
+			game->cpy_map[y][x] = mapdata->map[y][x];
 			x++;
 		}
 		y++;
@@ -65,20 +65,20 @@ int	map_copy(t_game *mlx, t_parse *parse)
 	return (0);
 }
 
-int	map_check(t_game *mlx, t_parse *parse)
+int	map_check(t_game *game, t_mapdata *mapdata)
 {
-	mlx->cpy_map = ft_calloc(1, sizeof(char *) * (mlx->n_rows + 1));
-	if (!mlx->cpy_map)
+	game->cpy_map = ft_calloc(1, sizeof(char *) * (game->n_rows + 1));
+	if (!game->cpy_map)
 		return (1);
-	if (map_copy(mlx, parse) == 1)
+	if (map_copy(game, mapdata) == 1)
 		return (1);
-	if (map_floodfill(mlx->s_posX, mlx->s_posY, mlx) == 1)
+	if (map_floodfill(game->s_posX, game->s_posY, game) == 1)
 	{
-		map_free(mlx->cpy_map, mlx);
+		map_free(game->cpy_map, game);
 		return (1);
 	}
 	// TODO: Add check if player position is in the map at all
 	// Also check if there is only 1 player in the game, not more / less than 1
-	map_free(mlx->cpy_map, mlx);
+	map_free(game->cpy_map, game);
 	return (0);
 }

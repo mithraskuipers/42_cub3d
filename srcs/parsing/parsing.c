@@ -12,116 +12,115 @@
 
 #include "./../../includes/parsing.h"
 
-int	map_check_chars(t_game *mlx, t_parse *parse)
+int	map_check_chars(t_game *game, t_mapdata *mapdata)
 {
 	size_t	n_players;
 
 	n_players = 0;
-	mlx->map_row = 0; 															// Is deze in de mlx struct alleen om minder regels te gebruiken? Of is er nog een reden?
-	while (mlx->map_row < mlx->n_rows)
+	game->map_row = 0; 															// Is deze in de game struct alleen om minder regels te gebruiken? Of is er nog een reden?
+	while (game->map_row < game->n_rows)
 	{
-		mlx->map_col = 0;
-		mlx->len = (int)ft_strlen(parse->map[mlx->map_row]);						// Waarom typecasting?
-		while (mlx->map_col < mlx->len)
+		game->map_col = 0;
+		game->len = (int)ft_strlen(mapdata->map[game->map_row]);						// Waarom typecasting?
+		while (game->map_col < game->len)
 		{
-			if (!ft_strrchr("01NESW ", parse->map[mlx->map_row][mlx->map_col]))
+			if (!ft_strrchr("01NESW ", mapdata->map[game->map_row][game->map_col]))
 				return (error_msg_ret("Wrong characters included.", 1));
-			if (ft_strrchr("NESW", parse->map[mlx->map_row][mlx->map_col]))
+			if (ft_strrchr("NESW", mapdata->map[game->map_row][game->map_col]))
 			{
 				n_players++;
-				mlx->s_posX = mlx->map_col;
-				mlx->s_posY = mlx->map_row;
-				mlx->player_orientation = parse->map[mlx->map_row][mlx->map_col];
+				game->s_posX = game->map_col;
+				game->s_posY = game->map_row;
+				game->player_orientation = mapdata->map[game->map_row][game->map_col];
 			}
-			mlx->map_col++;
+			game->map_col++;
 		}
-		mlx->map_row++;
+		game->map_row++;
 	}
 	if (n_players > 1)
 		return (error_msg_ret("Only 1 player is allowed.", 1));
 	return (0);
 }
 
-int	map_fill(t_game *mlx, char *line, t_parse *parse)
+int	map_fill(t_game *game, char *line, t_mapdata *mapdata)
 {
 	int	i;
 
 	i = 0;
-	mlx->ret = 1;
-	mlx->map_row = 0;
-	while (mlx->ret)
+	game->ret = 1;
+	game->map_row = 0;
+	while (game->ret)
 	{
-		mlx->ret = get_next_line(mlx->fd, &line);
-		if (mlx->ret == -1)
+		game->ret = get_next_line(game->fd, &line);
+		if (game->ret == -1)
 			return (1);
-		if (i >= mlx->n_till_map && ft_strncmp(line, "", 1) != 0)
+		if (i >= game->n_till_map && ft_strncmp(line, "", 1) != 0)
 		{
-			parse->map[mlx->map_row] = ft_calloc(1, mlx->longest_width + 1);
-			if (!parse->map[mlx->map_row])
+			mapdata->map[game->map_row] = ft_calloc(1, game->longest_width + 1);
+			if (!mapdata->map[game->map_row])
 				return (1);
-			parse->map[mlx->map_row] = ft_memset(parse->map[mlx->map_row], '0',
-					mlx->longest_width);
-			parse->map[mlx->map_row] = ft_memcpy(parse->map[mlx->map_row], line,
+			mapdata->map[game->map_row] = ft_memset(mapdata->map[game->map_row], '0',
+					game->longest_width);
+			mapdata->map[game->map_row] = ft_memcpy(mapdata->map[game->map_row], line,
 					ft_strlen(line));
 			free (line);
-			printf("%s\n", parse->map[mlx->map_row]);
-			mlx->map_row++;
+			game->map_row++;
 		}
 		else
 			free (line);
 		i++;
 	}
-	close (mlx->fd);
+	close (game->fd);
 	return (0);
 }
 
-int	map_count_rows(t_game *mlx, char *line)
+int	map_count_rows(t_game *game, char *line)
 {
 	int	i;
 	int	prev_empty;
 
 	i = 0;
 	prev_empty = 0;
-	mlx->fd = open(mlx->map_filename, O_RDONLY);
-	if (mlx->fd == -1)
+	game->fd = open(game->map_filename, O_RDONLY);
+	if (game->fd == -1)
 		return (1);
-	while (mlx->ret)
+	while (game->ret)
 	{
-		mlx->ret = get_next_line(mlx->fd, &line);
-		if (mlx->ret == -1)
+		game->ret = get_next_line(game->fd, &line);
+		if (game->ret == -1)
 			return (error_msg_ret("Failed to read map.", 1));
-		if (i >= mlx->n_till_map && !ft_strncmp(line, "", ft_strlen(line)))
+		if (i >= game->n_till_map && !ft_strncmp(line, "", ft_strlen(line)))
 			prev_empty = 1;
-		if (i >= mlx->n_till_map && ft_strncmp(line, "", ft_strlen(line)) != 0)
+		if (i >= game->n_till_map && ft_strncmp(line, "", ft_strlen(line)) != 0)
 		{
 			if (prev_empty == 1)
 			{
 				free (line);
 				return (error_msg_ret("Empty line in map.", 1));
 			}
-			mlx->n_rows++;
-			mlx->len = (int)ft_strlen(line);
-			if (mlx->len > mlx->longest_width)
-				mlx->longest_width = mlx->len;
+			game->n_rows++;
+			game->len = (int)ft_strlen(line);
+			if (game->len > game->longest_width)
+				game->longest_width = game->len;
 		}
 		if (line)
 			free (line);
 		i++;
 	}
-	close (mlx->fd);
+	close (game->fd);
 	return (0);
 }
 
 // map_check_ext() checks whether the file extension is ".cub".
-int	map_check_ext(t_game *mlx)
+int	map_check_ext(t_game *game)
 {
-	if (!ft_strrchr(mlx->map_filename, '.') || \
-	ft_strncmp(ft_strrchr(mlx->map_filename, '.'), ".cub", 5))
+	if (!ft_strrchr(game->map_filename, '.') || \
+	ft_strncmp(ft_strrchr(game->map_filename, '.'), ".cub", 5))
 		return (error_msg_ret("Please provide a map with .cub extension.", 1));
 	return (0);
 }
 
-int	mlx_stuff(t_parse *parse, t_game *mlx)
+int	mlx_stuff(t_mapdata *mapdata, t_game *game)
 {
 	mlx_t	*mlx42;
 
@@ -129,72 +128,53 @@ int	mlx_stuff(t_parse *parse, t_game *mlx)
 	if (!mlx42)
 		return (1);
 	/* Do stuff */
-	(void)mlx;
+	(void)game;
 	// Create and display the image.
 	mlx_image_t* img = mlx_new_image(mlx42, 256, 256);
 	if (!img || (mlx_image_to_window(mlx42, img, 0, 0) < 0))
 		return (1);
 
 	// Even after the image is being displayed, we can still modify the buffer.
-	mlx_put_pixel(img, 100, 100, (unsigned int)parse->fcolor);
+	mlx_put_pixel(img, 100, 100, (unsigned int)mapdata->fcolor);
 	
-	// Register a hook and pass mlx as an optional param.
+	// Register a hook and pass game as an optional param.
 	// NOTE: Do this before calling mlx_loop!
-	// mlx_loop_hook(mlx, ft_hook, mlx);
+	// mlx_loop_hook(game, ft_hook, game);
 	mlx_loop(mlx42);
 	mlx_terminate(mlx42);
 	return (0);
 }
 
-void	print_parse(t_parse *parse)
-{
-	// char	*NO;
-	// char	*SO;
-	// char	*WE;
-	// char	*EA;
-	// int		fcolor;
-	// int		ccolor;
-	// char	**map;
-	// printf("%s\n", parse->map[0]);
-	// printf("%s\n", parse->NO);
-	// printf("%s\n", parse->SO);
-	// printf("%s\n", parse->EA);
-	// printf("%s\n", parse->WE);
-	// printf("%d\n", parse->fcolor);
-	// printf("%d\n", parse->ccolor);
-	(void)parse;
-}
-
-int	map_parse(t_game *mlx, t_parse *parse)
+int	map_parse(t_game *game, t_mapdata *mapdata)
 {
 	char	*line;
 
-	mlx->ret = 1;
-	mlx->n_rows = 0;
+	game->ret = 1;
+	game->n_rows = 0;
 	line = NULL;
-	mlx->longest_width = 0;
-	init_map_variables(mlx, parse);
-	if (get_variables(mlx, line, parse) == 1)
+	game->longest_width = 0;
+	init_map_variables(game, mapdata);
+	if (get_variables(game, line, mapdata) == 1)
 		return (1);
-	if (map_check_ext(mlx) == 1)
+	if (map_check_ext(game) == 1)
 		return (1);
-	if (map_count_rows(mlx, line) == 1)
+	if (map_count_rows(game, line) == 1)
 		return (1);
-	parse->map = ft_calloc(1, sizeof(char *) * (mlx->n_rows + 1));
-	if (!parse->map)
+	mapdata->map = ft_calloc(1, sizeof(char *) * (game->n_rows + 1));
+	if (!mapdata->map)
 		return (1);
-	mlx->fd = open(mlx->map_filename, O_RDONLY);
-	if (mlx->fd == -1)
+	game->fd = open(game->map_filename, O_RDONLY);
+	if (game->fd == -1)
 		return (1);
-	if (map_fill(mlx, line, parse) == 1)
+	if (map_fill(game, line, mapdata) == 1)
 		return (1);
-	if (map_check_chars(mlx, parse) == 1)
+	if (map_check_chars(game, mapdata) == 1)
 		return (1);
-	if (map_check (mlx, parse) == 1)
+	if (map_check (game, mapdata) == 1)
 		return (1);
 
-	// mlx_stuff(parse, mlx);
-	// print_parse(parse);
+	// mlx_stuff(mapdata, game);
+	// print_parse(mapdata);
 	return (0);
 }
 
