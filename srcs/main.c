@@ -36,14 +36,53 @@ int	init_textures(t_game *game, t_mapdata *mapdata)
 void	init_player_angle(t_game *game)
 {
 	if (game->mapdata.player_cardinaldir == 'N')
-		game->gamedata.player_radians = degrees_to_radians(0);
+	{
+		// game->gamedata.player_radians = degrees_to_radians(0);
+		game->gamedata.player_radians = 0;
+	}
 	else if (game->mapdata.player_cardinaldir == 'E')
-		game->gamedata.player_radians = degrees_to_radians(90);
+	{
+		// game->gamedata.player_radians = degrees_to_radians(90);
+		game->gamedata.player_radians = 90;
+	}
 	else if (game->mapdata.player_cardinaldir == 'S')
-		game->gamedata.player_radians = degrees_to_radians(180);
+	{
+		// game->gamedata.player_radians = degrees_to_radians(180);
+		game->gamedata.player_radians = 180;
+	}
 	else if (game->mapdata.player_cardinaldir == 'W')
-		game->gamedata.player_radians = degrees_to_radians(270);
+	{
+		// game->gamedata.player_radians = degrees_to_radians(270);
+		game->gamedata.player_radians = 270;
+	}
 }
+
+#include <math.h>
+
+void	render_col(t_game *game, int pixel)
+{
+	float	tangens;
+
+	tangens = atanf(((float)pixel - (game->mlx_pack.mlx->width / 2)) / (game->mlx_pack.mlx->width / 2)) + game->gamedata.player_radians;
+	printf("%f\n", tangens);
+}
+
+
+void	frame_callback(void *arg)
+{
+	t_game	*game;
+	int		i;
+
+	game = (t_game *)arg;
+	i = 0;
+	game->gamedata.player_radians = degrees_to_radians(game->gamedata.player_radians);
+	while (i < game->mlx_pack.mlx->width)
+	{
+		render_col(game, i);
+		i++;
+	}
+}
+
 
 int	init_mlx(t_game *game)
 {
@@ -55,7 +94,7 @@ int	init_mlx(t_game *game)
 		return (error_msg_ret("MLX new image creation failed.", 1));
 	if (mlx_image_to_window(game->mlx_pack.mlx, game->mlx_pack.image, 0, 0) < 0)
 		return (error_msg_ret("MLX image to window failed.", 1));
-	// mlx_loop_hook(game->mlx_pack.mlx, frame_callback, game);
+	mlx_loop_hook(game->mlx_pack.mlx, frame_callback, game);
 	mlx_loop(game->mlx_pack.mlx);
 	return (0);
 }
