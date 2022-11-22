@@ -43,7 +43,7 @@
 typedef struct s_gamedata
 {
 	mlx_texture_t	*textures[4];
-	char		p_orientation;
+	char		player_radians;
 	uint32_t	ceiling_rgb;
 	uint32_t	floor_rgb;
 }					t_gamedata;
@@ -57,21 +57,21 @@ typedef struct	s_mapdata
 	uint32_t	fcolor;
 	uint32_t	ccolor;
 	char		**map;
-	float		player_direction;
+	float		player_cardinaldir;
 }				t_mapdata;
 
-typedef struct	s_mlx_own
+typedef struct	s_mlx_pack
 {
 	mlx_t			*mlx;
-	mlx_image_t		*mlx_image;
+	mlx_image_t		*image;
 	mlx_texture_t	*assets[4];
-}				t_mlx_own;
+}				t_mlx_pack;
 
 typedef struct	s_game
 {
 	t_gamedata	gamedata;
 	t_mapdata	mapdata;
-	t_mlx_own	mlx_own;
+	t_mlx_pack	mlx_pack;
 	char	*map_filename;
 	int		n_rows;
 	int		len;

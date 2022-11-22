@@ -39,7 +39,7 @@ void	init_player_angle(t_game *game)
 		game->gamedata.player_radians = degrees_to_radians(0);
 	else if (game->mapdata.player_cardinaldir == 'E')
 		game->gamedata.player_radians = degrees_to_radians(90);
-	else if (game->mapdata.player_cardinaldir == 'S')g
+	else if (game->mapdata.player_cardinaldir == 'S')
 		game->gamedata.player_radians = degrees_to_radians(180);
 	else if (game->mapdata.player_cardinaldir == 'W')
 		game->gamedata.player_radians = degrees_to_radians(270);
@@ -47,16 +47,16 @@ void	init_player_angle(t_game *game)
 
 int	init_mlx(t_game *game)
 {
-	game->mlx.mlx_instance = mlx_init(RES_X, RES_Y, "cub3D", true); // difference dimensions?
-	if (!game->mlx.mlx_instance)
+	game->mlx_pack.mlx = mlx_init(RES_X, RES_Y, "cub3D", true); // difference dimensions?
+	if (!game->mlx_pack.mlx)
 		return (error_msg_ret("MLX initialization failed.", 1));
-	game->mlx.mlx_image = mlx_new_image(game->mlx.mlx_instance, RES_X, RES_Y); // difference dimensions?
-	if (!(game->mlx.mlx_image))
+	game->mlx_pack.image = mlx_new_image(game->mlx_pack.mlx, RES_X, RES_Y); // difference dimensions?
+	if (!(game->mlx_pack.image))
 		return (error_msg_ret("MLX new image creation failed.", 1));
-	if (mlx_image_to_window(game->mlx.mlx_instance, game->mlx.mlx_image, 0, 0) < 0)
+	if (mlx_image_to_window(game->mlx_pack.mlx, game->mlx_pack.image, 0, 0) < 0)
 		return (error_msg_ret("MLX image to window failed.", 1));
-	// mlx_loop_hook(game->mlx.mlx_instance, frame_callback, game);
-	mlx_loop(game->mlx.mlx_instance);
+	// mlx_loop_hook(game->mlx_pack.mlx, frame_callback, game);
+	mlx_loop(game->mlx_pack.mlx);
 	return (0);
 }
 
