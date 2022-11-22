@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 10:34:24 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/22 09:36:01 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/22 16:23:26 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,9 @@ void	render_col(t_game *game, int pixel)
 	float	tangens;
 
 	tangens = atanf(((float)pixel - (game->mlx_pack.mlx->width / 2)) / (game->mlx_pack.mlx->width / 2)) + game->gamedata.player_radians;
+	(void)game;
+	(void)pixel;
+	(void)tangens;
 	printf("%f\n", tangens);
 }
 
@@ -71,18 +74,17 @@ void	render_col(t_game *game, int pixel)
 void	frame_callback(void *arg)
 {
 	t_game	*game;
-	int		i;
+	int		col;
 
 	game = (t_game *)arg;
-	i = 0;
+	col = 0;
 	game->gamedata.player_radians = degrees_to_radians(game->gamedata.player_radians);
-	while (i < game->mlx_pack.mlx->width)
+	while (col < game->mlx_pack.mlx->width)
 	{
-		render_col(game, i);
-		i++;
+		render_col(game, col);
+		col++;
 	}
 }
-
 
 int	init_mlx(t_game *game)
 {

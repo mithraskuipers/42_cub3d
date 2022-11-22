@@ -35,6 +35,7 @@
 // Built-in libraries
 # include <fcntl.h>
 # include <stdio.h>
+#include <math.h>
 
 /******************************************************************************/
 /* STRUCTS                                                                    */

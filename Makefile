@@ -14,7 +14,8 @@ CC			= gcc
 RM			= rm -f
 HEADER		= -I headers/ -I $(MLX)/include
 CFLAGS		= -Wall -Wextra -Werror #-g -fsanitize=address
-LINKER		=  -lglfw -L "/Users/$(USER)/.brew/opt/glfw/lib/" 
+LINKER		=  -lglfw -lm -L "/Users/$(USER)/.brew/opt/glfw/lib/" 
+
 LIBFT		= ./libs/libft/libft.a
 MLX			= ./libs/MLX42
 LIBMLX		= ./libs/MLX42/libmlx42.a
