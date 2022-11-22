@@ -36,13 +36,25 @@ int	init_textures(t_game *game, t_mapdata *mapdata)
 void	init_player_angle(t_game *game, t_mapdata *mapdata)
 {
 	if (game->player_orientation == 'N')
-		mapdata->player_direction = degrees_to_radians(0);
+	{
+		mapdata->player_direction = 0;
+		// mapdata->player_direction = degrees_to_radians(0);
+	}
 	else if (game->player_orientation == 'E')
-		mapdata->player_direction = degrees_to_radians(90);
+	{
+		mapdata->player_direction = 90;
+		// mapdata->player_direction = degrees_to_radians(90);
+	}
 	else if (game->player_orientation == 'S')
-		mapdata->player_direction = degrees_to_radians(180);
+	{
+		mapdata->player_direction = 180;
+		// mapdata->player_direction = degrees_to_radians(180);
+	}
 	else if (game->player_orientation == 'W')
-		mapdata->player_direction = degrees_to_radians(270);
+	{
+		mapdata->player_direction = 270;
+		// mapdata->player_direction = degrees_to_radians(270);
+	}
 }
 
 int	main(int argc, char **argv)
@@ -56,7 +68,15 @@ int	main(int argc, char **argv)
 		return (1);
 	init_player_angle(&game, &game.mapdata);
 	debug_print_2darray(game.mapdata.map);
-	map_free(game.mapdata.map, &game);
-
+	//map_free(game.mapdata.map, &game);
+	game.mlx_own.mlx = mlx_init(RES_X, RES_Y, "cub3D", true);
+	if (!game.mlx_own.mlx)
+		return (1);
+	game.mlx_own.mlx_image = mlx_new_image(game.mlx_own.mlx, RES_X, RES_Y);
+	if (!game.mlx_own.mlx_image || (mlx_image_to_window(game.mlx_own.mlx, game.mlx_own.mlx_image, 0, 0) < 0))
+		return (1);
+	mlx_close_hook(game.mlx_own.mlx, complete_exit, game);
+	mlx_loop_hook(game.mlx_own.mlx, frame_callback, game);
+	mlx_loop(game.mlx_own.mlx);
 	return (0);
 }

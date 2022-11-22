@@ -60,17 +60,18 @@ typedef struct	s_mapdata
 	float		player_direction;
 }				t_mapdata;
 
-typedef struct	s_mlx
+typedef struct	s_mlx_own
 {
-	mlx_t			*mlx_instance;
+	mlx_t			*mlx;
 	mlx_image_t		*mlx_image;
 	mlx_texture_t	*assets[4];
-}				t_mlxs;
+}				t_mlx_own;
 
 typedef struct	s_game
 {
 	t_gamedata	gamedata;
 	t_mapdata	mapdata;
+	t_mlx_own	mlx_own;
 	char	*map_filename;
 	int		n_rows;
 	int		len;
