@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 10:34:24 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/18 08:57:44 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/22 09:36:01 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,28 +33,31 @@ int	init_textures(t_game *game, t_mapdata *mapdata)
 	return (0);
 }
 
-void	init_player_angle(t_game *game, t_mapdata *mapdata)
+void	init_player_angle(t_game *game)
 {
-	if (game->player_orientation == 'N')
-	{
-		mapdata->player_direction = 0;
-		// mapdata->player_direction = degrees_to_radians(0);
-	}
-	else if (game->player_orientation == 'E')
-	{
-		mapdata->player_direction = 90;
-		// mapdata->player_direction = degrees_to_radians(90);
-	}
-	else if (game->player_orientation == 'S')
-	{
-		mapdata->player_direction = 180;
-		// mapdata->player_direction = degrees_to_radians(180);
-	}
-	else if (game->player_orientation == 'W')
-	{
-		mapdata->player_direction = 270;
-		// mapdata->player_direction = degrees_to_radians(270);
-	}
+	if (game->mapdata.player_cardinaldir == 'N')
+		game->gamedata.player_radians = degrees_to_radians(0);
+	else if (game->mapdata.player_cardinaldir == 'E')
+		game->gamedata.player_radians = degrees_to_radians(90);
+	else if (game->mapdata.player_cardinaldir == 'S')g
+		game->gamedata.player_radians = degrees_to_radians(180);
+	else if (game->mapdata.player_cardinaldir == 'W')
+		game->gamedata.player_radians = degrees_to_radians(270);
+}
+
+int	init_mlx(t_game *game)
+{
+	game->mlx.mlx_instance = mlx_init(RES_X, RES_Y, "cub3D", true); // difference dimensions?
+	if (!game->mlx.mlx_instance)
+		return (error_msg_ret("MLX initialization failed.", 1));
+	game->mlx.mlx_image = mlx_new_image(game->mlx.mlx_instance, RES_X, RES_Y); // difference dimensions?
+	if (!(game->mlx.mlx_image))
+		return (error_msg_ret("MLX new image creation failed.", 1));
+	if (mlx_image_to_window(game->mlx.mlx_instance, game->mlx.mlx_image, 0, 0) < 0)
+		return (error_msg_ret("MLX image to window failed.", 1));
+	// mlx_loop_hook(game->mlx.mlx_instance, frame_callback, game);
+	mlx_loop(game->mlx.mlx_instance);
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -64,19 +67,14 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (error_msg_ret("Incorrect number of arguments.", 1));
 	game.map_filename = argv[1];
-	if ((map_parse(&game, &game.mapdata)) || (init_textures(&game, &game.mapdata)))
+	if (map_parse(&game, &game.mapdata))
 		return (1);
-	init_player_angle(&game, &game.mapdata);
-	debug_print_2darray(game.mapdata.map);
-	//map_free(game.mapdata.map, &game);
-	game.mlx_own.mlx = mlx_init(RES_X, RES_Y, "cub3D", true);
-	if (!game.mlx_own.mlx)
+	if (init_textures(&game, &game.mapdata))
 		return (1);
-	game.mlx_own.mlx_image = mlx_new_image(game.mlx_own.mlx, RES_X, RES_Y);
-	if (!game.mlx_own.mlx_image || (mlx_image_to_window(game.mlx_own.mlx, game.mlx_own.mlx_image, 0, 0) < 0))
-		return (1);
-	mlx_close_hook(game.mlx_own.mlx, complete_exit, game);
-	mlx_loop_hook(game.mlx_own.mlx, frame_callback, game);
-	mlx_loop(game.mlx_own.mlx);
+	init_player_angle(&game);
+	init_mlx(&game);
+	// debug_print_2darray(game.mapdata.map);
+	map_free(game.mapdata.map, &game);
+	// system ("leaks cub3D");
 	return (0);
 }
