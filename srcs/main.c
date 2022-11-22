@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 10:34:24 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/18 20:10:33 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/22 09:36:01 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	init_player_angle(t_game *game)
 		game->gamedata.player_radians = degrees_to_radians(0);
 	else if (game->mapdata.player_cardinaldir == 'E')
 		game->gamedata.player_radians = degrees_to_radians(90);
-	else if (game->mapdata.player_cardinaldir == 'S')
+	else if (game->mapdata.player_cardinaldir == 'S')g
 		game->gamedata.player_radians = degrees_to_radians(180);
 	else if (game->mapdata.player_cardinaldir == 'W')
 		game->gamedata.player_radians = degrees_to_radians(270);
@@ -47,11 +47,15 @@ void	init_player_angle(t_game *game)
 
 int	init_mlx(t_game *game)
 {
-	printf("Running init_mlx()\n");
 	game->mlx.mlx_instance = mlx_init(RES_X, RES_Y, "cub3D", true); // difference dimensions?
 	if (!game->mlx.mlx_instance)
 		return (error_msg_ret("MLX initialization failed.", 1));
 	game->mlx.mlx_image = mlx_new_image(game->mlx.mlx_instance, RES_X, RES_Y); // difference dimensions?
+	if (!(game->mlx.mlx_image))
+		return (error_msg_ret("MLX new image creation failed.", 1));
+	if (mlx_image_to_window(game->mlx.mlx_instance, game->mlx.mlx_image, 0, 0) < 0)
+		return (error_msg_ret("MLX image to window failed.", 1));
+	mlx_loop_hook(game->mlx.mlx_instance, frame_callback, game);
 	mlx_loop(game->mlx.mlx_instance);
 	return (0);
 }
