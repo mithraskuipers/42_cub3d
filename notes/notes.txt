@@ -1,0 +1,46 @@
+tangens; sinus; cosinus
+
+Tangens hangt samen met stelling van Pythagoras
+2 zijden bekend en 3e uitrekenen
+Altijd rechthoekige driehoek
+
+Tangens werkt met hoeken:
+Mogelijkheden:
+bereken1:
+Ik weet 1 hoek, en 1 zijde, en dan 1 zijde berekenen.
+
+bereken2:
+Ik weet 2 zijdes, en wil 1 hoek berekenen
+
+
+De zijde tegenover de hoek van 90 graden kunnen we niet voorspellen. Dat kan met
+sinus en cosinus.
+
+TOA ezelsbruggetje: TOA
+
+Tangens van een hoek is de overstaande / aanliggende
+TOA
+
+Overstaande en aanliggende krijgen hun betekenis van waar jij de tangens (hoek) van wil berekenen
+
+
+					/
+				/	|
+			/		| 3 (weet je toevallig)
+		/			|
+[?]	-----------------	90 graden (weet je altijd al)
+			10 (weet je toevallig)
+
+
+Vanuit [?] perspectief is 3 de overstaande en 10 de aanliggende.
+
+TOA:
+tangens [?] = overstaande / aanliggende
+tangens [?] = 3 / 10
+tangens [?] = 0.3
+0.3 is niet de hoek. Je krijgt nu alleen de tangens. 
+Moeilijk woord, maar is simpelweg de hoek die je wilde hebben, uitgedrukt in radians.
+Vervolgens doe je een radians naar degrees conversion en je bent klaar.
+
+
+

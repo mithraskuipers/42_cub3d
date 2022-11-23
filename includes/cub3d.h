@@ -47,6 +47,8 @@ typedef struct s_gamedata
 	float		player_radians;
 	uint32_t	ceiling_rgb;
 	uint32_t	floor_rgb;
+	float		fov;
+	float		ray_len;
 }					t_gamedata;
 
 typedef struct	s_mapdata

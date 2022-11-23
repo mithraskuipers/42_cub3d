@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 10:34:24 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/22 16:23:26 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/23 13:05:49 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,30 @@ void	init_player_angle(t_game *game)
 
 #include <math.h>
 
-void	render_col(t_game *game, int pixel)
+/*
+arc tangent = inverse tangent = atan
+tangent to degrees? arc tangent
+*/
+
+void	render_col(t_game *game, int col)
 {
 	float	tangens;
 
-	tangens = atanf(((float)pixel - (game->mlx_pack.mlx->width / 2)) / (game->mlx_pack.mlx->width / 2)) + game->gamedata.player_radians;
+	tangens = atanf((col - (game->mlx_pack.mlx->width / 2)) / (game->mlx_pack.mlx->width / 2)) + game->gamedata.player_radians;
 	(void)game;
-	(void)pixel;
+	(void)col;
 	(void)tangens;
-	printf("%f\n", tangens);
+	// printf("%f\n", tangens);
+}
+
+
+
+
+
+void	key_check(t_game *game)
+{
+	if (mlx_is_key_down(game->mlx_pack.mlx, MLX_KEY_ESCAPE))
+		exit(1);
 }
 
 
@@ -78,8 +93,9 @@ void	frame_callback(void *arg)
 
 	game = (t_game *)arg;
 	col = 0;
+	key_check(game);
 	game->gamedata.player_radians = degrees_to_radians(game->gamedata.player_radians);
-	while (col < game->mlx_pack.mlx->width)
+	while (col < game->mlx_pack.mlx->width) // width is determined by mlx itself, based on your RES_X and RES_Y
 	{
 		render_col(game, col);
 		col++;
@@ -88,14 +104,27 @@ void	frame_callback(void *arg)
 
 int	init_mlx(t_game *game)
 {
-	game->mlx_pack.mlx = mlx_init(RES_X, RES_Y, "cub3D", true); // difference dimensions?
+	game->mlx_pack.mlx = mlx_init(RES_X, RES_Y, "cub3D", true);
 	if (!game->mlx_pack.mlx)
 		return (error_msg_ret("MLX initialization failed.", 1));
-	game->mlx_pack.image = mlx_new_image(game->mlx_pack.mlx, RES_X, RES_Y); // difference dimensions?
+	game->mlx_pack.image = mlx_new_image(game->mlx_pack.mlx, RES_X, RES_Y);
 	if (!(game->mlx_pack.image))
 		return (error_msg_ret("MLX new image creation failed.", 1));
+	mlx_set_cursor_mode(game->mlx_pack.mlx, MLX_MOUSE_HIDDEN);
 	if (mlx_image_to_window(game->mlx_pack.mlx, game->mlx_pack.image, 0, 0) < 0)
 		return (error_msg_ret("MLX image to window failed.", 1));
+	return (0);
+}
+
+int	init_game_config(t_game *game)
+{
+	game->gamedata.fov = (80 * M_PI / 180);
+	game->gamedata.ray_len = 40;
+	return (0);
+}
+
+int start_game(t_game *game)
+{
 	mlx_loop_hook(game->mlx_pack.mlx, frame_callback, game);
 	mlx_loop(game->mlx_pack.mlx);
 	return (0);
@@ -114,6 +143,8 @@ int	main(int argc, char **argv)
 		return (1);
 	init_player_angle(&game);
 	init_mlx(&game);
+	init_game_config(&game);
+	start_game(&game);
 	// debug_print_2darray(game.mapdata.map);
 	map_free(game.mapdata.map, &game);
 	// system ("leaks cub3D");
