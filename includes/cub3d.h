@@ -45,8 +45,6 @@ typedef struct s_gamedata
 {
 	mlx_texture_t	*textures[4];
 	float		player_radians;
-	uint32_t	ceiling_rgb;
-	uint32_t	floor_rgb;
 	float		fov;
 	float		ray_len;
 }					t_gamedata;

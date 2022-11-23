@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 10:34:24 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/23 13:05:49 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/11/23 13:42:07 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,42 +64,35 @@ arc tangent = inverse tangent = atan
 tangent to degrees? arc tangent
 */
 
-void	render_col(t_game *game, int col)
+int	draw_bg(t_game *game)
 {
-	float	tangens;
+	unsigned int	i;
 
-	tangens = atanf((col - (game->mlx_pack.mlx->width / 2)) / (game->mlx_pack.mlx->width / 2)) + game->gamedata.player_radians;
-	(void)game;
-	(void)col;
-	(void)tangens;
-	// printf("%f\n", tangens);
+	while (i < RES_X * RES_Y)
+	{
+		if (i < RES_X * (RES_Y / 2)) // upper half
+			mlx_put_pixel(game->mlx_pack.image, i, 0, game->mapdata.ccolor);
+		else if (i >= RES_X * (RES_Y / 2)) // lower half
+			mlx_put_pixel(game->mlx_pack.image, i, 0, game->mapdata.fcolor);
+		i++;
+	}
+	return (0);
 }
 
-
-
-
-
-void	key_check(t_game *game)
+int	check_key(t_game *game)
 {
 	if (mlx_is_key_down(game->mlx_pack.mlx, MLX_KEY_ESCAPE))
-		exit(1);
+		mlx_close_window(game->mlx_pack.mlx);
+	return (0);
 }
 
-
-void	frame_callback(void *arg)
+void frame_callback(void *arg)
 {
-	t_game	*game;
-	int		col;
-
+	t_game *game;
 	game = (t_game *)arg;
-	col = 0;
-	key_check(game);
-	game->gamedata.player_radians = degrees_to_radians(game->gamedata.player_radians);
-	while (col < game->mlx_pack.mlx->width) // width is determined by mlx itself, based on your RES_X and RES_Y
-	{
-		render_col(game, col);
-		col++;
-	}
+
+	draw_bg(game);
+	check_key(game);
 }
 
 int	init_mlx(t_game *game)
@@ -123,10 +116,33 @@ int	init_game_config(t_game *game)
 	return (0);
 }
 
+
+
+// static void	static_main_hook(void *arg)
+// {
+// 	t_game *const	game = arg;
+// 	unsigned int		i;
+
+// 	i = 0;
+// 	while (i < WIDTH * HEIGHT)
+// 	{
+// 		if (i < WIDTH * (HEIGHT / 2))
+// 			mlx_put_pixel(game->mlx_pack.image, i, 0, game->gamedata.ceiling_rgb);
+// 		else if (i > WIDTH * (HEIGHT / 2))
+// 			mlx_put_pixel(game->mlx_pack.image, i, 0, game->gamedata.floor_rgb);
+// 		i++;
+// 	}
+// 	if (mlx_is_key_down(game->mlx_pack.mlx, MLX_KEY_ESCAPE))
+// 		mlx_close_window(game->mlx_pack.mlx);
+// }
+
 int start_game(t_game *game)
 {
+
+	//mlx_loop_hook(game->mlx_pack.mlx, &static_main_hook, &game);
 	mlx_loop_hook(game->mlx_pack.mlx, frame_callback, game);
 	mlx_loop(game->mlx_pack.mlx);
+	(void)game;
 	return (0);
 }
 
