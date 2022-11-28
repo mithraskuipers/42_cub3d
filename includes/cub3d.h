@@ -35,21 +35,27 @@
 // Built-in libraries
 # include <fcntl.h>
 # include <stdio.h>
-#include <math.h>
+# include <math.h>
 
 /******************************************************************************/
 /* STRUCTS                                                                    */
 /******************************************************************************/
 
+typedef struct s_coords
+{
+	float	x;
+	float	y;
+}	t_coords;
+
 typedef struct s_gamedata
 {
 	mlx_texture_t	*textures[4];
-	float		player_radians;
-	float		fov;
-	float		ray_len;
+	t_coords		plane;
+	t_coords		dir;
+	t_coords		pos;
 }					t_gamedata;
 
-typedef struct	s_mapdata
+typedef struct s_mapdata
 {
 	char		*NO;
 	char		*SO;
@@ -58,7 +64,7 @@ typedef struct	s_mapdata
 	uint32_t	fcolor;
 	uint32_t	ccolor;
 	char		**map;
-	float		player_cardinaldir;
+	float		spawn_cardinaldir;
 }				t_mapdata;
 
 typedef struct	s_mlx_pack
@@ -68,11 +74,19 @@ typedef struct	s_mlx_pack
 	mlx_texture_t	*assets[4];
 }				t_mlx_pack;
 
-typedef struct	s_game
+typedef struct s_ray
+{
+	double	rayDirX;
+	double	rayDirY;
+}	t_ray;
+
+
+typedef struct s_game
 {
 	t_gamedata	gamedata;
 	t_mapdata	mapdata;
 	t_mlx_pack	mlx_pack;
+	t_ray		ray;
 	char	*map_filename;
 	int		n_rows;
 	int		len;
@@ -82,14 +96,12 @@ typedef struct	s_game
 	int		longest_width;
 	int		longest_height;
 	char	**cpy_map;
-	int		s_posX;
-	int		s_posY;
+	int		posX;
+	int		posY;
 	int		n_till_map;
 	int		map_row;
 	int		map_col;
 	int		stop;
-	char	player_orientation;
-
 }				t_game;
 
 /******************************************************************************/
