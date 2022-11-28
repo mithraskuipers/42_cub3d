@@ -21,3 +21,11 @@ float	degrees_to_radians(float degrees)
 {
 	return ((degrees) * (PI / 180));
 }
+
+double	ft_abs(double i)
+{
+	if (i < 0)
+		return (-i);
+	else
+		return (i);
+}

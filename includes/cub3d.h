@@ -41,18 +41,18 @@
 /* STRUCTS                                                                    */
 /******************************************************************************/
 
-typedef struct s_coords
+typedef struct s_vector
 {
 	float	x;
 	float	y;
-}	t_coords;
+}	t_vector;
 
 typedef struct s_gamedata
 {
 	mlx_texture_t	*textures[4];
-	t_coords		plane;
-	t_coords		dir;
-	t_coords		pos;
+	t_vector		plane;
+	t_vector		dir;
+	t_vector		pos;
 }					t_gamedata;
 
 typedef struct s_mapdata
@@ -145,6 +145,7 @@ void	debug_print_2darray(char **map);
 // [MATH]: CONVERSIONS.C
 float	radians_to_degrees(float radians);
 float	degrees_to_radians(float degrees);
+double	ft_abs(double i);
 
 // [FREE]: MISC.C
 void	map_free(char **map, t_game *game);

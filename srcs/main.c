@@ -1,31 +1,22 @@
 #include "./../includes/cub3d.h"
 
-int	init_textures(t_game *game, t_mapdata *mapdata)
-{
-	game->gamedata.textures[0] = mlx_load_png(mapdata->NO);
-	if (!game->gamedata.textures[0])
-		return (error_msg_ret("Failed to load NO map texture.", 1));
-	game->gamedata.textures[1] = mlx_load_png(mapdata->EA);
-	if (!game->gamedata.textures[1])
-		return (error_msg_ret("Failed to load EA map texture.", 1));
-	game->gamedata.textures[2] = mlx_load_png(mapdata->SO);
-	if (!game->gamedata.textures[2])
-		return (error_msg_ret("Failed to load SO map texture.", 1));
-	game->gamedata.textures[3] = mlx_load_png(mapdata->WE);
-	if (!game->gamedata.textures[3])
-		return (error_msg_ret("Failed to load WE map texture.", 1));
-	return (0);
-}
+/*
+arc tangent = inverse tangent = atan
+tangent to degrees? arc tangent
+*/
 
-void	set_start_pos(t_game *game)
-{
-	game->gamedata.pos_x = game->posX;
-	game->gamedata.pos_y = game->posY;
-	return ;
-}
+/******************************************************************************/
+/*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/*                                                                            */
+/******************************************************************************/
 
 void	set_direction_vector(t_game *game)
 {
+	(void)game;
+	/*
 	if (game->mapdata.spawn_cardinaldir == 'N')
 	{
 		game->gamedata.dir_x = 0;
@@ -54,10 +45,8 @@ void	set_direction_vector(t_game *game)
 		// game->gamedata.player_radians = degrees_to_radians(270);
 		// game->gamedata.player_radians = 270;
 	}
+	*/
 }
-
-
-
 
 void	set_camera_plane(t_game *game)
 {
@@ -91,59 +80,111 @@ void	set_camera_plane(t_game *game)
 	}
 }
 
+/******************************************************************************/
+/* notes                                                                      */
+/******************************************************************************/
 
 /*
-arc tangent = inverse tangent = atan
-tangent to degrees? arc tangent
+direction vector:
+	"dir"
+	The direction vector is a vector.
+	Simply the direction to which the player looks.
+	It is a line.
+
+player position:
+	"pos"
+	The player position is a vector.
+	Simply a single point in the map.
+	It is a point in front of the "camera plane".
+
+camera plane:
+	"plane"
+	The camera plane is a vector.
+	Not really a plane, but a line.
+	Is always perpendicular to the "direction vector".
+	It is the horizontal line you would reach if you look straight ahead.
+	By definition (?) you always touch exactly the center of the camera plane.
+
+ray:
+	A line that starts at the player position and goes through the "camera plane".
+
+ray direction:
+	"rayDir"
+	The ray direction is a vector.
+	The x and y components are used by the DDA algorithm.
+	"direction vector" + part of the "camera plane"
+	Here, part of the "camera plane" is expressed in terms of proportion of the
+	camera plane length, and is the distance between A and B, where..
+	A: Where the direction vector crosses the camera plane (i.e. its center)
+	B: Where the ray vector crosses the camera plane
+	
+	Example:
+	                    part of camera plane
+	                    (about 1/3 of right half of camera plane)
+	                              |
+	                              |
+	                            | |   /
+	                            | V  /
+	camera plane -> ------------|---/--------
+	                            |  /
+	        direction vector -> | / <- ray vector
+	                            |/
+	                            P <- player position vector
+
+	e.g. The ray of interest crosses the camera plane about 1/3 of the camera
+	plane's vector, assuming you would start at the camera plane's center.
+	The ray direction would then be computed as follows:
+	ray of interest = ("direction vector" + (1/3 * "camera plane vector"))
+
+
+
+
+
+
 */
 
-int	draw_bg(t_game *game)
-{
-	unsigned int	i;
 
-	while (i < RES_X * RES_Y)
-	{
-		if (i < RES_X * (RES_Y / 2)) // upper half
-			mlx_put_pixel(game->mlx_pack.image, i, 0, game->mapdata.ccolor);
-		else if (i >= RES_X * (RES_Y / 2)) // lower half
-			mlx_put_pixel(game->mlx_pack.image, i, 0, game->mapdata.fcolor);
-		i++;
-	}
-	return (0);
-}
 
-void	ray_helper(t_game *game, double cameraX)
-{
-	game->ray->rayDirX = game->gamedata-> + coords->plane.x * cameraX;
-}
+// void	ray_helper(t_game *game, double cameraX)
+// {
+// 	game->ray->rayDirX = game->gamedata-> + vector->plane.x * cameraX;
+// }
 
-t_ray	ray_cast(t_coords coords, game->mapdata->map, double cameraX)
-{
-	t_ray	ray;
-	int		is_hit;
+// t_ray	ray_cast(t_vector vector, char **map, double cameraX)
+// {
+// 	t_ray	ray;
+// 	int		is_hit;
 
-	is_hit = 0;
-	ray_helper(coords, &ray, cameraX);
-}
+// 	is_hit = 0;
+// 	ray_helper(vector, &ray, cameraX);
+// }
 
+
+// cameraX: The x coordinate on the camera plane.
 int	draw_game(t_game *game)
 {
 	int		col;
 	double	cameraX;
 
+	(void)game;
 	col = 0;
 	while (col < RES_X)
 	{
 		//x-coordinate in camera space
-		cameraX = 2 * x / (double)RES_X - 1;
+		cameraX = 2 * col / (double)RES_X - 1;
+		printf("%f\n", cameraX);
 		// todo
-		game->ray = ray = ray_cast(&game->state, game->map_info.map, cameraX);
+		// game->ray = ray = ray_cast(&game->state, game->map_info.map, cameraX);
 		// cast ray
 		// draw wall
 		col++;
 	}
 	return (0);
 }
+
+/******************************************************************************/
+/* keys                                                                       */
+/******************************************************************************/
 
 int	check_keypress(t_game *game)
 {
@@ -172,20 +213,58 @@ int	check_keypress(t_game *game)
 	return (0);
 }
 
-double	ft_abs(double i)
+/******************************************************************************/
+/* draw                                                                       */
+/******************************************************************************/
+
+int	draw_bg(t_game *game)
 {
-	if (i < 0)
-		return (-i);
-	else
-		return (i);
+	unsigned int	i;
+
+	i = 0;
+	while (i < RES_X * RES_Y)
+	{
+		if (i < RES_X * (RES_Y / 2)) // upper half
+			mlx_put_pixel(game->mlx_pack.image, i, 0, game->mapdata.ccolor);
+		else if (i >= RES_X * (RES_Y / 2)) // lower half
+			mlx_put_pixel(game->mlx_pack.image, i, 0, game->mapdata.fcolor);
+		i++;
+	}
+	return (0);
 }
+
+/******************************************************************************/
+/* frames                                                                     */
+/******************************************************************************/
 
 void frame_callback(void *arg)
 {
 	t_game *game;
 	game = (t_game *)arg;
 	draw_bg(game);
+	draw_game(game);
 	check_keypress(game);
+}
+
+/******************************************************************************/
+/* mlx                                                                        */
+/******************************************************************************/
+
+int	init_textures(t_game *game, t_mapdata *mapdata)
+{
+	game->gamedata.textures[0] = mlx_load_png(mapdata->NO);
+	if (!game->gamedata.textures[0])
+		return (error_msg_ret("Failed to load NO map texture.", 1));
+	game->gamedata.textures[1] = mlx_load_png(mapdata->EA);
+	if (!game->gamedata.textures[1])
+		return (error_msg_ret("Failed to load EA map texture.", 1));
+	game->gamedata.textures[2] = mlx_load_png(mapdata->SO);
+	if (!game->gamedata.textures[2])
+		return (error_msg_ret("Failed to load SO map texture.", 1));
+	game->gamedata.textures[3] = mlx_load_png(mapdata->WE);
+	if (!game->gamedata.textures[3])
+		return (error_msg_ret("Failed to load WE map texture.", 1));
+	return (0);
 }
 
 int	init_mlx(t_game *game)
@@ -202,20 +281,26 @@ int	init_mlx(t_game *game)
 	return (0);
 }
 
+/******************************************************************************/
+/*                                                                            */
+/******************************************************************************/
+
 int	init_game_config(t_game *game)
 {
-	game->gamedata.fov = 90;
-	game->gamedata.ray_len = 40;
+	(void)game;
 	return (0);
 }
 
 int start_game(t_game *game)
 {
-	//mlx_loop_hook(game->mlx_pack.mlx, &static_main_hook, &game);
 	mlx_loop_hook(game->mlx_pack.mlx, frame_callback, game);
 	mlx_loop(game->mlx_pack.mlx);
 	return (0);
 }
+
+/******************************************************************************/
+/* main                                                                       */
+/******************************************************************************/
 
 int	main(int argc, char **argv)
 {
@@ -228,12 +313,9 @@ int	main(int argc, char **argv)
 		return (1);
 	if (init_textures(&game, &game.mapdata))
 		return (1);
-	// set_camera_plane(&game);
 	init_mlx(&game);
 	init_game_config(&game);
 	start_game(&game);
-	// debug_print_2darray(game.mapdata.map);
 	map_free(game.mapdata.map, &game);
-	// system ("leaks cub3D");
 	return (0);
 }
