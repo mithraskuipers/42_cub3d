@@ -85,32 +85,29 @@ void	set_camera_plane(t_game *game)
 /******************************************************************************/
 
 /*
-direction vector:
+- direction vector (= vector)
 	"dir"
-	The direction vector is a vector.
 	Simply the direction to which the player looks.
 	It is a line.
 
-player position:
+- player position (= vector)
 	"pos"
-	The player position is a vector.
 	Simply a single point in the map.
 	It is a point in front of the "camera plane".
 
-camera plane:
+- camera plane (= vector)
 	"plane"
-	The camera plane is a vector.
 	Not really a plane, but a line.
 	Is always perpendicular to the "direction vector".
 	It is the horizontal line you would reach if you look straight ahead.
+	It represents the computer screen. The 2D window of your game (e.g. 480x360)
 	By definition (?) you always touch exactly the center of the camera plane.
 
-ray:
+- ray:
 	A line that starts at the player position and goes through the "camera plane".
 
-ray direction:
+- ray direction (= vector):
 	"rayDir"
-	The ray direction is a vector.
 	The x and y components are used by the DDA algorithm.
 	"direction vector" + part of the "camera plane"
 	Here, part of the "camera plane" is expressed in terms of proportion of the
@@ -122,10 +119,10 @@ ray direction:
 	                    part of camera plane
 	                    (about 1/3 of right half of camera plane)
 	                              |
-	                              |
+	                              |    intersection around 1/3 of camera plane
 	                            | |   /
 	                            | V  /
-	camera plane -> ------------|---/--------
+	camera plane -> ------------|---/-------- <- ray vector intersects direction vector
 	                            |  /
 	        direction vector -> | / <- ray vector
 	                            |/
@@ -136,11 +133,35 @@ ray direction:
 	The ray direction would then be computed as follows:
 	ray of interest = ("direction vector" + (1/3 * "camera plane vector"))
 
+- field of vision (fov)
+	Refers to the observable world. It is often expressed in degrees.
+	The higher the fov, the more of the world is visible.
 
+	Some insights regardins fov:
+	- If the direction vector and the camera plane (measured from its center) have
+	the same length, then the fov is always 90 degrees.
 
+	- If the direction vector is much longer than the camera plane (measured from
+	its center), then the fov is much narrower than 90 degrees.
 
+	- If the direction vector is much shorter than the camera plane (measured from
+	its center), then the fov is much wider than 90 degrees. The max width is
+	a theoretical 180 degrees.
 
+- rotation
+	If the player rotates, then the camera plane also has to rotate.
+	This makes sense, because it is the camera plane that represents your
+	computer screen. You want the computer screen to depict images depending
+	on where your player is looking at.
 
+	If the player is rotated, you need to rotate the camera plane vector.
+	You can rotate a vector by multiplying the vector with the "rotation matrix"
+
+- rotation matrix
+	[cos(a) -sin(a)]
+	[sin(a)  cos(a)]
+
+	Todo: Add explanations and actual usage example.
 */
 
 
