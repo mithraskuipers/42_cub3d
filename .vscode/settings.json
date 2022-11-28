@@ -1,3 +1,13 @@
 {
+<<<<<<< HEAD
 	"C_Cpp.errorSquiggles": "disabled"
+=======
+    "files.associations": {
+        "array": "c",
+        "iterator": "c",
+        "string": "c",
+        "string_view": "c",
+        "vector": "c"
+    }
+>>>>>>> mithras
 }

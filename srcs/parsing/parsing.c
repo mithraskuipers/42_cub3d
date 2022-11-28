@@ -29,9 +29,15 @@ int	map_check_chars(t_game *game, t_mapdata *mapdata)
 			if (ft_strrchr("NESW", mapdata->map[game->map_row][game->map_col]))
 			{
 				n_players++;
+<<<<<<< HEAD
 				game->s_posX = game->map_col;
 				game->s_posY = game->map_row;
 				game->mapdata.player_cardinaldir = mapdata->map[game->map_row][game->map_col];
+=======
+				game->posX = game->map_col;
+				game->posY = game->map_row;
+				game->mapdata.spawn_cardinaldir = mapdata->map[game->map_row][game->map_col];
+>>>>>>> mithras
 			}
 			game->map_col++;
 		}

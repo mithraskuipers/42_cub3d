@@ -6,7 +6,11 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 08:47:23 by mikuiper      #+#    #+#                 */
+<<<<<<< HEAD
 /*   Updated: 2022/11/18 20:40:03 by mikuiper      ########   odam.nl         */
+=======
+/*   Updated: 2022/11/24 09:44:14 by mikuiper      ########   odam.nl         */
+>>>>>>> mithras
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +76,7 @@ int	map_check(t_game *game, t_mapdata *mapdata)
 		return (1);
 	if (map_copy(game, mapdata) == 1)
 		return (1);
-	if (map_floodfill(game->s_posX, game->s_posY, game) == 1)
+	if (map_floodfill(game->posX, game->posY, game) == 1)
 	{
 		map_free(game->cpy_map, game);
 		return (1);

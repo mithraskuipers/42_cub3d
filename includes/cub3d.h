@@ -35,18 +35,31 @@
 // Built-in libraries
 # include <fcntl.h>
 # include <stdio.h>
+# include <math.h>
 
 /******************************************************************************/
 /* STRUCTS                                                                    */
 /******************************************************************************/
 
+typedef struct s_vector
+{
+	float	x;
+	float	y;
+}	t_vector;
+
 typedef struct s_gamedata
 {
 	mlx_texture_t	*textures[4];
+<<<<<<< HEAD
 	char		p_orientation;
 	uint32_t	ceiling_rgb;
 	uint32_t	floor_rgb;
 	float		player_radians;
+=======
+	t_vector		plane;
+	t_vector		dir;
+	t_vector		pos;
+>>>>>>> mithras
 }					t_gamedata;
 
 typedef struct s_mapdata
@@ -58,21 +71,44 @@ typedef struct s_mapdata
 	uint32_t	fcolor;
 	uint32_t	ccolor;
 	char		**map;
+<<<<<<< HEAD
 	char	player_cardinaldir;
 }				t_mapdata;
 
 typedef struct s_mlx
+=======
+	float		spawn_cardinaldir;
+}				t_mapdata;
+
+typedef struct	s_mlx_pack
+>>>>>>> mithras
 {
-	mlx_t			*mlx_instance;
-	mlx_image_t		*mlx_image;
+	mlx_t			*mlx;
+	mlx_image_t		*image;
 	mlx_texture_t	*assets[4];
+<<<<<<< HEAD
 }				t_mlx;
+=======
+}				t_mlx_pack;
+
+typedef struct s_ray
+{
+	double	rayDirX;
+	double	rayDirY;
+}	t_ray;
+
+>>>>>>> mithras
 
 typedef struct s_game
 {
 	t_gamedata	gamedata;
 	t_mapdata	mapdata;
+<<<<<<< HEAD
 	t_mlx		mlx;
+=======
+	t_mlx_pack	mlx_pack;
+	t_ray		ray;
+>>>>>>> mithras
 	char	*map_filename;
 	int		n_rows;
 	int		len;
@@ -82,8 +118,8 @@ typedef struct s_game
 	int		longest_width;
 	int		longest_height;
 	char	**cpy_map;
-	int		s_posX;
-	int		s_posY;
+	int		posX;
+	int		posY;
 	int		n_till_map;
 	int		map_row;
 	int		map_col;
@@ -131,6 +167,7 @@ void	debug_print_2darray(char **map);
 // [MATH]: CONVERSIONS.C
 float	radians_to_degrees(float radians);
 float	degrees_to_radians(float degrees);
+double	ft_abs(double i);
 
 // [FREE]: MISC.C
 void	map_free(char **map, t_game *game);
