@@ -1,76 +1,3 @@
-#include "./../includes/cub3d.h"
-
-/*
-arc tangent = inverse tangent = atan
-tangent to degrees? arc tangent
-*/
-
-void	set_direction_vector(t_game *game)
-{
-	(void)game;
-	/*
-	if (game->mapdata.spawn_cardinaldir == 'N')
-	{
-		game->gamedata.dir_x = 0;
-		game->gamedata.dir_y = -1;
-		// game->gamedata.player_radians = degrees_to_radians(0);
-		// game->gamedata.player_radians = 0;
-	}
-	else if (game->mapdata.spawn_cardinaldir == 'E')
-	{
-		game->gamedata.dir_x = 1;
-		game->gamedata.dir_y = 0;
-		// game->gamedata.player_radians = degrees_to_radians(90);
-		// game->gamedata.player_radians = 90;
-	}
-	else if (game->mapdata.spawn_cardinaldir == 'S')
-	{
-		game->gamedata.dir_x = 0;
-		game->gamedata.dir_y = 1;
-		// game->gamedata.player_radians = degrees_to_radians(180);
-		// game->gamedata.player_radians = 180;
-	}
-	else if (game->mapdata.spawn_cardinaldir == 'W')
-	{
-		game->gamedata.dir_x = -1;
-		game->gamedata.dir_y = 0;
-		// game->gamedata.player_radians = degrees_to_radians(270);
-		// game->gamedata.player_radians = 270;
-	}
-	*/
-}
-
-void	set_camera_plane(t_game *game)
-{
-	if (game->mapdata.spawn_cardinaldir == 'N')
-	{
-		// game->gamedata.plane_x = -0.66;
-		// game->gamedata.plane_y = 0;
-		// game->gamedata.player_radians = degrees_to_radians(0);
-		// game->gamedata.player_radians = 0;
-	}
-	else if (game->mapdata.spawn_cardinaldir == 'E')
-	{
-		// game->gamedata.plane_x = 0;
-		// game->gamedata.plane_y = -0.66;
-		// game->gamedata.player_radians = degrees_to_radians(90);
-		// game->gamedata.player_radians = 90;
-	}
-	else if (game->mapdata.spawn_cardinaldir == 'S')
-	{
-		// game->gamedata.plane_x = 0.66;
-		// game->gamedata.plane_y = 0;
-		// game->gamedata.player_radians = degrees_to_radians(180);
-		// game->gamedata.player_radians = 180;
-	}
-	else if (game->mapdata.spawn_cardinaldir == 'W')
-	{
-		// game->gamedata.plane_x = 0;
-		// game->gamedata.plane_y = 0.66;
-		// game->gamedata.player_radians = degrees_to_radians(270);
-		// game->gamedata.player_radians = 270;
-	}
-}
 
 /******************************************************************************/
 /* notes                                                                      */
@@ -156,11 +83,32 @@ void	set_camera_plane(t_game *game)
 	Todo: Add explanations and actual usage example.
 */
 
+#include "./../includes/cub3d.h"
 
+/*
+arc tangent = inverse tangent = atan
+tangent to degrees? arc tangent
+*/
+
+/*
+
+				N
+
+				1
+				|
+				|
+				|
+W	-1	--------0-------	1 E
+				|
+				|
+				|
+				-1
+				S
+*/
 
 // void	ray_helper(t_game *game, double cameraX)
 // {
-// 	game->ray->rayDirX = game->gamedata-> + vector->plane.x * cameraX;
+// 	game->ray->rayDirX = game->gamedata. + vector->plane.x * cameraX;
 // }
 
 // t_ray	ray_cast(t_vector vector, char **map, double cameraX)
@@ -172,12 +120,172 @@ void	set_camera_plane(t_game *game)
 // 	ray_helper(vector, &ray, cameraX);
 // }
 
+/******************************************************************************/
+/* Set direction vector on basis of spawn cardinal direction                  */
+/******************************************************************************/
+
+/*
+Set initial direction vector
+*/
+void	set_dir(t_game *game)
+{
+	if (game->mapdata.spawn_cardinaldir == 'N')
+	{
+		game->gamedata.dir.x= 0;
+		game->gamedata.dir.y = 1;
+	}
+	else if (game->mapdata.spawn_cardinaldir == 'E')
+	{
+		game->gamedata.dir.x = 1;
+		game->gamedata.dir.y = 0;
+	}
+	else if (game->mapdata.spawn_cardinaldir == 'S')
+	{
+		game->gamedata.dir.x = 0;
+		game->gamedata.dir.y = -1;
+	}
+	else if (game->mapdata.spawn_cardinaldir == 'W')
+	{
+		game->gamedata.dir.x = -1;
+		game->gamedata.dir.y = 0;
+	}
+}
+
+/*
+Set camera plane on the basis of direction vector
+*/
+void	set_plane(t_game *game)
+{
+	if (game->gamedata.dir.x == 0)
+	{
+		if (game->gamedata.dir.y == 0)
+		{
+			game->gamedata.plane.x = 1;
+		}
+		else if (game->gamedata.dir.y == 1)
+		{
+			game->gamedata.plane.x = -1;
+		}
+		game->gamedata.plane.y = 0;
+	}
+	else if (game->gamedata.dir.x == 1)
+	{
+		if (game->gamedata.dir.y == 0)
+		{
+			game->gamedata.plane.y = 1;
+		}
+		else if (game->gamedata.dir.y == 1)
+		{
+			game->gamedata.plane.y = -1;
+		}
+		game->gamedata.plane.x = 0;
+	}
+	return ;
+}
+
+void	set_ray(t_game *game, t_ray *ray, double cameraX)
+{
+	ray->rayDirX = game->gamedata.dir.x + game->gamedata.plane.x * cameraX;
+	ray->rayDirY = game->gamedata.dir.y + game->gamedata.plane.y * cameraX;
+	ray->mapPos.x = (int)game->gamedata.pos.x;
+	ray->mapPos.y = (int)game->gamedata.pos.y;
+	// length of ray from one x or y-side to next x or y-side
+	if (ray->rayDirX == 0)
+		ray->deltaDist.x = 1e30;
+	else
+		ray->deltaDist.x = ft_abs(1 / ray->rayDirX);
+	if (ray->rayDirY == 0)
+		ray->deltaDist.y = 1e30;
+	else
+		ray->deltaDist.y = ft_abs(1 / ray->rayDirY);
+
+	// calculate step and initial sideDist
+	if (ray->rayDirX < 0)
+	{
+		ray->step.x = -1;
+		ray->sideDist.x = (game->gamedata.pos.x - (double)ray->mapPos.x) * ray->deltaDist.x;
+	}
+	else
+	{
+		ray->step.x = 1;
+		ray->sideDist.x = ((double)ray->mapPos.x + 1.0 - game->gamedata.pos.x) * ray->deltaDist.x;
+	}
+	if (ray->rayDirY < 0)
+	{
+		ray->step.y = -1;
+		ray->sideDist.y = (game->gamedata.pos.y - (double)ray->mapPos.y) * ray->deltaDist.y;
+	}
+	else
+	{
+		ray->step.y = 1;
+		ray->sideDist.y = ((double)ray->mapPos.y + 1.0 - game->gamedata.pos.y) * ray->deltaDist.y;
+	}
+	// perform DDA
+	int	hit;
+
+	hit = 0;
+	while (hit == 0)
+	{
+		// jump to next map square, either in x-direction, or in y-direction
+		if (ray->sideDist.x < ray->sideDist.y)
+		{
+			ray->sideDist.x += ray->deltaDist.x;
+			ray->mapPos.x += ray->step.x;
+			ray->side = 0; // ???
+		}
+		else
+		{
+			ray->sideDist.y += ray->deltaDist.y;
+			ray->mapPos.y += ray->step.y;
+			ray->side = 1; // ???
+		}
+		// Check if ray has hit a wall
+		// if (game->mapdata.map[ray->mapPos.x][ray->mapPos.y] > 0)
+		// {
+		// 	hit = 1;
+		// }
+		hit = 1;
+	}
+	return ;
+}
+
+# define WALL 1
+
+t_ray	raycast(t_game *game, char **map, double cameraX)
+{
+	t_ray	ray;
+	// int		hit;
+
+	// hit = 0;
+	set_ray(game, &ray, cameraX);
+	// while (hit == 0)
+	// {
+	// 	if (ray.sideDist.x < ray.sideDist.y)
+	// 		update_ray(&ray, X);
+	// 	else if (ray.sideDist.x > ray.sideDist.y)
+	// 		update_ray(&ray, Y);
+	// 	else
+	// 	{
+	// 		update_ray(&ray, X);
+	// 		update_ray(&ray, Y);
+	// 	}
+	// 	if (map[ray.map_y][ray.map_x] == WALL)
+	// 		hit = 1;
+	// }
+	// set_perp_wall_dist(&ray, &state->pos);
+	// return (ray);
+	(void)game;
+	(void)map;
+	(void)cameraX;
+	return (ray);
+}
 
 // cameraX: The x coordinate on the camera plane.
 int	draw_game(t_game *game)
 {
 	int		col;
 	double	cameraX;
+	t_ray	ray;
 
 	(void)game;
 	col = 0;
@@ -185,11 +293,9 @@ int	draw_game(t_game *game)
 	{
 		//x-coordinate in camera space
 		cameraX = 2 * col / (double)RES_X - 1;
-		printf("%f\n", cameraX);
-		// todo
-		// game->ray = ray = ray_cast(&game->state, game->map_info.map, cameraX);
-		// cast ray
-		// draw wall
+		ray = raycast(game, game->mapdata.map, cameraX);
+		// if (ray.perp_wall_dist < STEP + 0.01)
+		// 	return (FAIL);
 		col++;
 	}
 	return (0);

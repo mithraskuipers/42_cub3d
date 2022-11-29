@@ -76,8 +76,13 @@ typedef struct	s_mlx_pack
 
 typedef struct s_ray
 {
-	double	rayDirX;
-	double	rayDirY;
+	double		rayDirX;
+	double		rayDirY;
+	t_vector	mapPos;
+	t_vector	deltaDist;
+	t_vector	sideDist;
+	t_vector	step;
+	int			side;
 }	t_ray;
 
 
