@@ -7,7 +7,8 @@ OBJ			=	srcs/main \
 				srcs/parsing/utils \
 				srcs/tools/error \
 				srcs/parsing/variables \
-				srcs/math/conversions
+				srcs/math/conversions \
+				srcs/draw/bg \
 
 OBJS		= $(addsuffix .o, ${OBJ})
 CC			= gcc

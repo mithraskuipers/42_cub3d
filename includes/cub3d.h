@@ -18,8 +18,17 @@
 /******************************************************************************/
 
 # define PI 3.14159265359
-# define RES_X	480
-# define RES_Y	320
+# define RES_X	50
+# define RES_Y	20
+
+# define STEP 0.1
+# define EMPTY '0'
+# define WALL '1'
+# define SUCCESS 0
+# define FAIL -1
+
+# define X 1
+# define Y 2
 
 /******************************************************************************/
 /* INCLUDES                                                                   */
@@ -41,18 +50,22 @@
 /* STRUCTS                                                                    */
 /******************************************************************************/
 
-typedef struct s_vector
+typedef struct s_vector_xy
 {
 	float	x;
 	float	y;
-}	t_vector;
+}	t_vector_xy;
+
+typedef struct s_vector_lr
+{
+	float	l;
+	float	r;
+}	t_vector_lr;
 
 typedef struct s_gamedata
 {
 	mlx_texture_t	*textures[4];
-	t_vector		plane;
-	t_vector		dir;
-	t_vector		pos;
+	double		radians;
 }					t_gamedata;
 
 typedef struct s_mapdata
@@ -76,13 +89,24 @@ typedef struct	s_mlx_pack
 
 typedef struct s_ray
 {
-	double		rayDirX;
-	double		rayDirY;
-	t_vector	mapPos;
-	t_vector	deltaDist;
-	t_vector	sideDist;
-	t_vector	step;
+	t_vector_xy	playerPos;
+	t_vector_xy	dir;
+	t_vector_xy	plane;
+	t_vector_xy	rayDir;
+	int			map_x;
+	int			map_y;
+	t_vector_xy	sideDist;
+	t_vector_xy	deltaDist;
+	double		perp_wall_dist;
+	t_vector_xy	step;
+	int			hit;
 	int			side;
+	double		step_size;
+	double		const_rad;
+	t_vector_lr	move;
+	t_vector_lr	rot;
+	float		cameraX;
+
 }	t_ray;
 
 
@@ -154,5 +178,8 @@ double	ft_abs(double i);
 
 // [FREE]: MISC.C
 void	map_free(char **map, t_game *game);
+
+// [DRAW]: BG.C
+int	draw_bg(t_game *game);
 
 #endif
