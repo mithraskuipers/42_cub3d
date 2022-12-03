@@ -6,7 +6,7 @@
 /*   By: mkuipers <mkuipers@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 08:47:23 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/12/03 10:19:53 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/12/03 10:28:25 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 /*check if surrounded by walls*/
 int	map_floodfill(int x, int y, t_game *game)
 {
-	if ((x < 0) || (x >= game->longest_width) || (y < 0) || (y >= game->n_rows))
+	if ((x < 0) || (x >= game->map_widest) || (y < 0) || (y >= game->n_rows))
 		return (0);
 	if (game->map_tmp[y][x] == '1')
 		return (0);
 	if (game->map_tmp[y][x] == 'x')
 		return (0);
-	if ((x + 1 < game->longest_width && game->map_tmp[y][x + 1] == ' ')
+	if ((x + 1 < game->map_widest && game->map_tmp[y][x + 1] == ' ')
 		|| (x - 1 >= 0 && game->map_tmp[y][x - 1] == ' ') || (y + 1
 		< game->n_rows && game->map_tmp[y + 1][x] == ' ') || (y - 1
 		>= 0 && game->map_tmp[y - 1][x] == ' '))
 		if (game->map_tmp[y][x] == '0')
 			return (error_msg_ret("Map not surrounded by walls.", 1));
 	if (x == 0 || y == 0 || y == game->n_rows - 1
-		|| x == game->longest_width - 1)
+		|| x == game->map_widest - 1)
 		return (error_msg_ret("Map not surrounded by walls.", 1));
 	game->map_tmp[y][x] = 'x';
 	if (map_floodfill(x - 1, y, game) == 1)

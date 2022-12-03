@@ -56,11 +56,11 @@ int	map_fill(t_game *game, char *line, t_mapdata *mapdata)
 			return (1);
 		if (i >= game->n_till_map && ft_strncmp(line, "", 1) != 0)
 		{
-			mapdata->map[game->map_row] = ft_calloc(1, game->longest_width + 1);
+			mapdata->map[game->map_row] = ft_calloc(1, game->map_widest + 1);
 			if (!mapdata->map[game->map_row])
 				return (1);
 			mapdata->map[game->map_row] = ft_memset(mapdata->map[game->map_row], '0',
-					game->longest_width);
+					game->map_widest);
 			mapdata->map[game->map_row] = ft_memcpy(mapdata->map[game->map_row], line,
 					ft_strlen(line));
 			free (line);
@@ -100,8 +100,8 @@ int	map_count_rows(t_game *game, char *line)
 			}
 			game->n_rows++;
 			game->len = (int)ft_strlen(line);
-			if (game->len > game->longest_width)
-				game->longest_width = game->len;
+			if (game->len > game->map_widest)
+				game->map_widest = game->len;
 		}
 		if (line)
 			free (line);
@@ -152,7 +152,7 @@ int	map_parse(t_game *game, t_mapdata *mapdata)
 	game->ret = 1;
 	game->n_rows = 0;
 	line = NULL;
-	game->longest_width = 0;
+	game->map_widest = 0;
 	init_map_variables(game, mapdata);
 	if (get_variables(game, line, mapdata) == 1)
 		return (1);

@@ -122,8 +122,7 @@ typedef struct s_game
 	int		ret;
 	int		fd;
 	int		error;
-	int		longest_width;
-	int		longest_height;
+	int		map_widest;
 	char	**map_tmp;
 	int		playerSpawnX;
 	int		playerSpawnY;
