@@ -98,14 +98,10 @@ typedef struct s_ray
 	t_fvector_lr	move;
 	t_fvector_lr	rot;
 	t_dvector_xy	step;
-	int			map_x;
-	int			map_y;
 	double		perpWallDist;
 	int			hit;
 	int			side;
 	double		step_size;
-	double		const_rad;
-
 	float		cameraX;
 
 }	t_ray;
