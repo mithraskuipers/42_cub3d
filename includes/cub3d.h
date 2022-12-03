@@ -50,17 +50,17 @@
 /* STRUCTS                                                                    */
 /******************************************************************************/
 
-typedef struct s_vector_xy
+typedef struct s_dvector_xy
 {
 	float	x;
 	float	y;
-}	t_vector_xy;
+}	t_dvector_xy;
 
-typedef struct s_vector_lr
+typedef struct s_fvector_lr
 {
 	float	l;
 	float	r;
-}	t_vector_lr;
+}	t_fvector_lr;
 
 typedef struct s_gamedata
 {
@@ -89,22 +89,23 @@ typedef struct	s_mlx
 
 typedef struct s_ray
 {
-	t_vector_xy	playerPos;
-	t_vector_xy	dir;
-	t_vector_xy	plane;
-	t_vector_xy	rayDir;
+	t_dvector_xy	playerPos;
+	t_dvector_xy	dir;
+	t_dvector_xy	plane;
+	t_dvector_xy	rayDir;
+	t_dvector_xy	sideDist;
+	t_dvector_xy	deltaDist;
+	t_fvector_lr	move;
+	t_fvector_lr	rot;
+	t_dvector_xy	step;
 	int			map_x;
 	int			map_y;
-	t_vector_xy	sideDist;
-	t_vector_xy	deltaDist;
-	double		perp_wall_dist;
-	t_vector_xy	step;
+	double		perpWallDist;
 	int			hit;
 	int			side;
 	double		step_size;
 	double		const_rad;
-	t_vector_lr	move;
-	t_vector_lr	rot;
+
 	float		cameraX;
 
 }	t_ray;
