@@ -29,8 +29,8 @@ int	map_check_chars(t_game *game, t_mapdata *mapdata)
 			if (ft_strrchr("NESW", mapdata->map[game->map_row][game->map_col]))
 			{
 				n_players++;
-				game->posX = game->map_col;
-				game->posY = game->map_row;
+				game->playerSpawnX = game->map_col;
+				game->playerSpawnY = game->map_row;
 				game->mapdata.spawn_cardinaldir = mapdata->map[game->map_row][game->map_col];
 			}
 			game->map_col++;

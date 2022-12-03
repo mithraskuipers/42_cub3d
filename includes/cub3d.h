@@ -124,9 +124,9 @@ typedef struct s_game
 	int		error;
 	int		longest_width;
 	int		longest_height;
-	char	**cpy_map;
-	int		posX;
-	int		posY;
+	char	**map_tmp;
+	int		playerSpawnX;
+	int		playerSpawnY;
 	int		n_till_map;
 	int		map_row;
 	int		map_col;
