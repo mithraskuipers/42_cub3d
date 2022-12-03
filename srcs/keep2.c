@@ -164,8 +164,8 @@ int	init_raycaster(t_game *game)
 
 int start_game(t_game *game)
 {
-	mlx_loop_hook(game->mlx_pack.mlx, frame_callback, game);
-	mlx_loop(game->mlx_pack.mlx);
+	mlx_loop_hook(game->mlx.mlx, frame_callback, game);
+	mlx_loop(game->mlx.mlx);
 	return (0);
 }
 

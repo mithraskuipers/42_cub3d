@@ -80,12 +80,12 @@ typedef struct s_mapdata
 	float		spawn_cardinaldir;
 }				t_mapdata;
 
-typedef struct	s_mlx_pack
+typedef struct	s_mlx
 {
 	mlx_t			*mlx;
-	mlx_image_t		*image;
-	mlx_texture_t	*assets[4];
-}				t_mlx_pack;
+	mlx_image_t		*img;
+	mlx_texture_t	*txts[4];
+}				t_mlx;
 
 typedef struct s_ray
 {
@@ -114,12 +114,12 @@ typedef struct s_game
 {
 	t_gamedata	gamedata;
 	t_mapdata	mapdata;
-	t_mlx_pack	mlx_pack;
+	t_mlx	mlx;
 	t_ray		ray;
 	char	*map_filename;
 	int		n_rows;
 	int		len;
-	int		ret;
+	int		gnl_ret;
 	int		fd;
 	int		error;
 	int		map_widest;

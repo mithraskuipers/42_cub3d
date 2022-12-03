@@ -6,27 +6,27 @@
 
 int	check_keypress(t_game *game)
 {
-	if (mlx_is_key_down(game->mlx_pack.mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(game->mlx_pack.mlx);
-	if (mlx_is_key_down(game->mlx_pack.mlx, MLX_KEY_UP))
+	if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(game->mlx.mlx);
+	if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_UP))
 	{
 		printf("You pressed: UP ARROW KEY\n");
-		mlx_close_window(game->mlx_pack.mlx);
+		mlx_close_window(game->mlx.mlx);
 	}
-	if (mlx_is_key_down(game->mlx_pack.mlx, MLX_KEY_DOWN))
+	if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_DOWN))
 	{
 		printf("You pressed: DOWN ARROW KEY\n");
-		mlx_close_window(game->mlx_pack.mlx);
+		mlx_close_window(game->mlx.mlx);
 	}
-	if (mlx_is_key_down(game->mlx_pack.mlx, MLX_KEY_LEFT))
+	if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_LEFT))
 	{
 		printf("You pressed: LEFT ARROW KEY\n");
-		mlx_close_window(game->mlx_pack.mlx);
+		mlx_close_window(game->mlx.mlx);
 	}
-	if (mlx_is_key_down(game->mlx_pack.mlx, MLX_KEY_RIGHT))
+	if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_RIGHT))
 	{
 		printf("You pressed: RIGHT ARROW KEY\n");
-		mlx_close_window(game->mlx_pack.mlx);
+		mlx_close_window(game->mlx.mlx);
 	}
 	return (0);
 }
@@ -70,14 +70,14 @@ int	init_textures(t_game *game, t_mapdata *mapdata)
 
 int	init_mlx(t_game *game)
 {
-	game->mlx_pack.mlx = mlx_init(RES_X, RES_Y, "cub3D", true);
-	if (!game->mlx_pack.mlx)
+	game->mlx.mlx = mlx_init(RES_X, RES_Y, "cub3D", true);
+	if (!game->mlx.mlx)
 		return (error_msg_ret("MLX initialization failed.", 1));
-	game->mlx_pack.image = mlx_new_image(game->mlx_pack.mlx, RES_X, RES_Y);
-	if (!(game->mlx_pack.image))
+	game->mlx.img = mlx_new_image(game->mlx.mlx, RES_X, RES_Y);
+	if (!(game->mlx.img))
 		return (error_msg_ret("MLX new image creation failed.", 1));
-	mlx_set_cursor_mode(game->mlx_pack.mlx, MLX_MOUSE_HIDDEN);
-	if (mlx_image_to_window(game->mlx_pack.mlx, game->mlx_pack.image, 0, 0) < 0)
+	mlx_set_cursor_mode(game->mlx.mlx, MLX_MOUSE_HIDDEN);
+	if (mlx_image_to_window(game->mlx.mlx, game->mlx.img, 0, 0) < 0)
 		return (error_msg_ret("MLX image to window failed.", 1));
 	return (0);
 }
@@ -88,8 +88,8 @@ int	init_mlx(t_game *game)
 
 int start_game(t_game *game)
 {
-	mlx_loop_hook(game->mlx_pack.mlx, frame_callback, game);
-	mlx_loop(game->mlx_pack.mlx);
+	mlx_loop_hook(game->mlx.mlx, frame_callback, game);
+	mlx_loop(game->mlx.mlx);
 	return (0);
 }
 

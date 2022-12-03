@@ -47,12 +47,12 @@ int	map_fill(t_game *game, char *line, t_mapdata *mapdata)
 	int	i;
 
 	i = 0;
-	game->ret = 1;
+	game->gnl_ret = 1;
 	game->map_row = 0;
-	while (game->ret)
+	while (game->gnl_ret)
 	{
-		game->ret = get_next_line(game->fd, &line);
-		if (game->ret == -1)
+		game->gnl_ret = get_next_line(game->fd, &line);
+		if (game->gnl_ret == -1)
 			return (1);
 		if (i >= game->n_till_map && ft_strncmp(line, "", 1) != 0)
 		{
@@ -84,10 +84,10 @@ int	map_count_rows(t_game *game, char *line)
 	game->fd = open(game->map_filename, O_RDONLY);
 	if (game->fd == -1)
 		return (1);
-	while (game->ret)
+	while (game->gnl_ret)
 	{
-		game->ret = get_next_line(game->fd, &line);
-		if (game->ret == -1)
+		game->gnl_ret = get_next_line(game->fd, &line);
+		if (game->gnl_ret == -1)
 			return (error_msg_ret("Failed to read map.", 1));
 		if (i >= game->n_till_map && !ft_strncmp(line, "", ft_strlen(line)))
 			prev_empty = 1;
@@ -149,7 +149,7 @@ int	map_parse(t_game *game, t_mapdata *mapdata)
 {
 	char	*line;
 
-	game->ret = 1;
+	game->gnl_ret = 1;
 	game->n_rows = 0;
 	line = NULL;
 	game->map_widest = 0;

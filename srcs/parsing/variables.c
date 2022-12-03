@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   variables.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
+/*   By: mkuipers <mkuipers@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/14 13:50:36 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/11/18 14:12:37 by dkramer       ########   odam.nl         */
+/*   Updated: 2022/12/03 10:35:39 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,10 @@ int	get_one_variable(t_game *game, char *line, t_mapdata *mapdata)
 
 int	loop_through_lines(t_game *game, char *line, t_mapdata *mapdata)
 {
-	while (game->ret)
+	while (game->gnl_ret)
 	{
-		game->ret = get_next_line(game->fd, &line);
-		if (game->ret == -1)
+		game->gnl_ret = get_next_line(game->fd, &line);
+		if (game->gnl_ret == -1)
 			return (1);
 		if (ft_strncmp(line, "", ft_strlen(line)) != 0)
 		{
