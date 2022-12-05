@@ -115,7 +115,7 @@ typedef struct s_ray {
 	int				hit;
 	int				side;
 	double			step_size;
-	double			const_rad;
+	double			rot_speed;
 	int				line_height;
 	int				draw_start;
 	int				draw_end;
@@ -136,7 +136,7 @@ typedef struct s_game
 	t_ray		ray;
 	t_gamedata	gamedata;
 	t_mapdata	mapdata;
-	t_mlx	mlx;
+	t_mlx		mlx;
 	t_ivector_xy	playerPos;
 	t_dvector_xy	dir;
 	t_dvector_xy	plane;
@@ -146,6 +146,7 @@ typedef struct s_game
 	t_fvector_lr	move;
 	t_fvector_lr	rot;
 	t_dvector_xy	step;
+	double		spawnRadians;
 	double		perpWallDist;
 	int			hit;
 	int			side;
@@ -206,8 +207,8 @@ void	debug_highlight_player(t_mapdata *mapdata);
 void	debug_print_2darray(char **map);
 
 // [MATH]: CONVERSIONS.C
-float	radians_to_degrees(float radians);
-float	degrees_to_radians(float degrees);
+double	radiansToDegrees(double radians);
+double	degreesToRadians(double degrees);
 double	ft_abs(double i);
 
 // [FREE]: MISC.C

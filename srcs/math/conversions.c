@@ -3,21 +3,21 @@
 /*                                                        ::::::::            */
 /*   conversions.c                                      :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
+/*   By: mkuipers <mkuipers@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/18 07:45:46 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/18 07:46:03 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/12/05 22:09:32 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../includes/cub3d.h"
 
-float	radians_to_degrees(float radians)
+double	radiansToDegrees(double radians)
 {
 	return ((radians) * (180 / PI));
 }
 
-float	degrees_to_radians(float degrees)
+double	degreesToRadians(double degrees)
 {
 	return ((degrees) * (PI / 180));
 }

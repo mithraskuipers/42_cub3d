@@ -70,6 +70,7 @@ int	init_mlx(t_game *game)
 	return (0);
 }
 
+// Init at specific values. Will be adjusted by cardinal direction spawn char.
 int	init_raycaster(t_game *game)
 {
 	game->ray.pos_x = game->playerPos.x + 0.5;
@@ -81,7 +82,7 @@ int	init_raycaster(t_game *game)
 	game->ray.plane_x = 0;
 	game->ray.plane_y = 0.66;
 	game->ray.step_size = 0.1;
-	game->ray.const_rad = M_PI / 48;
+	game->ray.rot_speed = M_PI / 60;
 	game->ray.forward = 0;
 	game->ray.backward = 0;
 	game->ray.left = 0;
@@ -100,7 +101,7 @@ void	print_init_raycaster(t_game *game)
 	printf("game->ray.plane_x: %f\n", game->ray.plane_x);
 	printf("game->ray.plane_y: %f\n", game->ray.plane_y);
 	printf("game->ray.step_size: %f\n", game->ray.step_size);
-	printf("game->ray.const_rad: %f\n", game->ray.const_rad);
+	printf("game->ray.rot_speed: %f\n", game->ray.rot_speed);
 	printf("game->ray.forward: %d\n", game->ray.forward);
 	printf("game->ray.back: %d\n", game->ray.backward);
 	printf("game->ray.left: %d\n", game->ray.left);
@@ -110,33 +111,48 @@ void	print_init_raycaster(t_game *game)
 	printf("\n");
 }
 
-int	spawn_dir(t_game *game)
+// radians = 0;
+// if (game->mapdata.spawn_cardinaldir == 'N')
+// 	radians = 0;
+// else if (game->mapdata.spawn_cardinaldir == 'E')
+// 	radians = M_PI / 2;
+// else if (game->mapdata.spawn_cardinaldir == 'S')
+// 	radians = M_PI;
+// else if (game->mapdata.spawn_cardinaldir == 'W')
+// 	radians = 1.5 * M_PI;
+
+int	spawnDegrees(t_game *game)
 {
-	double	radians;
+	int	degrees;
 
-	radians = 0;
+	degrees = 0;
 	if (game->mapdata.spawn_cardinaldir == 'N')
-		radians = 0;
+		degrees = 0;
 	else if (game->mapdata.spawn_cardinaldir == 'E')
-		radians = M_PI / 2;
+		degrees = 90;
 	else if (game->mapdata.spawn_cardinaldir == 'S')
-		radians = M_PI;
+		degrees = 180;
 	else if (game->mapdata.spawn_cardinaldir == 'W')
-		radians = 1.5 * M_PI;
+		degrees = 270;
+	return (degrees);
+}
 
-	printf("radians: %f\n", radians);
+void	updateRayData(t_game *game)
+{
 	double	old_dir_x;
 	double	old_plane_x;
+	double	radians;
+
+	radians = game->spawnRadians;
 
 	old_dir_x = game->ray.dir_x;
 	game->ray.dir_x = game->ray.dir_x * cos(radians) - game->ray.dir_y * sin(radians);
 	game->ray.dir_y = old_dir_x * sin(radians) + game->ray.dir_y * cos(radians);
 	old_plane_x = game->ray.plane_x;
-	printf("\nold_plane_x: %f\n", old_plane_x);
 	game->ray.plane_x = game->ray.plane_x * cos(radians) - game->ray.plane_y * sin(radians);
 	game->ray.plane_y = old_plane_x * sin(radians) + game->ray.plane_y * cos(radians);
-	return (0);
 }
+
 
 /******************************************************************************/
 /*                                                                            */
@@ -150,7 +166,8 @@ void frame_callback(void *arg)
 	check_keypress(game);
 	init_raycaster(game);
 	print_init_raycaster(game);
-	spawn_dir(game);
+	game->spawnRadians = degreesToRadians(spawnDegrees(game));
+	updateRayData(game);
 	print_init_raycaster(game);
 	printf("\n\n\n");
 }
