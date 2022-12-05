@@ -56,6 +56,12 @@ typedef struct s_dvector_xy
 	float	y;
 }	t_dvector_xy;
 
+typedef struct s_ivector_xy
+{
+	int	x;
+	int	y;
+}	t_ivector_xy;
+
 typedef struct s_fvector_lr
 {
 	float	l;
@@ -66,7 +72,7 @@ typedef struct s_gamedata
 {
 	mlx_texture_t	*textures[4];
 	double		radians;
-}					t_gamedata;
+}	t_gamedata;
 
 typedef struct s_mapdata
 {
@@ -77,22 +83,61 @@ typedef struct s_mapdata
 	uint32_t	fcolor;
 	uint32_t	ccolor;
 	char		**map;
-	float		spawn_cardinaldir;
-}				t_mapdata;
+	char		spawn_cardinaldir;
+}	t_mapdata;
 
 typedef struct	s_mlx
 {
 	mlx_t			*mlx;
 	mlx_image_t		*img;
 	mlx_texture_t	*txts[4];
-}				t_mlx;
+}	t_mlx;
+
+typedef struct s_ray {
+	double			pos_x;
+	double			pos_y;
+	double			dir_x;
+	double			dir_y;
+	double			plane_x;
+	double			plane_y;
+	double			camera_x;
+	double			ray_dir_x;
+	double			ray_dir_y;
+	int				map_x;
+	int				map_y;
+	double			side_dist_x;
+	double			side_dist_y;
+	double			delta_dist_x;
+	double			delta_dist_y;
+	double			perp_wall_dist;
+	int				step_x;
+	int				step_y;
+	int				hit;
+	int				side;
+	double			step_size;
+	double			const_rad;
+	int				line_height;
+	int				draw_start;
+	int				draw_end;
+	double			wall_x;
+	int				x_tex;
+	double			y_tex;
+	double			y_tex_step;
+	int				forward;
+	int				backward;
+	int				left;
+	int				right;
+	int				rot_left;
+	int				rot_right;
+}	t_ray;
 
 typedef struct s_game
 {
+	t_ray		ray;
 	t_gamedata	gamedata;
 	t_mapdata	mapdata;
 	t_mlx	mlx;
-	t_dvector_xy	playerPos;
+	t_ivector_xy	playerPos;
 	t_dvector_xy	dir;
 	t_dvector_xy	plane;
 	t_dvector_xy	rayDir;
@@ -120,7 +165,7 @@ typedef struct s_game
 	int		map_row_tmp;
 	int		map_col_tmp;
 	int		stop;
-}				t_game;
+}	t_game;
 
 /******************************************************************************/
 /* PROTOTYPES                                                                 */
