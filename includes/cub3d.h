@@ -87,8 +87,11 @@ typedef struct	s_mlx
 	mlx_texture_t	*txts[4];
 }				t_mlx;
 
-typedef struct s_ray
+typedef struct s_game
 {
+	t_gamedata	gamedata;
+	t_mapdata	mapdata;
+	t_mlx	mlx;
 	t_dvector_xy	playerPos;
 	t_dvector_xy	dir;
 	t_dvector_xy	plane;
@@ -103,29 +106,19 @@ typedef struct s_ray
 	int			side;
 	double		step_size;
 	float		cameraX;
-
-}	t_ray;
-
-
-typedef struct s_game
-{
-	t_gamedata	gamedata;
-	t_mapdata	mapdata;
-	t_mlx	mlx;
-	t_ray		ray;
 	char	*map_filename;
 	int		n_rows;
 	int		len;
 	int		gnl_ret;
 	int		fd;
 	int		error;
-	int		map_widest;
+	int		map_maxcols;
 	char	**map_tmp;
 	int		playerSpawnX;
 	int		playerSpawnY;
 	int		n_till_map;
-	int		map_row;
-	int		map_col;
+	int		map_row_tmp;
+	int		map_col_tmp;
 	int		stop;
 }				t_game;
 

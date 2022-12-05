@@ -17,25 +17,25 @@ int	map_check_chars(t_game *game, t_mapdata *mapdata)
 	size_t	n_players;
 
 	n_players = 0;
-	game->map_row = 0; 															// Is deze in de game struct alleen om minder regels te gebruiken? Of is er nog een reden?
-	while (game->map_row < game->n_rows)
+	game->map_row_tmp = 0; 															// Is deze in de game struct alleen om minder regels te gebruiken? Of is er nog een reden?
+	while (game->map_row_tmp < game->n_rows)
 	{
-		game->map_col = 0;
-		game->len = (int)ft_strlen(mapdata->map[game->map_row]);						// Waarom typecasting?
-		while (game->map_col < game->len)
+		game->map_col_tmp = 0;
+		game->len = (int)ft_strlen(mapdata->map[game->map_row_tmp]);						// Waarom typecasting?
+		while (game->map_col_tmp < game->len)
 		{
-			if (!ft_strrchr("01NESW ", mapdata->map[game->map_row][game->map_col]))
+			if (!ft_strrchr("01NESW ", mapdata->map[game->map_row_tmp][game->map_col_tmp]))
 				return (error_msg_ret("Wrong characters included.", 1));
-			if (ft_strrchr("NESW", mapdata->map[game->map_row][game->map_col]))
+			if (ft_strrchr("NESW", mapdata->map[game->map_row_tmp][game->map_col_tmp]))
 			{
 				n_players++;
-				game->playerSpawnX = game->map_col;
-				game->playerSpawnY = game->map_row;
-				game->mapdata.spawn_cardinaldir = mapdata->map[game->map_row][game->map_col];
+				game->playerSpawnX = game->map_col_tmp;
+				game->playerSpawnY = game->map_row_tmp;
+				game->mapdata.spawn_cardinaldir = mapdata->map[game->map_row_tmp][game->map_col_tmp];
 			}
-			game->map_col++;
+			game->map_col_tmp++;
 		}
-		game->map_row++;
+		game->map_row_tmp++;
 	}
 	if (n_players > 1)
 		return (error_msg_ret("Only 1 player is allowed.", 1));
@@ -48,7 +48,7 @@ int	map_fill(t_game *game, char *line, t_mapdata *mapdata)
 
 	i = 0;
 	game->gnl_ret = 1;
-	game->map_row = 0;
+	game->map_row_tmp = 0;
 	while (game->gnl_ret)
 	{
 		game->gnl_ret = get_next_line(game->fd, &line);
@@ -56,15 +56,15 @@ int	map_fill(t_game *game, char *line, t_mapdata *mapdata)
 			return (1);
 		if (i >= game->n_till_map && ft_strncmp(line, "", 1) != 0)
 		{
-			mapdata->map[game->map_row] = ft_calloc(1, game->map_widest + 1);
-			if (!mapdata->map[game->map_row])
+			mapdata->map[game->map_row_tmp] = ft_calloc(1, game->map_maxcols + 1);
+			if (!mapdata->map[game->map_row_tmp])
 				return (1);
-			mapdata->map[game->map_row] = ft_memset(mapdata->map[game->map_row], '0',
-					game->map_widest);
-			mapdata->map[game->map_row] = ft_memcpy(mapdata->map[game->map_row], line,
+			mapdata->map[game->map_row_tmp] = ft_memset(mapdata->map[game->map_row_tmp], '0',
+					game->map_maxcols);
+			mapdata->map[game->map_row_tmp] = ft_memcpy(mapdata->map[game->map_row_tmp], line,
 					ft_strlen(line));
 			free (line);
-			game->map_row++;
+			game->map_row_tmp++;
 		}
 		else
 			free (line);
@@ -100,8 +100,8 @@ int	map_count_rows(t_game *game, char *line)
 			}
 			game->n_rows++;
 			game->len = (int)ft_strlen(line);
-			if (game->len > game->map_widest)
-				game->map_widest = game->len;
+			if (game->len > game->map_maxcols)
+				game->map_maxcols = game->len;
 		}
 		if (line)
 			free (line);
@@ -152,7 +152,7 @@ int	map_parse(t_game *game, t_mapdata *mapdata)
 	game->gnl_ret = 1;
 	game->n_rows = 0;
 	line = NULL;
-	game->map_widest = 0;
+	game->map_maxcols = 0;
 	init_map_variables(game, mapdata);
 	if (get_variables(game, line, mapdata) == 1)
 		return (1);

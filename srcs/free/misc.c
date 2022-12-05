@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   misc.c                                             :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
+/*   By: mkuipers <mkuipers@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/13 17:22:17 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/18 08:56:23 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/12/03 11:19:29 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 // Frees  the char **map stored in the game struct.
 void	map_free(char **map, t_game *game)
 {
-	game->map_row = 0;
-	while (game->map_row < game->n_rows)
+	game->map_row_tmp = 0;
+	while (game->map_row_tmp < game->n_rows)
 	{
-		free (map[game->map_row]);
-		game->map_row++;
+		free (map[game->map_row_tmp]);
+		game->map_row_tmp++;
 	}
 	free(map);
 }
