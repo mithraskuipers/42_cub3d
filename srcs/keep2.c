@@ -130,7 +130,7 @@ int	draw_img(t_game *game)
 {
 	int	col;
 
-	draw_bg(game);
+	renderBackground(game);
 	col = 0;
 	while (col < RES_X)
 	{
@@ -180,7 +180,7 @@ void frame_callback(void *arg)
 {
 	t_game *game;
 	game = (t_game *)arg;
-	// draw_bg(game);
+	// renderBackground(game);
 	check_keypress(game);
 }
 

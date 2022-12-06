@@ -3,16 +3,16 @@
 /*                                                        ::::::::            */
 /*   bg.c                                               :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: mkuipers <mkuipers@student.42.fr>            +#+                     */
+/*   By: mikuiper <mikuiper@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/29 17:34:20 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/12/03 10:53:18 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/12/06 12:28:00 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../includes/cub3d.h"
 
-int	draw_bg(t_game *game)
+int	renderBackground(t_game *game)
 {
 	unsigned int	i;
 

@@ -215,6 +215,6 @@ double	ft_abs(double i);
 void	map_free(char **map, t_game *game);
 
 // [DRAW]: BG.C
-int	draw_bg(t_game *game);
+int	renderBackground(t_game *game);
 
 #endif

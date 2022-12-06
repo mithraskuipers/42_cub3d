@@ -70,7 +70,15 @@ int	init_mlx(t_game *game)
 	return (0);
 }
 
-// Init at specific values. Will be adjusted by cardinal direction spawn char.
+/*
+Init at specific values. Will be adjusted by cardinal direction spawn char.
+The ratio between the length of the direction and the camera plane determinates
+the FOV, here the direction vector is a bit longer than the camera plane, so the
+FOV will be smaller than 90° (more precisely, the FOV is 2 * atan(0.66/1.0)=66°,
+which is perfect for a first person shooter game).
+dir_x and dir_y are setup in accordance with lodev
+*/
+
 int	init_raycaster(t_game *game)
 {
 	game->ray.pos_x = game->playerPos.x + 0.5;
@@ -92,7 +100,11 @@ int	init_raycaster(t_game *game)
 	return (0);
 }
 
-void	print_init_raycaster(t_game *game)
+/******************************************************************************/
+/* debug                                                                      */
+/******************************************************************************/
+
+void	debugInitRaycaster(t_game *game)
 {
 	printf("game->ray.pos_x: %f\n", game->ray.pos_x = game->playerPos.x + 0.5);
 	printf("game->ray.pos_y: %f\n", game->ray.pos_y = game->playerPos.y + 0.5);
@@ -108,18 +120,26 @@ void	print_init_raycaster(t_game *game)
 	printf("game->ray.right: %d\n", game->ray.right);
 	printf("game->ray.rot_left: %d\n", game->ray.rot_left);
 	printf("game->ray.rot_right: %d\n", game->ray.rot_right);
+	printf("game->ray.camera_x: %f\n", game->ray.camera_x);
+	printf("game->ray.ray_dir_x: %f\n", game->ray.ray_dir_x);
+	printf("game->ray.ray_dir_y: %f\n", game->ray.ray_dir_y);
+	printf("game->ray.map_x: %d\n", game->ray.map_x);
+	printf("game->ray.map_y: %d\n", game->ray.map_y);
+	printf("game->ray.delta_dist_x: %f\n", game->ray.delta_dist_x);
+	printf("game->ray.delta_dist_y: %f\n", game->ray.delta_dist_y);
+	printf("game->ray.side_dist_x: %f\n", game->ray.side_dist_x);
+	printf("game->ray.side_dist_y: %f\n", game->ray.side_dist_y);
 	printf("\n");
 }
 
-// radians = 0;
-// if (game->mapdata.spawn_cardinaldir == 'N')
-// 	radians = 0;
-// else if (game->mapdata.spawn_cardinaldir == 'E')
-// 	radians = M_PI / 2;
-// else if (game->mapdata.spawn_cardinaldir == 'S')
-// 	radians = M_PI;
-// else if (game->mapdata.spawn_cardinaldir == 'W')
-// 	radians = 1.5 * M_PI;
+void	debugSpawnRadians(t_game *game)
+{
+	printf("\nspawnRadians: %f\n\n", game->spawnRadians);
+}
+
+/******************************************************************************/
+/*                                                                            */
+/******************************************************************************/
 
 int	spawnDegrees(t_game *game)
 {
@@ -139,20 +159,81 @@ int	spawnDegrees(t_game *game)
 
 void	updateRayData(t_game *game)
 {
-	double	old_dir_x;
-	double	old_plane_x;
-	double	radians;
+	double	dir_x_tmp;
+	double	plane_x_tmp;
 
-	radians = game->spawnRadians;
-
-	old_dir_x = game->ray.dir_x;
-	game->ray.dir_x = game->ray.dir_x * cos(radians) - game->ray.dir_y * sin(radians);
-	game->ray.dir_y = old_dir_x * sin(radians) + game->ray.dir_y * cos(radians);
-	old_plane_x = game->ray.plane_x;
-	game->ray.plane_x = game->ray.plane_x * cos(radians) - game->ray.plane_y * sin(radians);
-	game->ray.plane_y = old_plane_x * sin(radians) + game->ray.plane_y * cos(radians);
+	dir_x_tmp = game->ray.dir_x;
+	game->ray.dir_x = game->ray.dir_x * cos(game->spawnRadians) - game->ray.dir_y * sin(game->spawnRadians);
+	game->ray.dir_y = dir_x_tmp * sin(game->spawnRadians) + game->ray.dir_y * cos(game->spawnRadians);
+	plane_x_tmp = game->ray.plane_x;
+	game->ray.plane_x = game->ray.plane_x * cos(game->spawnRadians) - game->ray.plane_y * sin(game->spawnRadians);
+	game->ray.plane_y = plane_x_tmp * sin(game->spawnRadians) + game->ray.plane_y * cos(game->spawnRadians);
 }
 
+/*
+Calculate the x-coordinate in camera space
+Calculate ray direction (ray_dir_x, ray_dir_y)
+Save the player coordinates
+*/
+
+void	setRayPos(t_game *game, int x)
+{
+	game->ray.camera_x = 2 * x / (double)RES_X - 1;
+	game->ray.ray_dir_x = game->ray.dir_x + game->ray.plane_x * game->ray.camera_x;
+	game->ray.ray_dir_y = game->ray.dir_y + game->ray.plane_y * game->ray.camera_x;
+	game->ray.map_x = (int)game->ray.pos_x;
+	game->ray.map_y = (int)game->ray.pos_y;
+}
+
+/*
+Compute the distance a ray has from one xside or yside to the next xside or yside.
+Calculate step and initial sideDist
+*/
+
+void	setRayLen(t_ray *ray)
+{
+	ray->delta_dist_y = fabs(1 / ray->ray_dir_x);
+	ray->delta_dist_x = fabs(1 / ray->ray_dir_y);
+	if (ray->ray_dir_x < 0)
+	{
+		ray->step_x = -1;
+		ray->side_dist_x = (ray->pos_x - ray->map_x) * ray->delta_dist_y;
+	}
+	else
+	{
+		ray->step_x = 1;
+		ray->side_dist_x = (ray->map_x + 1.0 - ray->pos_x) * ray->delta_dist_y;
+	}
+	if (ray->ray_dir_y < 0)
+	{
+		ray->step_y = -1;
+		ray->side_dist_y = (ray->pos_y - ray->map_y) * ray->delta_dist_x;
+	}
+	else
+	{
+		ray->step_y = 1;
+		ray->side_dist_y = (ray->map_y + 1.0 - ray->pos_y) * ray->delta_dist_x;
+	}
+}
+
+int	renderFrame(t_game *game)
+{
+	int	col;
+
+	col = 0;
+	while (col < RES_X)
+	{
+		sleep(1);
+		setRayPos(game, col);
+		game->ray.hit = 0;
+		setRayLen(&(game->ray));
+		debugInitRaycaster(game);	
+		printf("col: %d\n", col);
+		// prepare for Digital Differential Analysis (see lodev)
+		col++;
+	}
+	return (0);
+}
 
 /******************************************************************************/
 /*                                                                            */
@@ -162,22 +243,24 @@ void frame_callback(void *arg)
 {
 	t_game *game;
 	game = (t_game *)arg;
-	draw_bg(game);
+	renderBackground(game);
 	check_keypress(game);
 	init_raycaster(game);
-	print_init_raycaster(game);
+	debugInitRaycaster(game);
 	game->spawnRadians = degreesToRadians(spawnDegrees(game));
+	debugSpawnRadians(game);
 	updateRayData(game);
-	print_init_raycaster(game);
-	printf("\n\n\n");
+	debugInitRaycaster(game);
+	renderFrame(game);
+	printf("\n\n");
 }
 
 int start_game(t_game *game)
 {
-	// mlx_loop_hook(game->mlx.mlx, frame_callback, game);
-	// mlx_loop(game->mlx.mlx);
+	mlx_loop_hook(game->mlx.mlx, frame_callback, game);
+	mlx_loop(game->mlx.mlx);
 
-	frame_callback(game);
+	//frame_callback(game);
 	return (0);
 }
 
