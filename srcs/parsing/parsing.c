@@ -12,7 +12,7 @@
 
 #include "./../../includes/cub3d.h"
 
-int	map_check_chars(t_game *game, t_mapdata *mapdata)
+int	mapCheckChars(t_game *game, t_mapdata *mapdata)
 {
 	size_t	n_players;
 
@@ -42,7 +42,7 @@ int	map_check_chars(t_game *game, t_mapdata *mapdata)
 	return (0);
 }
 
-int	map_fill(t_game *game, char *line, t_mapdata *mapdata)
+int	mapFill(t_game *game, char *line, t_mapdata *mapdata)
 {
 	int	i;
 
@@ -74,7 +74,7 @@ int	map_fill(t_game *game, char *line, t_mapdata *mapdata)
 	return (0);
 }
 
-int	map_count_rows(t_game *game, char *line)
+int	mapCountRows(t_game *game, char *line)
 {
 	int	i;
 	int	prev_empty;
@@ -111,8 +111,8 @@ int	map_count_rows(t_game *game, char *line)
 	return (0);
 }
 
-// map_check_ext() checks whether the file extension is ".cub".
-int	map_check_ext(t_game *game)
+// mapCheckExt() checks whether the file extension is ".cub".
+int	mapCheckExt(t_game *game)
 {
 	if (!ft_strrchr(game->map_filename, '.') || \
 	ft_strncmp(ft_strrchr(game->map_filename, '.'), ".cub", 5))
@@ -120,7 +120,7 @@ int	map_check_ext(t_game *game)
 	return (0);
 }
 
-int	mlx_stuff(t_mapdata *mapdata, t_game *game)
+int	mlxStuff(t_mapdata *mapdata, t_game *game)
 {
 	mlx_t	*mlx42;
 
@@ -153,12 +153,12 @@ int	parseMap(t_game *game, t_mapdata *mapdata)
 	game->n_rows = 0;
 	line = NULL;
 	game->map_maxcols = 0;
-	init_map_variables(game, mapdata);
-	if (get_variables(game, line, mapdata) == 1)
+	initMapVariables(game, mapdata);
+	if (getVariables(game, line, mapdata) == 1)
 		return (1);
-	if (map_check_ext(game) == 1)
+	if (mapCheckExt(game) == 1)
 		return (1);
-	if (map_count_rows(game, line) == 1)
+	if (mapCountRows(game, line) == 1)
 		return (1);
 	mapdata->map = ft_calloc(1, sizeof(char *) * (game->n_rows + 1));
 	if (!mapdata->map)
@@ -166,14 +166,14 @@ int	parseMap(t_game *game, t_mapdata *mapdata)
 	game->fd = open(game->map_filename, O_RDONLY);
 	if (game->fd == -1)
 		return (1);
-	if (map_fill(game, line, mapdata) == 1)
+	if (mapFill(game, line, mapdata) == 1)
 		return (1);
-	if (map_check_chars(game, mapdata) == 1)
+	if (mapCheckChars(game, mapdata) == 1)
 		return (1);
-	if (map_check (game, mapdata) == 1)
+	if (mapCheck (game, mapdata) == 1)
 		return (1);
 
-	// mlx_stuff(mapdata, game);
+	// mlxStuff(mapdata, game);
 	// print_parse(mapdata);
 	return (0);
 }

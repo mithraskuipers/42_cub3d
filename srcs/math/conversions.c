@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   conversions.c                                      :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: mkuipers <mkuipers@student.42.fr>            +#+                     */
+/*   By: mikuiper <mikuiper@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/18 07:45:46 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/12/05 22:09:32 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/12/07 11:59:26 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ double	degreesToRadians(double degrees)
 	return ((degrees) * (PI / 180));
 }
 
-double	ft_abs(double i)
+double	toAbsolute(double i)
 {
 	if (i < 0)
 		return (-i);

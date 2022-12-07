@@ -94,8 +94,8 @@ typedef struct	s_mlx
 }	t_mlx;
 
 typedef struct s_ray {
-	double			pos_x;
-	double			pos_y;
+	double			posX;
+	double			posY;
 	double			dirX;
 	double			dirY;
 	double			planeX;
@@ -109,14 +109,14 @@ typedef struct s_ray {
 	double			sideDistY;
 	double			deltaDistX;
 	double			deltaDistY;
-	double			perp_wall_dist;
+	double			perpWallDist;
 	int				stepX;
 	int				stepY;
 	int				hit;
 	int				side;
 	double			stepSize;
 	double			rotationSpeed;
-	int				line_height;
+	int				lineHeight;
 	int				drawStart;
 	int				drawEnd;
 	double			wall_x;
@@ -173,43 +173,43 @@ typedef struct s_game
 /******************************************************************************/
 
 // [PARSING]: CHECKERS.C
-int	map_floodfill(int x, int y, t_game *game);
-int	map_copy(t_game *game, t_mapdata *mapdata);
-int	map_check(t_game *game, t_mapdata *mapdata);
+int	mapFloodfill(int x, int y, t_game *game);
+int	mapCopy(t_game *game, t_mapdata *mapdata);
+int	mapCheck(t_game *game, t_mapdata *mapdata);
 
 // [PARSING]: PARSING.C
-int	map_check_chars(t_game *game, t_mapdata *mapdata);
-int	map_fill(t_game *game, char *line, t_mapdata *mapdata);
-int	map_count_rows(t_game *game, char *line);
-int	map_check_ext(t_game *game);
-int	mlx_stuff(t_mapdata *mapdata, t_game *game);
+int	mapCheckChars(t_game *game, t_mapdata *mapdata);
+int	mapFill(t_game *game, char *line, t_mapdata *mapdata);
+int	mapCountRows(t_game *game, char *line);
+int	mapCheckExt(t_game *game);
+int	mlxStuff(t_mapdata *mapdata, t_game *game);
 
 // [PARSING]: UTILS.C
-int	create_trgb(unsigned char t, unsigned char r, unsigned char g, unsigned char b);
+int	createTrgb(unsigned char t, unsigned char r, unsigned char g, unsigned char b);
 
 // [PARSING]: VARIABLES.C
-void	free_split(char **split, bool skip, int index);
+void	freeSplit(char **split, bool skip, int index);
 int		free_all_and_error(char	**split_line, char *str);
-int		get_colors(char	**split_line, t_mapdata *mapdata);
+int		getColors(char	**split_line, t_mapdata *mapdata);
 int		get_other_cases(char **split_line, t_mapdata *mapdata, t_game *game);
 int		get_one_variable(t_game *game, char *line, t_mapdata *mapdata);
 int		loop_through_lines(t_game *game, char *line, t_mapdata *mapdata);
-int		get_variables(t_game *game, char *line, t_mapdata *mapdata);
-void	init_map_variables(t_game *game, t_mapdata *mapdata);
+int		getVariables(t_game *game, char *line, t_mapdata *mapdata);
+void	initMapVariables(t_game *game, t_mapdata *mapdata);
 int		parseMap(t_game *game, t_mapdata *mapdata);
 
 // [TOOLS]: ERROR.C
 int		errorMsgRet(char *error_msg, int ret_code);
 
 // [DEBUG]: MISC.C
-void	debug_print_map(t_mapdata *mapdata);
-void	debug_highlight_player(t_mapdata *mapdata);
-void	debug_print_2darray(char **map);
+void	debugMap(t_mapdata *mapdata);
+void	debugHighlightPlayer(t_mapdata *mapdata);
+void	debugPrint2darray(char **map);
 
 // [MATH]: CONVERSIONS.C
 double	radiansToDegrees(double radians);
 double	degreesToRadians(double degrees);
-double	ft_abs(double i);
+double	toAbsolute(double i);
 
 // [FREE]: MISC.C
 void	map_free(char **map, t_game *game);

@@ -6,14 +6,14 @@
 /*   By: mikuiper <mikuiper@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 08:47:23 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/12/07 08:30:35 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/12/07 11:57:30 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../includes/cub3d.h"
 
 /*check if surrounded by walls*/
-int	map_floodfill(int x, int y, t_game *game)
+int	mapFloodfill(int x, int y, t_game *game)
 {
 	if ((x < 0) || (x >= game->map_maxcols) || (y < 0) || (y >= game->n_rows))
 		return (0);
@@ -31,18 +31,18 @@ int	map_floodfill(int x, int y, t_game *game)
 		|| x == game->map_maxcols - 1)
 		return (errorMsgRet("Map not surrounded by walls.", 1));
 	game->map_tmp[y][x] = 'x';
-	if (map_floodfill(x - 1, y, game) == 1)
+	if (mapFloodfill(x - 1, y, game) == 1)
 		return (1);
-	if (map_floodfill(x, y - 1, game) == 1)
+	if (mapFloodfill(x, y - 1, game) == 1)
 		return (1);
-	if (map_floodfill(x + 1, y, game) == 1)
+	if (mapFloodfill(x + 1, y, game) == 1)
 		return (1);
-	if (map_floodfill(x, y + 1, game) == 1)
+	if (mapFloodfill(x, y + 1, game) == 1)
 		return (1);
 	return (0);
 }
 
-int	map_copy(t_game *game, t_mapdata *mapdata)
+int	mapCopy(t_game *game, t_mapdata *mapdata)
 {
 	int	y;
 	int	x;
@@ -65,14 +65,14 @@ int	map_copy(t_game *game, t_mapdata *mapdata)
 	return (0);
 }
 
-int	map_check(t_game *game, t_mapdata *mapdata)
+int	mapCheck(t_game *game, t_mapdata *mapdata)
 {
 	game->map_tmp = ft_calloc(1, sizeof(char *) * (game->n_rows + 1));
 	if (!game->map_tmp)
 		return (1);
-	if (map_copy(game, mapdata) == 1)
+	if (mapCopy(game, mapdata) == 1)
 		return (1);
-	if (map_floodfill(game->playerSpawnX, game->playerSpawnY, game) == 1)
+	if (mapFloodfill(game->playerSpawnX, game->playerSpawnY, game) == 1)
 	{
 		map_free(game->map_tmp, game);
 		return (1);

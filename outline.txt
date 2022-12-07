@@ -11,13 +11,13 @@ main()
 		mlx->map_config[0] <- map[0]
 		mlx->map_config[1] <- map[1]
 		etc. until mlx->map_config[7] <- '\0'
-	-	map_check_config()
+	-	mapCheck_config()
 		Checks if the data in mlx->map_config[] is correct.
 		I.e.	Check if there are entries for NO, SO, WE, EA, F, C
 				Only 1 entry per config category is allowed. So only 1 times should you
 				specify the floor color. etc.
 		If something is wrong, return 1
-	-	map_check_characters()
+	-	mapCheck_characters()
 		If something is wrong, return 1
-	-	map_check_floodfill()
+	-	mapCheck_floodfill()
 		If something is wrong, return 1

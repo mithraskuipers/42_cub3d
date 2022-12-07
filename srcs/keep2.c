@@ -97,11 +97,11 @@ void	debug_print_ray_data(t_game *game, int col)
 	- Check if ray has hit a wall
 */
 
-void	perform_DigitalDifferentialAnalysis(t_game *game)
+void	perform_digitalDifferentialAnalysis(t_game *game)
 {
 	while (game->ray.hit == 0)
 	{
-		// printf("running DigitalDifferentialAnalysis\n");
+		// printf("running digitalDifferentialAnalysis\n");
 		if (game->ray.sideDist.x < game->ray.sideDist.y)
 		{
 			game->ray.sideDist.x += game->ray.deltaDist.y;
@@ -137,7 +137,7 @@ int	draw_img(t_game *game)
 		set_ray_pos(game, col);
 		get_ratios(&(game->ray)); // set ray len
 		debug_print_ray_data(game, col);
-		// perform_DigitalDifferentialAnalysis(game);
+		// perform_digitalDifferentialAnalysis(game);
 		col++;
 	}
 	return (0);

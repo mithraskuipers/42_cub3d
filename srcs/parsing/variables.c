@@ -6,13 +6,13 @@
 /*   By: mikuiper <mikuiper@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/14 13:50:36 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/12/07 08:30:35 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/12/07 11:55:50 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../includes/cub3d.h"
 
-void	free_split(char **split, bool skip, int index)
+void	freeSplit(char **split, bool skip, int index)
 {
 	int	i;
 
@@ -30,11 +30,11 @@ void	free_split(char **split, bool skip, int index)
 
 int	free_all_and_error(char	**split_line, char *str)
 {
-	free_split(split_line, false, 0);
+	freeSplit(split_line, false, 0);
 	return (errorMsgRet(str, 1));
 }
 
-int	get_colors(char	**split_line, t_mapdata *mapdata)
+int	getColors(char	**split_line, t_mapdata *mapdata)
 {
 	char	**split_color;
 
@@ -44,7 +44,7 @@ int	get_colors(char	**split_line, t_mapdata *mapdata)
 	split_color = ft_split(split_line[1], ',');
 	if (!split_color[0] || !split_color[1] || !split_color[2])
 	{
-		free_split(split_color, false, 0);
+		freeSplit(split_color, false, 0);
 		return (free_all_and_error(split_line, "Wrong format variable."));
 	}
 	if (!ft_strncmp("F", split_line[0], 1))
@@ -55,8 +55,8 @@ int	get_colors(char	**split_line, t_mapdata *mapdata)
 		mapdata->ccolor = ft_atoi(split_color[0]) << 24
 			| ft_atoi(split_color[1])
 			<< 16 | ft_atoi(split_color[2]) << 8 | 0xff;
-	free_split(split_color, false, 0);
-	free_split(split_line, false, 0);
+	freeSplit(split_color, false, 0);
+	freeSplit(split_line, false, 0);
 	return (0);
 }
 
@@ -65,14 +65,14 @@ int	get_other_cases(char **split_line, t_mapdata *mapdata, t_game *game)
 	if (!ft_strncmp("F", split_line[0], 1)
 		|| !ft_strncmp("C", split_line[0], 1))
 	{
-		if (get_colors(split_line, mapdata) == 1)
+		if (getColors(split_line, mapdata) == 1)
 			return (1);
 		return (0);
 	}
 	else if (ft_strrchr("01 ", split_line[0][0]))
 	{
 		game->stop = 1;
-		return (free_split(split_line, false, 0), 0);
+		return (freeSplit(split_line, false, 0), 0);
 	}
 	else if (split_line[1])
 		return (free_all_and_error(split_line, "Unknown variable in map."));
@@ -104,7 +104,7 @@ int	get_one_variable(t_game *game, char *line, t_mapdata *mapdata)
 		mapdata->EA = split_line[1];
 	else
 		return (get_other_cases(split_line, mapdata, game));
-	free_split(split_line, true, 1);
+	freeSplit(split_line, true, 1);
 	return (0);
 }
 
@@ -133,7 +133,7 @@ int	loop_through_lines(t_game *game, char *line, t_mapdata *mapdata)
 	return (0);
 }
 
-int	get_variables(t_game *game, char *line, t_mapdata *mapdata)
+int	getVariables(t_game *game, char *line, t_mapdata *mapdata)
 {
 	game->fd = open(game->map_filename, O_RDONLY);
 	if (game->fd == -1)
@@ -147,7 +147,7 @@ int	get_variables(t_game *game, char *line, t_mapdata *mapdata)
 	return (0);
 }
 
-void	init_map_variables(t_game *game, t_mapdata *mapdata)
+void	initMapVariables(t_game *game, t_mapdata *mapdata)
 {
 	mapdata->fcolor = 0;
 	mapdata->ccolor = 0;

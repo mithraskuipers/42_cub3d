@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   misc.c                                             :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
+/*   By: mikuiper <mikuiper@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/12 22:33:51 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/15 15:14:55 by dkramer       ########   odam.nl         */
+/*   Updated: 2022/12/07 11:58:50 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	color_reset()
 	printf("\033[0m");
 }
 
-void	debug_print_map(t_mapdata *mapdata)
+void	debugMap(t_mapdata *mapdata)
 {
 	size_t	i;
 	size_t	j;
@@ -66,7 +66,7 @@ static int cell_is_player(char c)
 	return (0);
 }
 
-void	debug_highlight_player(t_mapdata *mapdata)
+void	debugHighlightPlayer(t_mapdata *mapdata)
 {
 	size_t	i;
 	size_t	j;
@@ -107,7 +107,7 @@ void	debug_highlight_player(t_mapdata *mapdata)
 	}
 }
 
-void	debug_print_2darray(char **map)
+void	debugPrint2darray(char **map)
 {
 	int i;
 

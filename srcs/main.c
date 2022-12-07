@@ -81,8 +81,8 @@ dirX and dirY are setup in accordance with lodev
 
 int	initRaycaster(t_game *game)
 {
-	game->ray.pos_x = game->playerPos.x + 0.5;
-	game->ray.pos_y = game->playerPos.y + 0.5;
+	game->ray.posX = game->playerPos.x + 0.5;
+	game->ray.posY = game->playerPos.y + 0.5;
 
 	// initialize ray directions
 	game->ray.dirX = -1;
@@ -106,8 +106,8 @@ int	initRaycaster(t_game *game)
 
 void	debugInitRaycaster(t_game *game)
 {
-	printf("game->ray.pos_x: %f\n", game->ray.pos_x = game->playerPos.x + 0.5);
-	printf("game->ray.pos_y: %f\n", game->ray.pos_y = game->playerPos.y + 0.5);
+	printf("game->ray.posX: %f\n", game->ray.posX = game->playerPos.x + 0.5);
+	printf("game->ray.posY: %f\n", game->ray.posY = game->playerPos.y + 0.5);
 	printf("game->ray.dirX: %f\n", game->ray.dirX);
 	printf("game->ray.dirY: %f\n", game->ray.dirY);
 	printf("game->ray.planeX: %f\n", game->ray.planeX);
@@ -184,8 +184,8 @@ void	setRayPos(t_game *game, int x)
 	game->ray.cameraX = 2 * x / (double)RES_X - 1;
 	game->ray.rayDirX = game->ray.dirX + game->ray.planeX * game->ray.cameraX;
 	game->ray.rayDirY = game->ray.dirY + game->ray.planeY * game->ray.cameraX;
-	game->ray.mapX = (int)game->ray.pos_x;
-	game->ray.mapY = (int)game->ray.pos_y;
+	game->ray.mapX = (int)game->ray.posX;
+	game->ray.mapY = (int)game->ray.posY;
 }
 
 /*
@@ -200,22 +200,22 @@ void	setRayLen(t_ray *ray)
 	if (ray->rayDirX < 0)
 	{
 		ray->stepX = -1;
-		ray->sideDistX = (ray->pos_x - ray->mapX) * ray->deltaDistY;
+		ray->sideDistX = (ray->posX - ray->mapX) * ray->deltaDistY;
 	}
 	else
 	{
 		ray->stepX = 1;
-		ray->sideDistX = (ray->mapX + 1.0 - ray->pos_x) * ray->deltaDistY;
+		ray->sideDistX = (ray->mapX + 1.0 - ray->posX) * ray->deltaDistY;
 	}
 	if (ray->rayDirY < 0)
 	{
 		ray->stepY = -1;
-		ray->sideDistY = (ray->pos_y - ray->mapY) * ray->deltaDistX;
+		ray->sideDistY = (ray->posY - ray->mapY) * ray->deltaDistX;
 	}
 	else
 	{
 		ray->stepY = 1;
-		ray->sideDistY = (ray->mapY + 1.0 - ray->pos_y) * ray->deltaDistX;
+		ray->sideDistY = (ray->mapY + 1.0 - ray->posY) * ray->deltaDistX;
 	}
 }
 
@@ -226,9 +226,9 @@ pixels). So we can also use it to find which squares of the map our ray hits,
 and stop the algorithm once a square that is a wall is hit.
 */
 
-void	DigitalDifferentialAnalysis(t_game *game)
+void	digitalDifferentialAnalysis(t_game *game)
 {
-	printf("\nRunning DigitalDifferentialAnalysis..\n");
+	printf("\nRunning digitalDifferentialAnalysis..\n");
 	while (game->ray.hit == 0)
 	{
 		if (game->ray.sideDistX < game->ray.sideDistY)
@@ -252,6 +252,35 @@ void	DigitalDifferentialAnalysis(t_game *game)
 	}
 }
 
+/*
+	- Calculate distance projected on camera direction
+	- Calculate height of line to draw on screen
+	- Calculate lowest and highest pixel to fill in current stripe
+*/
+
+void	setupGameWorld(t_ray *ray)
+{
+	if (!ray->side) // == 0
+	{
+		ray->perpWallDist = (ray->mapX - ray->posX + (1 - ray->stepX) / 2) / ray->rayDirX;
+	}
+	else if (ray->side)
+	{
+		ray->perpWallDist = (ray->mapY - ray->posY + (1 - ray->stepY) / 2) / ray->rayDirY;
+	}
+	ray->lineHeight = (int)(RES_Y / ray->perpWallDist);
+	ray->drawStart = -(ray->lineHeight) / 2 + RES_Y / 2;
+	if (ray->drawStart < 0)
+	{
+		ray->drawStart = 0;
+	}
+	ray->drawEnd = ray->lineHeight / 2 + RES_Y / 2;
+	if (ray->drawEnd >= RES_Y)
+	{
+		ray->drawEnd = RES_Y - 1;
+	}
+}
+
 int	renderFrame(t_game *game)
 {
 	int	col;
@@ -265,7 +294,8 @@ int	renderFrame(t_game *game)
 		setRayLen(&(game->ray));
 		debugInitRaycaster(game);
 		printf("col: %d\n", col);
-		DigitalDifferentialAnalysis(game);
+		digitalDifferentialAnalysis(game);
+		setupGameWorld(&(game->ray));
 		col++;
 	}
 	return (0);
