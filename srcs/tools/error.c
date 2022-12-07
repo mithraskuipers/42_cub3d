@@ -3,18 +3,18 @@
 /*                                                        ::::::::            */
 /*   error.c                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
+/*   By: mikuiper <mikuiper@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/08 18:10:26 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/09 09:59:11 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/12/07 08:30:35 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-// error_msg_ret()
+// errorMsgRet()
 // Prints an error message and returns with code.
-int	error_msg_ret(char *error_msg, int ret_code)
+int	errorMsgRet(char *error_msg, int ret_code)
 {
 	if (ft_strlen(error_msg) == 0)
 		return (ret_code);

@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   variables.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: mkuipers <mkuipers@student.42.fr>            +#+                     */
+/*   By: mikuiper <mikuiper@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/14 13:50:36 by dkramer       #+#    #+#                 */
-/*   Updated: 2022/12/03 10:35:39 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/12/07 08:30:35 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	free_split(char **split, bool skip, int index)
 int	free_all_and_error(char	**split_line, char *str)
 {
 	free_split(split_line, false, 0);
-	return (error_msg_ret(str, 1));
+	return (errorMsgRet(str, 1));
 }
 
 int	get_colors(char	**split_line, t_mapdata *mapdata)
@@ -143,7 +143,7 @@ int	get_variables(t_game *game, char *line, t_mapdata *mapdata)
 	close (game->fd);
 	if (!mapdata->fcolor || !mapdata->ccolor || !mapdata->NO || !mapdata->SO
 		|| !mapdata->WE || !mapdata->EA)
-		return (error_msg_ret("Variable in map is missing.", 1));
+		return (errorMsgRet("Variable in map is missing.", 1));
 	return (0);
 }
 

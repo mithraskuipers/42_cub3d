@@ -25,7 +25,7 @@ int	map_check_chars(t_game *game, t_mapdata *mapdata)
 		while (game->map_col_tmp < game->len)
 		{
 			if (!ft_strrchr("01NESW ", mapdata->map[game->map_row_tmp][game->map_col_tmp]))
-				return (error_msg_ret("Wrong characters included.", 1));
+				return (errorMsgRet("Wrong characters included.", 1));
 			if (ft_strrchr("NESW", mapdata->map[game->map_row_tmp][game->map_col_tmp]))
 			{
 				n_players++;
@@ -38,7 +38,7 @@ int	map_check_chars(t_game *game, t_mapdata *mapdata)
 		game->map_row_tmp++;
 	}
 	if (n_players > 1)
-		return (error_msg_ret("Only 1 player is allowed.", 1));
+		return (errorMsgRet("Only 1 player is allowed.", 1));
 	return (0);
 }
 
@@ -88,7 +88,7 @@ int	map_count_rows(t_game *game, char *line)
 	{
 		game->gnl_ret = get_next_line(game->fd, &line);
 		if (game->gnl_ret == -1)
-			return (error_msg_ret("Failed to read map.", 1));
+			return (errorMsgRet("Failed to read map.", 1));
 		if (i >= game->n_till_map && !ft_strncmp(line, "", ft_strlen(line)))
 			prev_empty = 1;
 		if (i >= game->n_till_map && ft_strncmp(line, "", ft_strlen(line)) != 0)
@@ -96,7 +96,7 @@ int	map_count_rows(t_game *game, char *line)
 			if (prev_empty == 1)
 			{
 				free (line);
-				return (error_msg_ret("Empty line in map.", 1));
+				return (errorMsgRet("Empty line in map.", 1));
 			}
 			game->n_rows++;
 			game->len = (int)ft_strlen(line);
@@ -116,7 +116,7 @@ int	map_check_ext(t_game *game)
 {
 	if (!ft_strrchr(game->map_filename, '.') || \
 	ft_strncmp(ft_strrchr(game->map_filename, '.'), ".cub", 5))
-		return (error_msg_ret("Please provide a map with .cub extension.", 1));
+		return (errorMsgRet("Please provide a map with .cub extension.", 1));
 	return (0);
 }
 
@@ -145,7 +145,7 @@ int	mlx_stuff(t_mapdata *mapdata, t_game *game)
 	return (0);
 }
 
-int	map_parse(t_game *game, t_mapdata *mapdata)
+int	parseMap(t_game *game, t_mapdata *mapdata)
 {
 	char	*line;
 

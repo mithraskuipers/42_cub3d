@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   checkers.c                                         :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: mkuipers <mkuipers@student.42.fr>            +#+                     */
+/*   By: mikuiper <mikuiper@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/09 08:47:23 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/12/03 11:20:16 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/12/07 08:30:35 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ int	map_floodfill(int x, int y, t_game *game)
 		< game->n_rows && game->map_tmp[y + 1][x] == ' ') || (y - 1
 		>= 0 && game->map_tmp[y - 1][x] == ' '))
 		if (game->map_tmp[y][x] == '0')
-			return (error_msg_ret("Map not surrounded by walls.", 1));
+			return (errorMsgRet("Map not surrounded by walls.", 1));
 	if (x == 0 || y == 0 || y == game->n_rows - 1
 		|| x == game->map_maxcols - 1)
-		return (error_msg_ret("Map not surrounded by walls.", 1));
+		return (errorMsgRet("Map not surrounded by walls.", 1));
 	game->map_tmp[y][x] = 'x';
 	if (map_floodfill(x - 1, y, game) == 1)
 		return (1);

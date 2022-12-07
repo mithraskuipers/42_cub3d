@@ -24,15 +24,15 @@ int	spawn_dir(t_game *game)
 
 int	rotate(t_game *game, double radians)
 {
-	double	old_dir_x;
-	double	old_plane_x;
+	double	old_dirX;
+	double	old_planeX;
 
-	old_dir_x = game->ray.dir.x;
+	old_dirX = game->ray.dir.x;
 	game->ray.dir.x = game->ray.dir.x * cos(radians) - game->ray.dir.y * sin(radians);
-	game->ray.dir.y = old_dir_x * sin(radians) + game->ray.dir.y * cos(radians);
-	old_plane_x = game->ray.plane.x;
+	game->ray.dir.y = old_dirX * sin(radians) + game->ray.dir.y * cos(radians);
+	old_planeX = game->ray.plane.x;
 	game->ray.plane.x = game->ray.plane.x * cos(radians) - game->ray.plane.y * sin(radians);
-	game->ray.plane.y = old_plane_x * sin(radians) + game->ray.plane.y * cos(radians);
+	game->ray.plane.y = old_planeX * sin(radians) + game->ray.plane.y * cos(radians);
 	return (0);
 }
 
@@ -46,8 +46,8 @@ void	set_ray_pos(t_game *game, int col)
 	game->ray.cameraX = (float)(2 * col) / (float)(RES_X - 1);
 	game->ray.dir.x = game->ray.dir.x + game->ray.plane.x * game->ray.cameraX;
 	game->ray.dir.y = game->ray.dir.y + game->ray.plane.y * game->ray.cameraX;
-	game->ray.map_x = game->ray.pos.x;
-	game->ray.map_y = game->ray.pos.y;
+	game->ray.mapX = game->ray.pos.x;
+	game->ray.mapY = game->ray.pos.y;
 }
 
 
@@ -63,22 +63,22 @@ void	get_ratios(t_ray *ray)
 	if (ray->dir.x < 0)
 	{
 		ray->step.x = -1;
-		ray->sideDist.x = (ray->pos.x - ray->map_x) * ray->deltaDist.y;
+		ray->sideDist.x = (ray->pos.x - ray->mapX) * ray->deltaDist.y;
 	}
 	else
 	{
 		ray->step.x = 1;
-		ray->sideDist.x = (ray->map_x + 1.0 - ray->pos.x) * ray->deltaDist.y;
+		ray->sideDist.x = (ray->mapX + 1.0 - ray->pos.x) * ray->deltaDist.y;
 	}
 	if (ray->dir.y < 0)
 	{
 		ray->step.y = -1;
-		ray->sideDist.y = (ray->pos.y - ray->map_y) * ray->deltaDist.x;
+		ray->sideDist.y = (ray->pos.y - ray->mapY) * ray->deltaDist.x;
 	}
 	else
 	{
 		ray->step.y = 1;
-		ray->sideDist.y = (ray->map_y + 1.0 - ray->pos.y) * ray->deltaDist.x;
+		ray->sideDist.y = (ray->mapY + 1.0 - ray->pos.y) * ray->deltaDist.x;
 	}
 }
 
@@ -89,7 +89,7 @@ void	debug_print_ray_data(t_game *game, int col)
 	printf("raycol# %d:\tray.dir: \t\t%f\t%f\n", col, game->ray.dir.x, game->ray.dir.y);
 	printf("raycol# %d:\tray.plane: \t\t%f\t%f\n", col, game->ray.plane.x, game->ray.plane.y);
 	printf("raycol# %d:\tray.sideDist: \t\t%f\t%f\n", col, game->ray.sideDist.x, game->ray.sideDist.y);
-	printf("raycol# %d:\tray.map: \t\t%d\t\t%d\n", col, game->ray.map_x, game->ray.map_y);
+	printf("raycol# %d:\tray.map: \t\t%d\t\t%d\n", col, game->ray.mapX, game->ray.mapY);
 }
 
 /*
@@ -97,31 +97,31 @@ void	debug_print_ray_data(t_game *game, int col)
 	- Check if ray has hit a wall
 */
 
-void	perform_dda(t_game *game)
+void	perform_DigitalDifferentialAnalysis(t_game *game)
 {
 	while (game->ray.hit == 0)
 	{
-		// printf("running dda\n");
+		// printf("running DigitalDifferentialAnalysis\n");
 		if (game->ray.sideDist.x < game->ray.sideDist.y)
 		{
 			game->ray.sideDist.x += game->ray.deltaDist.y;
-			// game->ray.map_x += game->ray.step.x;
-			// game->ray.map_x = (int)game->ray.map_x + (int)game->ray.step.x;
-			game->ray.map_x = 66;
+			// game->ray.mapX += game->ray.step.x;
+			// game->ray.mapX = (int)game->ray.mapX + (int)game->ray.step.x;
+			game->ray.mapX = 66;
 			game->ray.side = 0;
 		}
 		else
 		{
 			game->ray.sideDist.y += game->ray.deltaDist.x;
-			// game->ray.map_y += game->ray.step.y;
-			// game->ray.map_y = (int)game->ray.map_y + (int)game->ray.step.y;
-			game->ray.map_y = 99;
+			// game->ray.mapY += game->ray.step.y;
+			// game->ray.mapY = (int)game->ray.mapY + (int)game->ray.step.y;
+			game->ray.mapY = 99;
 			game->ray.side = 1;
 		}
 		// game->ray.hit = 1;
-		// printf("ray.map_x: %d\n", game->ray.map_x);
-		// printf("ray.map_y: %d\n", game->ray.map_y);
-		// if (game->mapdata.map[game->ray.map_x][game->ray.map_y] == '1')
+		// printf("ray.mapX: %d\n", game->ray.mapX);
+		// printf("ray.mapY: %d\n", game->ray.mapY);
+		// if (game->mapdata.map[game->ray.mapX][game->ray.mapY] == '1')
 		// 	game->ray.hit = 1;
 	}
 }
@@ -137,7 +137,7 @@ int	draw_img(t_game *game)
 		set_ray_pos(game, col);
 		get_ratios(&(game->ray)); // set ray len
 		debug_print_ray_data(game, col);
-		// perform_dda(game);
+		// perform_DigitalDifferentialAnalysis(game);
 		col++;
 	}
 	return (0);
@@ -162,9 +162,9 @@ int	init_raycaster(t_game *game)
                           */
 /******************************************************************************/
 
-int start_game(t_game *game)
+int startGame(t_game *game)
 {
-	mlx_loop_hook(game->mlx.mlx, frame_callback, game);
+	mlx_loop_hook(game->mlx.mlx, frameCallback, game);
 	mlx_loop(game->mlx.mlx);
 	return (0);
 }
@@ -176,12 +176,12 @@ int start_game(t_game *game)
 /* frames                                                                     */
 /******************************************************************************/
 
-void frame_callback(void *arg)
+void frameCallback(void *arg)
 {
 	t_game *game;
 	game = (t_game *)arg;
 	// renderBackground(game);
-	check_keypress(game);
+	checkKeypress(game);
 }
 
 

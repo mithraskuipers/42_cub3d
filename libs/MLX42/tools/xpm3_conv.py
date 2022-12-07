@@ -3,10 +3,10 @@
 #                                                         ::::::::             #
 #    xpm3_conv.py                                       :+:    :+:             #
 #                                                      +:+                     #
-#    By: pvan-dij <pvan-dij@student.codam.nl>         +#+                      #
+#    By: mikuiper <mikuiper@student.42.fr>            +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/02/09 21:04:31 by pvan-dij      #+#    #+#                  #
-#    Updated: 2022/02/23 16:48:19 by lde-la-h      ########   odam.nl          #
+#    Updated: 2022/12/07 09:33:13 by mikuiper      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -226,7 +226,7 @@ colours = {
 	"violetred":"d02090",
 	"magenta":"ff00ff",
 	"violet":"ee82ee",
-	"plum":"dda0dd",
+	"plum":"0dd",
 	"orchid":"da70d6",
 	"medium orchid":"ba55d3",
 	"mediumorchid":"ba55d3",
