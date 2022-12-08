@@ -252,12 +252,6 @@ void	digitalDifferentialAnalysis(t_game *game)
 	}
 }
 
-/*
-	- Calculate distance projected on camera direction
-	- Calculate height of line to draw on screen
-	- Calculate lowest and highest pixel to fill in current stripe
-*/
-
 void	setupGameWorld(t_ray *ray)
 {
 	if (!ray->side) // == 0
