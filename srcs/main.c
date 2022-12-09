@@ -179,6 +179,11 @@ Calculate ray direction (rayDirX, rayDirY)
 Save the player coordinates
 */
 
+/*
+
+
+*/
+
 void	setRayPos(t_game *game, int x)
 {
 	game->ray.cameraX = 2 * x / (double)RES_X - 1;
@@ -191,6 +196,12 @@ void	setRayPos(t_game *game, int x)
 /*
 Compute the distance a ray has from one xside or yside to the next xside or yside.
 Calculate step and initial sideDist
+*/
+
+/*
+
+
+
 */
 
 void	setRayLen(t_ray *ray)
@@ -226,6 +237,11 @@ pixels). So we can also use it to find which squares of the map our ray hits,
 and stop the algorithm once a square that is a wall is hit.
 */
 
+/*
+
+
+*/
+
 void	digitalDifferentialAnalysis(t_game *game)
 {
 	printf("\nRunning digitalDifferentialAnalysis..\n");
@@ -252,6 +268,12 @@ void	digitalDifferentialAnalysis(t_game *game)
 	}
 }
 
+/*
+
+
+
+*/
+
 void	setupGameWorld(t_ray *ray)
 {
 	if (!ray->side) // == 0
@@ -274,6 +296,12 @@ void	setupGameWorld(t_ray *ray)
 		ray->drawEnd = RES_Y - 1;
 	}
 }
+
+/*
+
+
+
+*/
 
 int	renderFrame(t_game *game)
 {
