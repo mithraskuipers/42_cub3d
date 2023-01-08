@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/08 22:13:08 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/08 22:19:06 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@
 
 // CONFIGURATION
 # define UNIQ_MAP_CHARS 6
-# define GAME_WIDTH 10000
-# define GAME_HEIGHT 10000
+# define GAME_WIDTH 1000
+# define GAME_HEIGHT 1000
 # define MOVE_SPEED 4
 # define ROT_SPEED 4
 # define WALL_BOUNCE 0.025
