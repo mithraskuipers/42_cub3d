@@ -1,374 +1,111 @@
-#include "./../includes/cub3d.h"
-
-/******************************************************************************/
-/* keys                                                                       */
-/******************************************************************************/
-
-int	checkKeypress(t_game *game)
-{
-	if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(game->mlx.mlx);
-	if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_UP))
-	{
-		printf("You pressed: UP ARROW KEY\n");
-		mlx_close_window(game->mlx.mlx);
-	}
-	if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_DOWN))
-	{
-		printf("You pressed: DOWN ARROW KEY\n");
-		mlx_close_window(game->mlx.mlx);
-	}
-	if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_LEFT))
-	{
-		printf("You pressed: LEFT ARROW KEY\n");
-		mlx_close_window(game->mlx.mlx);
-	}
-	if (mlx_is_key_down(game->mlx.mlx, MLX_KEY_RIGHT))
-	{
-		printf("You pressed: RIGHT ARROW KEY\n");
-		mlx_close_window(game->mlx.mlx);
-	}
-	return (0);
-}
-
-/******************************************************************************/
-/* textures                                                                   */
-/******************************************************************************/
-
-int	initTextures(t_game *game, t_mapdata *mapdata)
-{
-	game->gamedata.textures[0] = mlx_load_png(mapdata->NO);
-	if (!game->gamedata.textures[0])
-		return (errorMsgRet("Failed to load NO map texture.", 1));
-	game->gamedata.textures[1] = mlx_load_png(mapdata->EA);
-	if (!game->gamedata.textures[1])
-		return (errorMsgRet("Failed to load EA map texture.", 1));
-	game->gamedata.textures[2] = mlx_load_png(mapdata->SO);
-	if (!game->gamedata.textures[2])
-		return (errorMsgRet("Failed to load SO map texture.", 1));
-	game->gamedata.textures[3] = mlx_load_png(mapdata->WE);
-	if (!game->gamedata.textures[3])
-		return (errorMsgRet("Failed to load WE map texture.", 1));
-	return (0);
-}
-
-/******************************************************************************/
-/* init                                                                       */
-/******************************************************************************/
-
-int	initMLX(t_game *game)
-{
-	game->mlx.mlx = mlx_init(RES_X, RES_Y, "cub3D", true);
-	if (!game->mlx.mlx)
-		return (errorMsgRet("MLX initialization failed.", 1));
-	game->mlx.img = mlx_new_image(game->mlx.mlx, RES_X, RES_Y);
-	if (!(game->mlx.img))
-		return (errorMsgRet("MLX new image creation failed.", 1));
-	mlx_set_cursor_mode(game->mlx.mlx, MLX_MOUSE_HIDDEN);
-	if (mlx_image_to_window(game->mlx.mlx, game->mlx.img, 0, 0) < 0)
-		return (errorMsgRet("MLX image to window failed.", 1));
-	return (0);
-}
-
-/*
-Init at specific values. Will be adjusted by cardinal direction spawn char.
-The ratio between the length of the direction and the camera plane determinates
-the FOV, here the direction vector is a bit longer than the camera plane, so the
-FOV will be smaller than 90° (more precisely, the FOV is 2 * atan(0.66/1.0)=66°,
-which is perfect for a first person shooter game).
-dirX and dirY are setup in accordance with lodev
-*/
-
-int	initRaycaster(t_game *game)
-{
-	game->ray.posX = game->playerPos.x + 0.5;
-	game->ray.posY = game->playerPos.y + 0.5;
-
-	// initialize ray directions
-	game->ray.dirX = -1;
-	game->ray.dirY = 0;
-	game->ray.planeX = 0;
-	game->ray.planeY = 0.66;
-	game->ray.stepSize = 0.1;
-	game->ray.rotationSpeed = M_PI / 60;
-	game->ray.forward = 0;
-	game->ray.backward = 0;
-	game->ray.left = 0;
-	game->ray.right = 0;
-	game->ray.rot_left = 0;
-	game->ray.rot_right = 0;
-	return (0);
-}
-
-/******************************************************************************/
-/* debug                                                                      */
-/******************************************************************************/
-
-void	debugInitRaycaster(t_game *game)
-{
-	printf("game->ray.posX: %f\n", game->ray.posX = game->playerPos.x + 0.5);
-	printf("game->ray.posY: %f\n", game->ray.posY = game->playerPos.y + 0.5);
-	printf("game->ray.dirX: %f\n", game->ray.dirX);
-	printf("game->ray.dirY: %f\n", game->ray.dirY);
-	printf("game->ray.planeX: %f\n", game->ray.planeX);
-	printf("game->ray.planeY: %f\n", game->ray.planeY);
-	printf("game->ray.stepSize: %f\n", game->ray.stepSize);
-	printf("game->ray.rotationSpeed: %f\n", game->ray.rotationSpeed);
-	printf("game->ray.forward: %d\n", game->ray.forward);
-	printf("game->ray.back: %d\n", game->ray.backward);
-	printf("game->ray.left: %d\n", game->ray.left);
-	printf("game->ray.right: %d\n", game->ray.right);
-	printf("game->ray.rot_left: %d\n", game->ray.rot_left);
-	printf("game->ray.rot_right: %d\n", game->ray.rot_right);
-	printf("game->ray.cameraX: %f\n", game->ray.cameraX);
-	printf("game->ray.rayDirX: %f\n", game->ray.rayDirX);
-	printf("game->ray.rayDirY: %f\n", game->ray.rayDirY);
-	printf("game->ray.mapX: %d\n", game->ray.mapX);
-	printf("game->ray.mapY: %d\n", game->ray.mapY);
-	printf("game->ray.deltaDistX: %f\n", game->ray.deltaDistX);
-	printf("game->ray.deltaDistY: %f\n", game->ray.deltaDistY);
-	printf("game->ray.sideDistX: %f\n", game->ray.sideDistX);
-	printf("game->ray.sideDistY: %f\n", game->ray.sideDistY);
-	printf("game->ray.hit: %d\n", game->ray.hit);
-	if (game->ray.hit == 1)
-		exit (1);
-	printf("\n");
-}
-
-void	debugSpawnRadians(t_game *game)
-{
-	printf("\nspawnRadians: %f\n\n", game->spawnRadians);
-}
-
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
-/******************************************************************************/
-
-int	spawnDegrees(t_game *game)
-{
-	int	degrees;
-
-	degrees = 0;
-	if (game->mapdata.spawn_cardinaldir == 'N')
-		degrees = 0;
-	else if (game->mapdata.spawn_cardinaldir == 'E')
-		degrees = 90;
-	else if (game->mapdata.spawn_cardinaldir == 'S')
-		degrees = 180;
-	else if (game->mapdata.spawn_cardinaldir == 'W')
-		degrees = 270;
-	return (degrees);
-}
-
-void	updateRayData(t_game *game)
-{
-	double	dirX_tmp;
-	double	planeX_tmp;
-
-	dirX_tmp = game->ray.dirX;
-	game->ray.dirX = game->ray.dirX * cos(game->spawnRadians) - game->ray.dirY * sin(game->spawnRadians);
-	game->ray.dirY = dirX_tmp * sin(game->spawnRadians) + game->ray.dirY * cos(game->spawnRadians);
-	planeX_tmp = game->ray.planeX;
-	game->ray.planeX = game->ray.planeX * cos(game->spawnRadians) - game->ray.planeY * sin(game->spawnRadians);
-	game->ray.planeY = planeX_tmp * sin(game->spawnRadians) + game->ray.planeY * cos(game->spawnRadians);
-}
-
-/*
-Calculate the x-coordinate in camera space
-Calculate ray direction (rayDirX, rayDirY)
-Save the player coordinates
-*/
-
-/*
-
-
-*/
-
-void	setRayPos(t_game *game, int x)
-{
-	game->ray.cameraX = 2 * x / (double)RES_X - 1;
-	game->ray.rayDirX = game->ray.dirX + game->ray.planeX * game->ray.cameraX;
-	game->ray.rayDirY = game->ray.dirY + game->ray.planeY * game->ray.cameraX;
-	game->ray.mapX = (int)game->ray.posX;
-	game->ray.mapY = (int)game->ray.posY;
-}
-
-/*
-Compute the distance a ray has from one xside or yside to the next xside or yside.
-Calculate step and initial sideDist
-*/
-
-/*
-
-
-
-*/
-
-void	setRayLen(t_ray *ray)
-{
-	ray->deltaDistY = fabs(1 / ray->rayDirX);
-	ray->deltaDistX = fabs(1 / ray->rayDirY);
-	if (ray->rayDirX < 0)
-	{
-		ray->stepX = -1;
-		ray->sideDistX = (ray->posX - ray->mapX) * ray->deltaDistY;
-	}
-	else
-	{
-		ray->stepX = 1;
-		ray->sideDistX = (ray->mapX + 1.0 - ray->posX) * ray->deltaDistY;
-	}
-	if (ray->rayDirY < 0)
-	{
-		ray->stepY = -1;
-		ray->sideDistY = (ray->posY - ray->mapY) * ray->deltaDistX;
-	}
-	else
-	{
-		ray->stepY = 1;
-		ray->sideDistY = (ray->mapY + 1.0 - ray->posY) * ray->deltaDistX;
-	}
-}
-
-/*
-DDA is a fast algorithm typically used on square grids to find which squares a 
-line hits (for example to draw a line on a screen, which is a grid of square 
-pixels). So we can also use it to find which squares of the map our ray hits, 
-and stop the algorithm once a square that is a wall is hit.
-*/
-
-/*
-
-
-*/
-
-void	digitalDifferentialAnalysis(t_game *game)
-{
-	printf("\nRunning digitalDifferentialAnalysis..\n");
-	while (game->ray.hit == 0)
-	{
-		if (game->ray.sideDistX < game->ray.sideDistY)
-		{
-			game->ray.sideDistX = game->ray.sideDistX + game->ray.deltaDistY;
-			game->ray.mapX = game->ray.mapX + game->ray.stepX;
-			game->ray.side = 0;
-		}
-		else
-		{
-			game->ray.sideDistY = game->ray.sideDistY + game->ray.deltaDistX;
-			game->ray.mapY = game->ray.mapY + game->ray.stepY;
-			game->ray.side = 1;
-		}
-		if (game->mapdata.map[game->ray.mapX][game->ray.mapY] == '1')
-		{
-			game->ray.hit = 1;
-			// debugInitRaycaster(game);
-			// exit(1);
-		}
-	}
-}
-
-/*
-
-
-
-*/
-
-void	setupGameWorld(t_ray *ray)
-{
-	if (!ray->side) // == 0
-	{
-		ray->perpWallDist = (ray->mapX - ray->posX + (1 - ray->stepX) / 2) / ray->rayDirX;
-	}
-	else if (ray->side)
-	{
-		ray->perpWallDist = (ray->mapY - ray->posY + (1 - ray->stepY) / 2) / ray->rayDirY;
-	}
-	ray->lineHeight = (int)(RES_Y / ray->perpWallDist);
-	ray->drawStart = -(ray->lineHeight) / 2 + RES_Y / 2;
-	if (ray->drawStart < 0)
-	{
-		ray->drawStart = 0;
-	}
-	ray->drawEnd = ray->lineHeight / 2 + RES_Y / 2;
-	if (ray->drawEnd >= RES_Y)
-	{
-		ray->drawEnd = RES_Y - 1;
-	}
-}
-
-/*
-
-
-
-*/
-
-int	renderFrame(t_game *game)
-{
-	int	col;
-
-	col = 0;
-	while (col < RES_X)
-	{
-		// sleep(1);
-		setRayPos(game, col);
-		game->ray.hit = 0;
-		setRayLen(&(game->ray));
-		debugInitRaycaster(game);
-		printf("col: %d\n", col);
-		digitalDifferentialAnalysis(game);
-		setupGameWorld(&(game->ray));
-		col++;
-	}
-	return (0);
-}
-
-/******************************************************************************/
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
+/*   Updated: 2023/01/08 22:12:46 by mikuiper      ########   odam.nl         */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
-void frameCallback(void *arg)
+#include "../includes/cub3d.h"
+
+int	gameInit(t_game *game, int argc, char **argv)
 {
-	t_game *game;
-	game = (t_game *)arg;
-	// renderBackground(game);
-	// checkKeypress(game);
-	initRaycaster(game);
-	debugInitRaycaster(game);
-	game->spawnRadians = degreesToRadians(spawnDegrees(game));
-	debugSpawnRadians(game);
-	updateRayData(game);
-	debugInitRaycaster(game);
-	renderFrame(game);
-	printf("\n\n");
-}
-
-int startGame(t_game *game)
-{
-	// mlx_loop_hook(game->mlx.mlx, frameCallback, game);
-	// mlx_loop(game->mlx.mlx);
-
-	frameCallback(game);
-	return (0);
-}
-
-/******************************************************************************/
-/* main                                                                       */
-/******************************************************************************/
-
-int	main(int argc, char **argv)
-{
-	t_game	game;
-
 	if (argc != 2)
-		return (errorMsgRet("Incorrect number of arguments.", 1));
-	game.map_filename = argv[1];
-	if (parseMap(&game, &game.mapdata))
-		return (1);
-	// if (initTextures(&game, &game.mapdata))
-	// 	return (1);
-	// initMLX(&game);
-	startGame(&game);
-	//map_free(game.mapdata.map, &game);
+		msgErrExit("Error: No file or more than 1 file specified.\n", 1);
+	initGame(game);
+	initMapdata(&game->mapdata, argv);
+	game->screen_width = GAME_WIDTH;
+	game->screen_height = GAME_HEIGHT;
 	return (0);
 }
+
+int	gameParsing(t_game *game)
+{
+	mapCheckExt(game);
+	char *line;
+	line = NULL;
+	if (getMapConfig(game, line, &game->mapdata))
+		msgErrExit("Your map is configured incorrectly.", 1);
+	mapOpen(game);
+	getMapFileDims(game, line);
+	mapMemAllocator(game, &game->mapdata.map);
+	mapMemAllocator(game, &game->cpy_map);
+	mapOpen(game);
+	mapRead(game);
+	mapFloodfill(game, game->player.x, game->player.y);
+	checkPlayerCount(game);
+	return (0);
+}
+
+int	gameExecute(t_game *game)
+{
+	initPovDir(game, game->mapdata.map[game->player.y][game->player.x]);
+	initPovPlane(game, game->mapdata.map[game->player.y][game->player.x]);
+	initPlayerPos(game);
+	initMLX(game);
+	initTextures(game);
+	if (!game->mlx42)
+		msgErrExit("MLX failed.", EXIT_FAILURE);
+	return (0);
+}
+
+int main(int argc, char **argv)
+{
+	t_game game;
+
+	gameInit(&game, argc, argv);
+	gameParsing(&game);
+	if (gameExecute(&game))
+		return(cleanupGame(&game));
+	mlx_loop_hook(game.mlx42, &frameCallback, &game);
+	mlx_loop(game.mlx42);
+	mlx_terminate(game.mlx42);
+	cleanupGame(&game);
+	return (0);
+}
+
+/*
+Important (variable) names and their meaning:
+vector:
+	Simply an x and y coordinate in our 2D space.
+
+game->pov->pos.x/pos.y (vector) (point):
+	Refer to the player position in the map.
+	The player position is a point in front of the camera plane.
+game->pov->dir.x/dir.y (vector) (direction):
+	Refer to the direction that the player is facing.
+	The "length" of the direction does not matter. It serves only as a measure
+	of "direction" when using the player position as reference.
+game->pov->plane.x/plane.y (vector) (line):
+	Refer to the camera plane of the player. So "plane" == "camera plane".
+	Note: It is not truly a "plane" (= 3D), but rather a "line" (= 2D). 
+	More concretely, the camera plane refers to the surface on the computer 
+	screen. On the other hand, the dir.x/dir.y direction vector points "inside"
+	the computer screen.
+	The camera plane should always be perpendicular to the player direction.
+	This means that when the player rotates, the camera plane also has to
+	rotate. The corresponding rays will rotate automatically as well.
+	The length (width) of the camera plane can be adjusted as you like.
+	The player position is a point in front of the camera plane.
+game->ray:
+	In this game "rays" are send. 
+	Rays always start at the player position and are sent to the camera plane.
+	Remember that the camera plane is basically the computer screen. Here, we
+	send rays toward the camera plane for each x-axis value on the camera plane.
+	Also remember that the camera plane is dependent on the player direction,
+	since the former is always perpendicular to the latter, crossing eachother
+	by a 90 degrees angle.
+fov (field of vision):
+	The angle between the left-most ray and the right-most ray. You can imagine
+	these lines to be diagonal lines starting at the player position, toward to
+	first x-axis value and last x-axis value of the camera plane. 
+rotation:
+	game->dir.x/dir.y
+
+Work in progress...:-)
+pov (point of view) TODO
+*/

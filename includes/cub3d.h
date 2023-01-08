@@ -1,220 +1,254 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   cub3d.h                                          :+:    :+:            */
+/*   cub3d.h                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
+/*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/11/13 17:24:29 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/11/18 08:57:38 by mikuiper      ########   odam.nl         */
+/*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
+/*   Updated: 2023/01/08 22:13:08 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-/******************************************************************************/
-/* DEFINES                                                                    */
-/******************************************************************************/
-
-# define PI 3.14159265359
-# define RES_X	50
-# define RES_Y	20
-
-# define STEP 0.1
-# define EMPTY '0'
-# define WALL '1'
-# define SUCCESS 0
-# define FAIL -1
-
-# define X 1
-# define Y 2
-
-/******************************************************************************/
-/* INCLUDES                                                                   */
-/******************************************************************************/
-
-// External libraries
-# include "../libs/MLX42/include/MLX42/MLX42.h"
-
-// Custom libraries
+// CUSTOM LIBRARY
 # include "./../libs/libft/libft.h"
-# include "./../libs/libft/ft_printf/libftprintf.h"
 
-// Built-in libraries
-# include <fcntl.h>
-# include <stdio.h>
+// STANDARD LIBRARY
 # include <math.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <limits.h>
+# include <stdio.h>
 
-/******************************************************************************/
-/* STRUCTS                                                                    */
-/******************************************************************************/
+// EXTERNAL LIBRARY
+# include "./../libs/MLX42/include/MLX42/MLX42.h"
 
-typedef struct s_dvector_xy
+// CONFIGURATION
+# define UNIQ_MAP_CHARS 6
+# define GAME_WIDTH 10000
+# define GAME_HEIGHT 10000
+# define MOVE_SPEED 4
+# define ROT_SPEED 4
+# define WALL_BOUNCE 0.025
+
+// DEFINE WALLS
+# define NORTH 0
+# define SOUTH 1
+# define EAST 2
+# define WEST 3
+
+// READABILITY
+# define TRUE 1
+# define FALSE 0
+# define START 0
+# define SIDE_HOR 0
+# define SIDE_VER 1
+
+// VECTOR STRUCT: FLOATS
+typedef struct	s_fvector
 {
 	float	x;
 	float	y;
-}	t_dvector_xy;
+}				t_fvector;
 
-typedef struct s_ivector_xy
+// VECTOR STRUCT: INTEGERS
+typedef struct	s_ivector
 {
 	int	x;
 	int	y;
-}	t_ivector_xy;
+}				t_ivector;
 
-typedef struct s_fvector_lr
+// VECTOR STRUCT: DOUBLES
+typedef struct	s_dvector
 {
-	float	l;
-	float	r;
-}	t_fvector_lr;
+	double	x;
+	double	y;
+}				t_dvector;
 
-typedef struct s_gamedata
+// RAY DATA STRUCT
+typedef struct s_ray
 {
-	mlx_texture_t	*textures[4];
-	double		radians;
-}	t_gamedata;
-
-typedef struct s_mapdata
-{
-	char		*NO;
-	char		*SO;
-	char		*WE;
-	char		*EA;
-	uint32_t	fcolor;
-	uint32_t	ccolor;
-	char		**map;
-	char		spawn_cardinaldir;
-}	t_mapdata;
-
-typedef struct	s_mlx
-{
-	mlx_t			*mlx;
-	mlx_image_t		*img;
-	mlx_texture_t	*txts[4];
-}	t_mlx;
-
-typedef struct s_ray {
-	double			posX;
-	double			posY;
-	double			dirX;
-	double			dirY;
-	double			planeX;
-	double			planeY;
-	double			cameraX;
-	double			rayDirX;
-	double			rayDirY;
-	int				mapX;
-	int				mapY;
-	double			sideDistX;
-	double			sideDistY;
-	double			deltaDistX;
-	double			deltaDistY;
-	double			perpWallDist;
-	int				stepX;
-	int				stepY;
+	uint32_t		pixelColor;
+	uint32_t		wallLineHeight;
+	t_fvector		pixelPos;
+	int				curTex;
+	mlx_texture_t	*texture;
+	int				offsetFromAbove;
+	int				screenXPos;
+	t_dvector		dir;
+	t_dvector		sideDist;
+	t_dvector		deltaDist;
+	t_ivector		step;
+	t_ivector		map;
+	t_fvector		end_pos;
+	int				wallSide;
+	double			perpetualWallDistance;
+	double			texLineScale;
+	int				wall_ori;
+	double			wallX;
+	double			dist;
+	int				line_x;
 	int				hit;
-	int				side;
-	double			stepSize;
-	double			rotationSpeed;
-	int				lineHeight;
-	int				drawStart;
-	int				drawEnd;
-	double			wall_x;
-	int				x_tex;
-	double			y_tex;
-	double			y_tex_step;
-	int				forward;
-	int				backward;
-	int				left;
-	int				right;
-	int				rot_left;
-	int				rot_right;
 }	t_ray;
 
+// PLANE OF VIEW STRUCT
+typedef struct s_pov
+{
+	t_dvector	dir;
+	t_dvector	pos;
+	t_dvector	plane;
+	double		cameraSpaceX;
+}	t_pov;
+
+// MAPDATA STRUCT
+typedef struct s_mapdata
+{
+	int		mapFd;
+	char	*mapPath;
+	int		mapFileNbrLines;
+	int		floorRGB[3];
+	int		ceilingRGB[3];
+	int32_t	floorColor;
+	int32_t	ceilingColor;
+	char	*paths[4];
+	char	**map;
+}	t_mapdata;
+
+// GENERAL GAME DATA STRUCT
 typedef struct s_game
 {
-	t_ray		ray;
-	t_gamedata	gamedata;
-	t_mapdata	mapdata;
-	t_mlx		mlx;
-	t_ivector_xy	playerPos;
-	t_dvector_xy	dir;
-	t_dvector_xy	plane;
-	t_dvector_xy	rayDir;
-	t_dvector_xy	sideDist;
-	t_dvector_xy	deltaDist;
-	t_fvector_lr	move;
-	t_fvector_lr	rot;
-	t_dvector_xy	step;
-	double		spawnRadians;
-	double		perpWallDist;
-	int			hit;
-	int			side;
-	double		stepSize;
-	float		cameraX;
-	char	*map_filename;
-	int		n_rows;
-	int		len;
-	int		gnl_ret;
-	int		fd;
-	int		error;
-	int		map_maxcols;
-	char	**map_tmp;
-	int		playerSpawnX;
-	int		playerSpawnY;
-	int		n_till_map;
-	int		map_row_tmp;
-	int		map_col_tmp;
-	int		stop;
+	int stop;
+	int gnl_ret;
+	int nRowsMapFile;
+	int map_maxcols;
+	int len;
+	int whenMapMazeStart;
+	int map_row_tmp;
+
+	mlx_image_t	*mlxImg;
+	uint32_t			screen_width;
+	uint32_t			screen_height;
+	t_ray			ray;
+	mlx_t			*mlx42;
+	t_mapdata		mapdata;
+	t_pov			pov;
+	mlx_texture_t	*textures[4];
+	char			**cpy_map;
+	t_ivector		mapFileDims;
+	int				player_count;
+	t_ivector		player;
+	int				has_player;
+	double			movementSpeed;
+	double			rotationSpeed;
+	t_dvector	dirPerp;
+
 }	t_game;
 
-/******************************************************************************/
-/* PROTOTYPES                                                                 */
-/******************************************************************************/
+// main.c
 
-// [PARSING]: CHECKERS.C
-int	mapFloodfill(int x, int y, t_game *game);
-int	mapCopy(t_game *game, t_mapdata *mapdata);
-int	mapCheck(t_game *game, t_mapdata *mapdata);
+// createImgs.c
+// static void	combineColors(t_game *game);
+// static void	drawImgPixelLoop(t_game *game, uint32_t Y_START, uint32_t Y_END, uint32_t color);
+void	drawBackground(t_game *game);
 
-// [PARSING]: PARSING.C
-int	mapCheckChars(t_game *game, t_mapdata *mapdata);
-int	mapFill(t_game *game, char *line, t_mapdata *mapdata);
-int	mapCountRows(t_game *game, char *line);
-int	mapCheckExt(t_game *game);
-int	mlxStuff(t_mapdata *mapdata, t_game *game);
+// frameCallback.c
+// static void	updateGameCfg(t_game *game)
+void	frameCallback(void *arg);
 
-// [PARSING]: UTILS.C
-int	createTrgb(unsigned char t, unsigned char r, unsigned char g, unsigned char b);
+// gnl.c
+// int	ft_strlen(const char *s);
+char	*ft_strchr(const char *s, int c);
+size_t	ft_strlcpy(char *dest, const char *src, size_t dest_size);
+char	*ft_strdup_gnl(const char *s1, int len_s1);
+char	*ft_strjoin(char const *s1, char const *s2);
+// static char	*make_remainder(char **string);
+// static char	*make_string(char **string, char *buff);
+// static char	*check_remainder_string(int fd, char *buff, char **string);
+char	*gnl(int fd);
 
-// [PARSING]: VARIABLES.C
+// hooksKeyboard.c
+void	hooksKeyboardWalking(t_game *game, double moveSpeed);
+void	hooksKeyboardRotate(t_game *game, double rotSpeed);
+void	hooksInput(t_game *game);
+
+// init.c
+void	initGame(t_game *game);
+void	initMapdata(t_mapdata *mapdata, char **argv);
+void	initMLX(t_game *game);
+int		initTextures(t_game *game);
+void	initPovDir(t_game *game, int cardinalDirection);
+void	initPovPlane(t_game *game, int cardinalDirection);
+void	initPlayerPos(t_game *game);
+
+// raycastComp.c
+void	compCameraSpaceX(t_game *game, t_pov *pov, int col);
+void	compRayDir(t_ray *ray, t_pov *pov);
+void	compDeltaDist(t_ray *ray);
+void	compSideDist(t_ray *ray, char **map);
+void	setStep(t_ray *ray);
+void	compInitSideDist(t_ray *ray, t_pov *pov);
+void	compPerpetualWallDist(t_ray *ray);
+void	whichWallWasHit(t_game *game);
+void	whereWasWallHit(t_ray *ray, t_pov *pov);
+
+// raycasting.c
+float	ft_fmod(float f);
+void	compRayMap(t_ray *ray, t_pov *pov);
+void	howTallWallLine(t_ray *ray);
+int		whichTextureHasWall(t_game *game, char wall_ori);
+void	raycaster(t_game *game, t_pov *pov);
+
+// parsing.c
+void	mapFloodfill(t_game *game, int x, int y);
+void	mapRead(t_game *game);
+int		doesLineHavePlayer(char *line);
+int		getMapFileDims(t_game *game, char *line);
+void	mapMemAllocator(t_game *game, char ***map);
+int		mapOpen(t_game *game);
+int		mapCheckExt(t_game *game);
+int		isCharInString(char c, char *s);
+int		getMapConfig(t_game *game, char *line, t_mapdata *mapdata);
+int		getMapConfigVar(t_game *game, char *line, t_mapdata *mapdata);
+void	checkPlayerCount(t_game *game);
+
+// parsingColors.c
+int	parseColorsLine(char **split_line, t_mapdata *mapdata);
+int	checkRGB(char *rgbColors, int rgb[]);
+int	processRGB(char *rgbColors, int rgb[]);
+
+// debug.c
+void	printMap(t_game *game);
+void	printMapCopy(t_game *game);
+void	printPlayerPos(t_game *game);
+
+// raycastWalls.c
+void	getTexPixelCol(t_game *game, int wallHeight, int wallLineHeight);
+void	setCurrentRayTexture(t_game *game);
+void	howToCenterLine(t_game *game);
+void	drawCurWallLine(t_game *game);
+
+// rotating.c
+void	keyboardRotateRight(t_pov *pov, double prevDirX, double prevPlaneX, double rotSpeed);
+void	keyboardRotateLeft(t_pov *pov, double prevDirX, double prevPlaneX, double rotSpeed);
+
+// utils.c
+int		msgErrExit(char *s, int exitCode);
+int		getRGBA(int R, int G, int B, int A);
+char	*get_next_line_wrapper(t_game *game);
+int		freeCharDP(char **ptr);
+
 void	freeSplit(char **split, bool skip, int index);
+int		cleanupGame(t_game *game);
 int		free_all_and_error(char	**split_line, char *str);
-int		getColors(char	**split_line, t_mapdata *mapdata);
-int		get_other_cases(char **split_line, t_mapdata *mapdata, t_game *game);
-int		get_one_variable(t_game *game, char *line, t_mapdata *mapdata);
-int		loop_through_lines(t_game *game, char *line, t_mapdata *mapdata);
-int		getVariables(t_game *game, char *line, t_mapdata *mapdata);
-void	initMapVariables(t_game *game, t_mapdata *mapdata);
-int		parseMap(t_game *game, t_mapdata *mapdata);
 
-// [TOOLS]: ERROR.C
-int		errorMsgRet(char *error_msg, int ret_code);
-
-// [DEBUG]: MISC.C
-void	debugMap(t_mapdata *mapdata);
-void	debugHighlightPlayer(t_mapdata *mapdata);
-void	debugPrint2darray(char **map);
-
-// [MATH]: CONVERSIONS.C
-double	radiansToDegrees(double radians);
-double	degreesToRadians(double degrees);
-double	toAbsolute(double i);
-
-// [FREE]: MISC.C
-void	map_free(char **map, t_game *game);
-
-// [DRAW]: BG.C
-int	renderBackground(t_game *game);
+// walking.c
+void	keyboardWalkUp(t_dvector *pos, t_dvector *dir, char **map, double moveSpeed);
+void	keyboardWalkDown(t_dvector *pos, t_dvector *dir, char **map, double moveSpeed);
+void	keyboardWalkLeft(t_dvector *pos, t_dvector *dirPerp, char **map, double moveSpeed);
+void	keyboardWalkRight(t_dvector *pos, t_dvector *dirPerp, char **map, double moveSpeed);
 
 #endif

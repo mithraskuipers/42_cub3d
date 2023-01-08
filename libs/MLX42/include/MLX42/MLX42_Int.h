@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   MLX42_Int.h                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: mkuipers <mkuipers@student.42.fr>            +#+                     */
+/*   By: W2Wizard <w2.wizzard@gmail.com>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/27 23:55:34 by W2Wizard      #+#    #+#                 */
-/*   Updated: 2022/11/29 17:01:27 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/07/21 10:46:43 by sbos          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ typedef struct mlx_hook
  * lets us know where to draw a copy of the image.
  *
  * Texture contexts are kept in a struct alongside the capacity
- * of the array of instances, since the array is realloced like a vector_xy.
+ * of the array of instances, since the array is realloced like a vector.
  */
 
 // MLX instance context.
