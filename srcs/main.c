@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/09 11:04:47 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 18:00:36 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int main(int argc, char **argv)
 	mlx_loop(game.mlx42);
 	mlx_terminate(game.mlx42);
 	cleanupEverything(&game);
+	// system ("leaks cub3D");
 	return (0);
 }
 
@@ -103,9 +104,11 @@ fov (field of vision):
 	The angle between the left-most ray and the right-most ray. You can imagine
 	these lines to be diagonal lines starting at the player position, toward to
 	first x-axis value and last x-axis value of the camera plane. 
+
+
+TODO
 rotation:
 	game->dir.x/dir.y
-
 Work in progress...:-)
 pov (point of view) TODO
 */

@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:06:04 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/09 16:09:06 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 18:48:45 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,20 @@ void	compRayMap(t_ray *ray, t_pov *pov)
 
 void	howTallWallLine(t_ray *ray)
 {
-	ray->texLineScale = 1 / (ray->perpetualWallDistance);
+	// ray->texLineScale = fabs(1 / (ray->perpendicularWallDistance));
+	ray->texLineScale = (1 / (ray->perpendicularWallDistance)); // original, keep
+	// ray->texLineScale = (int)(600 / (ray->perpendicularWallDistance));
 }
 
-int	whichTextureHasWall(t_game *game, char wall_ori)
+int	whichTextureHasWall(t_game *game, char wallDirection)
 {
-	if (wall_ori == 'N')
+	if (wallDirection == 'N')
 		game->ray.texture = game->textures[NORTH];
-	else if (wall_ori == 'E')
+	else if (wallDirection == 'E')
 		game->ray.texture = game->textures[EAST];
-	else if (wall_ori == 'S')
+	else if (wallDirection == 'S')
 		game->ray.texture = game->textures[SOUTH];
-	else if (wall_ori == 'W')
+	else if (wallDirection == 'W')
 		game->ray.texture = game->textures[WEST];
 	else
 		msgErrExit("Failure while running set_texture()", 1);
@@ -64,16 +66,16 @@ void	raycaster(t_game *game, t_pov *pov)
 		compRayMap(&game->ray, pov);
 		compDeltaDist(&game->ray);
 		setStep(&game->ray);
-		compInitSideDist(&game->ray, pov);
+		initSideDist(&game->ray, pov);
 		compSideDist(&game->ray, game->mapdata.map);
-		compPerpetualWallDist(&game->ray);
+		compPerpendicularWallDist(&game->ray);
 		whichWallWasHit(game);
-		whichTextureHasWall(game, game->ray.wall_ori);
+		whichTextureHasWall(game, game->ray.wallDirection);
 		whereWasWallHit(&game->ray, pov);
 		howTallWallLine(&game->ray);
 		game->ray.pixelPos.x = game->ray.screenXPos;
 		setCurrentRayTexture(game);
-		game->ray.wallLineHeight =	(game->ray.texture->height * game->ray.texLineScale);
+		game->ray.wallLineHeight = (game->ray.texture->height * game->ray.texLineScale);
 		howToCenterLine(game);
 		drawCurWallLine(game);
 		game->ray.screenXPos++;

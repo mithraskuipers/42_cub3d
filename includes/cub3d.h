@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/09 15:35:36 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 18:37:40 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@
 # define TRUE 1
 # define FALSE 0
 # define START 0
-# define SIDE_HOR 0
-# define SIDE_VER 1
+# define SIDE_HORI 0
+# define SIDE_VERT 1
 
 // VECTOR STRUCT: INTEGERS
 typedef struct	s_ivector
@@ -79,9 +79,9 @@ typedef struct s_ray
 	t_ivector		map;
 	t_dvector		end_pos;
 	int				wallSide;
-	double			perpetualWallDistance;
+	double			perpendicularWallDistance;
 	double			texLineScale;
-	int				wall_ori;
+	int				wallDirection;
 	double			wallX;
 	double			dist;
 	int				line_x;
@@ -183,8 +183,8 @@ void	compRayDir(t_ray *ray, t_pov *pov);
 void	compDeltaDist(t_ray *ray);
 void	compSideDist(t_ray *ray, char **map);
 void	setStep(t_ray *ray);
-void	compInitSideDist(t_ray *ray, t_pov *pov);
-void	compPerpetualWallDist(t_ray *ray);
+void	initSideDist(t_ray *ray, t_pov *pov);
+void	compPerpendicularWallDist(t_ray *ray);
 void	whichWallWasHit(t_game *game);
 void	whereWasWallHit(t_ray *ray, t_pov *pov);
 
@@ -192,7 +192,7 @@ void	whereWasWallHit(t_ray *ray, t_pov *pov);
 float	ft_fmod(float f);
 void	compRayMap(t_ray *ray, t_pov *pov);
 void	howTallWallLine(t_ray *ray);
-int		whichTextureHasWall(t_game *game, char wall_ori);
+int		whichTextureHasWall(t_game *game, char wallDirection);
 void	raycaster(t_game *game, t_pov *pov);
 
 // parsing.c

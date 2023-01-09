@@ -6,13 +6,14 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:06:13 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/09 10:43:28 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 18:25:55 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../includes/cub3d.h"
 
 /*
+TODO
 To rotate the direction vector and plane vector, we multiply the their values
 with the rotation matrix:
 [ cos(a) -sin(a) ]

@@ -6,19 +6,11 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:05:59 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/09 10:40:44 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 18:33:45 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../includes/cub3d.h"
-
-/*
-The DDA algorithm will always jump exactly one square each loop, either a square
-in the x-direction, or a square in the y-direction. If it has to go in the
-negative or positive x-direction, and the negative or positive y-direction will
-depend on the direction of the ray, and this fact will be stored in stepX and
-stepY. Those variables are always either -1 or +1.
-*/
 
 /*
 Generally speaking, the game window dimensions can be expressed in x-axis and
@@ -82,83 +74,14 @@ void	compDeltaDist(t_ray *ray)
 }
 
 /*
-hit is used to determinate whether or not the coming loop may be ended,
-and side will contain if an x-side or a y-side of a wall was hit. If an x-side
-was hit, side is set to 0, if an y-side was hit, side will be
-1. By x-side and y-side, I mean the lines of the grid that are the borders between
-two squares.
-*/
+setStep() determines in which direction the DDA algorithm should jump, depending
+on the sign of the current ray direction.
 
-/*
-compSideDist(2) computes the sideDist which contains the distance that a ray has
-to travel from its start position to go to a neighboring grid border. To
-exemplify, it tells you how much the ray has to "grow" from its start position
-in order to travel to a neighboring x-axis grid border (sideDist.x). The same
-applies for y-axis grid borders (sideDist.y). It is different from deltaDist in
-that sideDist concerns the distance from start to grid border, while deltaDist
-concerns the distance from grid border to grid border.
-*/
-
-/*
-"map" refers to the current grid square that the ray is in. It is expressed in
-x-axis and y-axis integer coordinates.
-"step" refers to an entire grid square step in the x-axis or y-axis. The
-step.x and step.y values are either -1 or 1. These values are set in setStep(1).
-"sideDist" get incremented with "deltaDist" with every jump in their direction.
-"map" gets incremented with every "step".
-*/
-
-/*
-Logic:
-Loops until a wall is hit. It increments the ray with 1 grid square in each
-iteration. This means that at each iteration the ray jumps a step on the x-axis
-with step.x or in the y-axis with step.y. It always jumps exactly 1 square. When
-it is done looping, you have the data to calculate the distance of the ray to
-the wall. You can compute how high the wall has to be drawn.
-*/
-
-/*
-When the ray has hit a wall, the loop ends, and then we'll know whether an 
-x-side or y-side of a wall was hit in the variable "side", and what wall was hit 
-with mapX and mapY. We won't know exactly where the wall was hit however, but 
-that's not needed in this case because we won't use textured walls for now.
-*/
-
-void	compSideDist(t_ray *ray, char **map)
-{
-	int	hit;
-
-	hit = 0;
-	while (!hit)
-	{
-		if (ray->sideDist.x < ray->sideDist.y)
-		{
-			ray->sideDist.x = ray->sideDist.x + ray->deltaDist.x;
-			ray->map.x = ray->map.x + ray->step.x;
-			ray->wallSide = 0;
-		}
-		else
-		{
-			ray->sideDist.y = ray->sideDist.y + ray->deltaDist.y;
-			ray->map.y = ray->map.y + ray->step.y;
-			ray->wallSide = 1;
-		}
-		if (map[ray->map.y][ray->map.x] == '1')
-		{
-			hit = 1;
-		}
-	}
-}
-
-/*
-setStep(1) determines in which direction the DDA algorithm should jump, 
-depending on the sign of the current ray direction.
-
-Logic:
+Explanation:
 The DDA algorithm will always jump exactly one square in each iteration. Either
-a square on the x-axis or on the y-axis. If the ray direction has a negative
-x-axis value, step.x becomes -1, otherwise 1. Similarly, if it has a negative
-y-axis value, step.y becomes -1, otherwise 1.
+jumping a square on the x-axis or on the y-axis. If the ray direction has a
+negative x-axis value, step.x becomes -1, otherwise 1. Similarly, if it has a
+negative y-axis value, step.y becomes -1, otherwise 1.
 */
 
 void	setStep(t_ray *ray)
@@ -181,9 +104,14 @@ void	setStep(t_ray *ray)
 	}
 }
 
-// Calculate step and initial sideDist
+/*
+initSideDist() determines sideDist.x and sideDist.y, which re initially the
+distance the distance that the ray has to travel from its start position to the
+first x-side and y-side, respectfully. Note: Here these values are only
+initialized. In later steps, the sideDist.x and sideDist.y will be adjusted.
+*/
 
-void	compInitSideDist(t_ray *ray, t_pov *pov)
+void	initSideDist(t_ray *ray, t_pov *pov)
 {
 	if (ray->dir.x < 0)
 	{
@@ -204,83 +132,128 @@ void	compInitSideDist(t_ray *ray, t_pov *pov)
 }
 
 /*
-Repeatedly called by raycaster().
-compPerpetualWallDist() computes the perpendicular distance instead of the
-Euclidean distance used in other cub3D solutions. The perpendicular distance
-is basically the distance between the camera plane and the wall that the current
-ray has hit.
+compSideDist() computes the sideDist which contains the distance that a ray has
+to travel from its start position to go to a neighboring grid border. To
+exemplify, it tells you how much the ray has to "grow" from its start position
+in order to travel to a neighboring x-axis grid border ("sideDist.x"). The same
+applies for y-axis grid borders ("sideDist.y"). It is different from "deltaDist"
+in that "sideDist" concerns the distance from start to grid border, while 
+deltaDist concerns the distance from grid border to grid border. Note: This
+function can theoretically run indefinately, since it will only stop running if
+a wall has been hit. When it is done looping, you have the data to calculate the
+distance of the ray to the wall. In turn, with this you can compute how tall the
+wall has to be drawn (see compPerpendicularWallDist()).
+
+"wallSide" contains information regarding the type of wall that has been hit,
+differentiating between "x-side" (wallSide = 0) and "y-side" walls 
+(wallSide = 1). By x-side and y-side, I mean the lines of the grid that are the
+borders between two squares.
+
+"map" refers to the current grid square that the ray is in. It is expressed in
+x-axis and y-axis integer coordinates.
+
+"step" refers to an entire grid square step in the x-axis or y-axis. The
+step.x and step.y values are either -1 or 1. These values are set in setStep().
+"sideDist" get incremented with "deltaDist" with every jump in their direction.
+"map" gets incremented with every "step".
 */
 
-void	compPerpetualWallDist(t_ray *ray)
+void	compSideDist(t_ray *ray, char **map)
 {
-	if (ray->wallSide == 0)
-		ray->perpetualWallDistance = (ray->sideDist.x - ray->deltaDist.x);
-	else if (ray->wallSide == 1)
-		ray->perpetualWallDistance = (ray->sideDist.y - ray->deltaDist.y);
+	int	hit;
+
+	hit = 0;
+	while (hit == 0)
+	{
+		if (ray->sideDist.x < ray->sideDist.y)
+		{
+			ray->sideDist.x = ray->sideDist.x + ray->deltaDist.x;
+			ray->map.x = ray->map.x + ray->step.x;
+			ray->wallSide = 0;
+		}
+		else
+		{
+			ray->sideDist.y = ray->sideDist.y + ray->deltaDist.y;
+			ray->map.y = ray->map.y + ray->step.y;
+			ray->wallSide = 1;
+		}
+		if (map[ray->map.y][ray->map.x] == '1')
+		{
+			hit = 1;
+		}
+	}
 }
 
 /*
-whichWallWasHit(1) 
-wallSide 1 = ????
-wallSide 0 = ????
+Repeatedly called by raycaster().
+compPerpendicularWallDist() computes the perpendicular distance instead of the
+Euclidean distance used in other cub3D solutions. The perpendicular distance
+is basically the distance between the camera plane and the wall that the current
+ray has hit. This information is used to determine how tall the wall has to be
+drawn. It is called the perpendicular distance because it is the distance
+between the camera plane (for a specific x-axis value on the camera plane), and
+where the wall has been hit, assuming that we start measuring from the camera 
+plane x-axis value and draw a line that is lying perpendicularly on the camera
+plane (= 90 degrees), and goes straight forward to the wall. For an example:
+https://lodev.org/cgtutor/images/raycastperpwalldist.png
 */
+
+void	compPerpendicularWallDist(t_ray *ray)
+{
+	if (ray->wallSide == 0)
+		ray->perpendicularWallDistance = (ray->sideDist.x - ray->deltaDist.x);
+	else if (ray->wallSide == 1)
+		ray->perpendicularWallDistance = (ray->sideDist.y - ray->deltaDist.y);
+}
 
 /*
-side will contain if an x-side or a y-side of a wall was hit. If an x-side
-was hit, side is set to 0, if an y-side was hit, side will be 1. By x-side and
-y-side, I mean the lines of the grid that are the borders between two squares.
-
-0 = x axis
-1 = y axis
+TODO whichWallWasHit() computes which wall was hit.
 */
-
-// dirX and dirY represent the direction of the player
-// 
 
 void	whichWallWasHit(t_game *game)
 {
 	// kijkt linkerhelft, linkerzijde
 	if (game->ray.dir.x < 0 && game->ray.dir.y < 0)
 	{
-		if (game->ray.wallSide == SIDE_VER)
-			game->ray.wall_ori = 'N';
-		else if (game->ray.wallSide == SIDE_HOR)
-			game->ray.wall_ori = 'W';
+		if (game->ray.wallSide == SIDE_VERT)
+			game->ray.wallDirection = 'N';
+		else if (game->ray.wallSide == SIDE_HORI)
+			game->ray.wallDirection = 'W';
 	}
 	// kijkt linkerhelft, rechterzijde
 	else if (game->ray.dir.x < 0 && game->ray.dir.y >= 0)
 	{
-		if (game->ray.wallSide == SIDE_VER)
-			game->ray.wall_ori = 'S';
-		else if (game->ray.wallSide == SIDE_HOR)
-			game->ray.wall_ori = 'W';
+		if (game->ray.wallSide == SIDE_VERT)
+			game->ray.wallDirection = 'S';
+		else if (game->ray.wallSide == SIDE_HORI)
+			game->ray.wallDirection = 'W';
 	}
 	// kijkt rechterhelft, linkerzijde
 	else if (game->ray.dir.x >= 0 && game->ray.dir.y < 0)
 	{
-		if (game->ray.wallSide == SIDE_VER)
-			game->ray.wall_ori = 'N';
-		else if (game->ray.wallSide == SIDE_HOR)
-			game->ray.wall_ori = 'E';
+		if (game->ray.wallSide == SIDE_VERT)
+			game->ray.wallDirection = 'N';
+		else if (game->ray.wallSide == SIDE_HORI)
+			game->ray.wallDirection = 'E';
 	}
 	// kijkt rechterhelft, rechterzijde
 	else if (game->ray.dir.x >= 0 && game->ray.dir.y >= 0)
 	{
-		if (game->ray.wallSide == SIDE_VER)
-			game->ray.wall_ori = 'S';
-		else if (game->ray.wallSide == SIDE_HOR)
-			game->ray.wall_ori = 'E';
+		if (game->ray.wallSide == SIDE_VERT)
+			game->ray.wallDirection = 'S';
+		else if (game->ray.wallSide == SIDE_HORI)
+			game->ray.wallDirection = 'E';
 	}
 }
 
 /*
-//wallX where exactly the wall was hit
+whereWasWallHit() computes where the ray has hit the wall.
 */
 
 void	whereWasWallHit(t_ray *ray, t_pov *pov)
 {
 	if (ray->wallSide)
-		ray->wallX = pov->pos.x + ray->perpetualWallDistance * ray->dir.x;
+		ray->wallX = pov->pos.x + ray->perpendicularWallDistance * ray->dir.x;
 	else
-		ray->wallX = pov->pos.y + ray->perpetualWallDistance * ray->dir.y;
+		ray->wallX = pov->pos.y + ray->perpendicularWallDistance * ray->dir.y;
 }
