@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:06:09 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/09 18:53:22 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 18:58:43 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ void setCurrentRayTexture(t_game *game)
 	}
 }
 
-void howToCenterLine(t_game *game)
+void howToCenterLine(t_game *game, double player_height)
 {
 	double screenY;
 	uint32_t wallLineHeightHalf;
 
-	wallLineHeightHalf = game->ray.wallLineHeight / 10; // divide by bigger number to give illusion of beging giant
+	wallLineHeightHalf = game->ray.wallLineHeight / player_height; // divide by bigger number to give illusion of beging giant
 	screenY = game->screen_height / 2; //original, keep
 	// screenY = game->textures[0]->height / 2; // works, interesting? TODO INSPECT!
 	game->ray.offsetFromAbove = screenY - wallLineHeightHalf;

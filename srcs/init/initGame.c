@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:58 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/09 10:39:11 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 18:57:28 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	initGame(t_game *game)
 {
+	game->player_height = 2;
 	game->stop = 0;
 	game->gnl_ret = 1;
 	game->nRowsMapFile = 0;

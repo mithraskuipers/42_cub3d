@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/09 18:37:40 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 18:59:41 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ typedef struct s_mapdata
 // GENERAL GAME DATA STRUCT
 typedef struct s_game
 {
+	double player_height;
 	int stop;
 	int gnl_ret;
 	int nRowsMapFile;
@@ -221,7 +222,7 @@ void	printPlayerPos(t_game *game);
 // raycastWalls.c
 void	getTexPixelCol(t_game *game, int wallHeight, int wallLineHeight);
 void	setCurrentRayTexture(t_game *game);
-void	howToCenterLine(t_game *game);
+void	howToCenterLine(t_game *game, double player_height);
 void	drawCurWallLine(t_game *game);
 
 // rotating.c
