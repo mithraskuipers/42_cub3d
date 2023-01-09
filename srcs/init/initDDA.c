@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:05:27 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/09 10:39:09 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 12:04:56 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ void	initPovPlane(t_game *game, int cardinalDirection)
 }
 
 /*
-initPlayerPos() offsets the player position, preventing the player from spawning
-inside a wall.
+initPlayerPos() offsets the player position. It is required to prevent the game
+from glitching when the player spawning position is next to a wall.
 */
 
 void	initPlayerPos(t_game *game)
