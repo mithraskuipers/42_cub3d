@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/09 15:23:11 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 15:35:36 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,6 @@
 # define SIDE_HOR 0
 # define SIDE_VER 1
 
-// VECTOR STRUCT: FLOATS
-typedef struct	s_fvector
-{
-	float	x;
-	float	y;
-}				t_fvector;
-
 // VECTOR STRUCT: INTEGERS
 typedef struct	s_ivector
 {
@@ -74,7 +67,7 @@ typedef struct s_ray
 {
 	uint32_t		pixelColor;
 	uint32_t		wallLineHeight;
-	t_fvector		pixelPos;
+	t_dvector		pixelPos;
 	int				curTex;
 	mlx_texture_t	*texture;
 	int				offsetFromAbove;
@@ -84,7 +77,7 @@ typedef struct s_ray
 	t_dvector		deltaDist;
 	t_ivector		step;
 	t_ivector		map;
-	t_fvector		end_pos;
+	t_dvector		end_pos;
 	int				wallSide;
 	double			perpetualWallDistance;
 	double			texLineScale;
@@ -130,8 +123,8 @@ typedef struct s_game
 	int map_row_tmp;
 
 	mlx_image_t	*mlxImg;
-	uint32_t			screen_width;
-	uint32_t			screen_height;
+	uint32_t		screen_width;
+	uint32_t		screen_height;
 	t_ray			ray;
 	mlx_t			*mlx42;
 	t_mapdata		mapdata;

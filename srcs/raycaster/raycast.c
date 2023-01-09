@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:06:04 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/09 10:40:42 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 16:09:06 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	raycaster(t_game *game, t_pov *pov)
 		howTallWallLine(&game->ray);
 		game->ray.pixelPos.x = game->ray.screenXPos;
 		setCurrentRayTexture(game);
+		game->ray.wallLineHeight =	(game->ray.texture->height * game->ray.texLineScale);
 		howToCenterLine(game);
 		drawCurWallLine(game);
 		game->ray.screenXPos++;
