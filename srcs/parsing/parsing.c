@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:02 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/09 10:58:26 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 15:19:17 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	getMapCfg(t_game *game, char *line, t_mapdata *mapdata)
 	close (game->mapdata.mapFd);
 	if (!mapdata->paths[NORTH] || !mapdata->paths[EAST] || \
 	!mapdata->paths[SOUTH] || !mapdata->paths[WEST] || \
-	!mapdata->floorRGB || !mapdata->ceilingRGB)
+	mapdata->floorRGB[0] == -1 || mapdata->ceilingRGB[0] == -1)
 		return (msgErrExit("Variable in map is missing.", 1));
 	return (0);
 }

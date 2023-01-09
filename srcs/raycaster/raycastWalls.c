@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:06:09 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/09 10:40:49 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 15:30:01 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void getTexPixelCol(t_game *game, int wallHeight, int wallLineHeight)
 	uint8_t B;
 	int exactTexPixel;
 
-	exactTexPixel = ((int)(((float)wallHeight / (float)wallLineHeight) *
+	exactTexPixel = ((int)(((double)wallHeight / (double)wallLineHeight) *
 					(int)game->ray.texture->height) *
 					(int)(game->ray.texture->width) +
 					(int)game->ray.curTex) *
@@ -81,7 +81,7 @@ void howToCenterLine(t_game *game)
 
 void drawCurWallLine(t_game *game)
 {
-	size_t curWallLineHeight;
+	u_int32_t curWallLineHeight;
 
 	curWallLineHeight = START;
 	while (curWallLineHeight < game->ray.wallLineHeight)
