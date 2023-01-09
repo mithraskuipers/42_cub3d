@@ -1,18 +1,18 @@
 NAME		= 	cub3D
 OBJ			=	srcs/main \
 				srcs/drawBackground \
-				srcs/initGame \
-				srcs/initDDA \
+				srcs/init/initGame \
+				srcs/init/initDDA \
 				srcs/hooksKeyboard \
 				srcs/frameCallback \
 				srcs/walking \
 				srcs/rotating \
-				srcs/debug \
-				srcs/parsing \
-				srcs/parsingColors \
-				srcs/raycasting \
-				srcs/raycastComp \
-				srcs/raycastWalls \
+				srcs/debug/debug \
+				srcs/parsing/parsing \
+				srcs/parsing/parsingColors \
+				srcs/raycaster/raycast \
+				srcs/raycaster/raycastComp \
+				srcs/raycaster/raycastWalls \
 				srcs/utils
 
 OBJS		= $(addsuffix .o, ${OBJ})

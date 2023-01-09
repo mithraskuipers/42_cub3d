@@ -6,11 +6,11 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:10 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/08 22:11:55 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 10:40:04 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "./../../includes/cub3d.h"
 
 int	parseColorsLine(char **split_line, t_mapdata *mapdata)
 {
@@ -45,14 +45,14 @@ int	checkRGB(char *rgbColors, int rgb[])
 
 	i = 0;
 	if (rgb[0] != -1)
-		msgErrExit("Your map cfg contains duplicate rgb data..", 1);
+		msgErrExit("Your map cfg contains duplicate RGB data..", 1);
 	splittedRgbColors = ft_split(rgbColors, ',');
 	if (!splittedRgbColors)
 		msgErrExit("Failure in ft_split() in checkRGB()", 1);
 	while (splittedRgbColors[i])
 		i++;
 	if (i != 3)
-		msgErrExit("Your map cfg contains incorrect rgb data.", 1);
+		msgErrExit("Your map cfg contains incorrect RGB data.", 1);
 	freeCharDP(splittedRgbColors);
 	return (0);
 }
@@ -73,7 +73,7 @@ int	processRGB(char *rgbColors, int rgb[])
 	while (i < 3)
 	{
 		if (rgb[i] < 0 || rgb[i] > 255)
-			msgErrExit("Your map cfg contains incorrect rgb data.", 1);
+			msgErrExit("Your map cfg contains incorrect RGB data.", 1);
 		i++;
 	}
 	return (0);

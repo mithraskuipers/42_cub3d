@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:05:14 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/08 22:12:26 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 10:42:00 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ static void	updateGameCfg(t_game *game)
 	game->rotationSpeed = game->mlx42->delta_time * ROT_SPEED;
 	game->dirPerp.x = game->pov.dir.y * -1;
 	game->dirPerp.y = game->pov.dir.x;
+}
+
+void hooksInput(t_game *game)
+{
+	hooksKeyboardWalking(game, game->movementSpeed);
+	hooksKeyboardRotate(game, game->rotationSpeed);
 }
 
 /*

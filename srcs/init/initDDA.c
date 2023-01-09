@@ -6,11 +6,11 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:05:27 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/08 22:12:36 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 10:39:09 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "./../../includes/cub3d.h"
 
 void	initPovDir(t_game *game, int cardinalDirection)
 {

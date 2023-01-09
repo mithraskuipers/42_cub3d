@@ -6,11 +6,11 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:05:59 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/12/21 22:06:00 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 10:40:44 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "./../../includes/cub3d.h"
 
 /*
 The DDA algorithm will always jump exactly one square each loop, either a square

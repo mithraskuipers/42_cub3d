@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/03 18:25:55 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/08 22:12:33 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 10:41:43 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,4 @@ void	hooksKeyboardRotate(t_game *game, double rotSpeed)
 		keyboardRotateLeft(&game->pov, prevDirX, prevPlaneX, rotSpeed);
 	else if (mlx_is_key_down(game->mlx42, MLX_KEY_RIGHT))
 		keyboardRotateRight(&game->pov, prevDirX, prevPlaneX, rotSpeed);
-}
-
-void hooksInput(t_game *game)
-{
-	hooksKeyboardWalking(game, game->movementSpeed);
-	hooksKeyboardRotate(game, game->rotationSpeed);
 }

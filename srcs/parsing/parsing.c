@@ -6,11 +6,11 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:02 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/08 22:11:51 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 10:39:14 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "./../../includes/cub3d.h"
 
 void	mapMemAllocator(t_game *game, char ***map)
 {

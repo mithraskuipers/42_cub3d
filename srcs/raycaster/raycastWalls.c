@@ -6,12 +6,11 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:06:09 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/08 22:12:04 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 10:40:49 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
-#include <stdlib.h>
+#include "./../../includes/cub3d.h"
 
 /**
  * Base object for disk loaded textures.

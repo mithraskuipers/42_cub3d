@@ -6,11 +6,11 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:05:02 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/12/21 22:05:04 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 10:39:02 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "./../../includes/cub3d.h"
 
 void	printMap(t_game *game)
 {
