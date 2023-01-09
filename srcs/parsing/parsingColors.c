@@ -6,11 +6,21 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:10 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/09 10:40:04 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 11:04:59 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../includes/cub3d.h"
+
+/*
+Taken straight from the MLX readme file. It combines four individual channel
+bytes into a single integer using bit-shifting.
+*/
+
+int getRGBA(int R, int G, int B, int A)
+{
+	return (R << 24 | G << 16 | B << 8 | A);
+}
 
 int	parseColorsLine(char **split_line, t_mapdata *mapdata)
 {
@@ -53,7 +63,7 @@ int	checkRGB(char *rgbColors, int rgb[])
 		i++;
 	if (i != 3)
 		msgErrExit("Your map cfg contains incorrect RGB data.", 1);
-	freeCharDP(splittedRgbColors);
+	cleanupCharDP(splittedRgbColors);
 	return (0);
 }
 
@@ -68,7 +78,7 @@ int	processRGB(char *rgbColors, int rgb[])
 	rgb[0] = ft_atoi(splittedRgbColors[0]);
 	rgb[1] = ft_atoi(splittedRgbColors[1]);
 	rgb[2] = ft_atoi(splittedRgbColors[2]);
-	freeCharDP(splittedRgbColors);
+	cleanupCharDP(splittedRgbColors);
 	i = 0;
 	while (i < 3)
 	{

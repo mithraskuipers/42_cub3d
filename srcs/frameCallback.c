@@ -6,11 +6,11 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:05:14 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/09 10:42:00 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 10:44:48 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "./../includes/cub3d.h"
 
 /*
 updateGameCfg() updates the game movement speed and rotation speed. 

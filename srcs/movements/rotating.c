@@ -6,11 +6,11 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:06:13 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/12/21 22:06:15 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 10:43:28 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "./../../includes/cub3d.h"
 
 /*
 To rotate the direction vector and plane vector, we multiply the their values

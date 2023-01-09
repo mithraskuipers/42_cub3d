@@ -6,11 +6,11 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/08 22:12:46 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 11:04:47 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "./../includes/cub3d.h"
 
 int	gameInit(t_game *game, int argc, char **argv)
 {
@@ -28,7 +28,7 @@ int	gameParsing(t_game *game)
 	mapCheckExt(game);
 	char *line;
 	line = NULL;
-	if (getMapConfig(game, line, &game->mapdata))
+	if (getMapCfg(game, line, &game->mapdata))
 		msgErrExit("Your map is configured incorrectly.", 1);
 	mapOpen(game);
 	getMapFileDims(game, line);
@@ -60,11 +60,11 @@ int main(int argc, char **argv)
 	gameInit(&game, argc, argv);
 	gameParsing(&game);
 	if (gameExecute(&game))
-		return(cleanupGame(&game));
+		return(cleanupEverything(&game));
 	mlx_loop_hook(game.mlx42, &frameCallback, &game);
 	mlx_loop(game.mlx42);
 	mlx_terminate(game.mlx42);
-	cleanupGame(&game);
+	cleanupEverything(&game);
 	return (0);
 }
 

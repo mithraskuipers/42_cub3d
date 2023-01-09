@@ -6,11 +6,11 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:06:19 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/08 22:12:11 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 10:43:31 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "./../../includes/cub3d.h"
 
 /*
 All functions below are similar to eachother in code and functionality.

@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/08 22:19:06 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 11:04:59 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,7 @@ void	mapMemAllocator(t_game *game, char ***map);
 int		mapOpen(t_game *game);
 int		mapCheckExt(t_game *game);
 int		isCharInString(char c, char *s);
-int		getMapConfig(t_game *game, char *line, t_mapdata *mapdata);
+int		getMapCfg(t_game *game, char *line, t_mapdata *mapdata);
 int		getMapConfigVar(t_game *game, char *line, t_mapdata *mapdata);
 void	checkPlayerCount(t_game *game);
 
@@ -239,10 +239,10 @@ void	keyboardRotateLeft(t_pov *pov, double prevDirX, double prevPlaneX, double r
 int		msgErrExit(char *s, int exitCode);
 int		getRGBA(int R, int G, int B, int A);
 char	*get_next_line_wrapper(t_game *game);
-int		freeCharDP(char **ptr);
+int		cleanupCharDP(char **ptr);
 
 void	freeSplit(char **split, bool skip, int index);
-int		cleanupGame(t_game *game);
+int		cleanupEverything(t_game *game);
 int		free_all_and_error(char	**split_line, char *str);
 
 // walking.c

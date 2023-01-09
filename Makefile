@@ -3,17 +3,20 @@ OBJ			=	srcs/main \
 				srcs/drawBackground \
 				srcs/init/initGame \
 				srcs/init/initDDA \
-				srcs/hooksKeyboard \
+				srcs/movements/hooksKeyboard \
 				srcs/frameCallback \
-				srcs/walking \
-				srcs/rotating \
+				srcs/movements/walking \
+				srcs/movements/rotating \
 				srcs/debug/debug \
 				srcs/parsing/parsing \
 				srcs/parsing/parsingColors \
+				srcs/parsing/parsingReadMap \
+				srcs/parsing/parsingCheck \
 				srcs/raycaster/raycast \
 				srcs/raycaster/raycastComp \
 				srcs/raycaster/raycastWalls \
-				srcs/utils
+				srcs/cleanup/cleanup \
+				srcs/cleanup/error
 
 OBJS		= $(addsuffix .o, ${OBJ})
 CC			= gcc

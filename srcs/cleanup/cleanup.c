@@ -1,51 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   utils.c                                            :+:    :+:            */
+/*   cleanup.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:17 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/08 22:12:08 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 11:06:02 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
-
-int	msgErrExit(char *s, int exitCode)
-{
-	ft_putstr_fd("Error\n", 2);
-	if (ft_strlen(s) != 0)
-	{
-		ft_putstr_fd(s, 2);
-		ft_putstr_fd("\n", 2);
-	}
-	exit (exitCode);
-}
-
-/*
-Taken straight from the MLX readme file. It combines four individual channel
-bytes into a single integer using bit-shifting.
-*/
-
-int getRGBA(int R, int G, int B, int A)
-{
-	return (R << 24 | G << 16 | B << 8 | A);
-}
-
-int	freeCharDP(char **ptr)
-{
-	int	i;
-
-	i = 0;
-	while (ptr[i])
-	{
-		free(ptr[i]);
-		i++;
-	}
-	free(ptr);
-	return (0);
-}
+#include "./../../includes/cub3d.h"
 
 void	freeSplit(char **split, bool skip, int index)
 {
@@ -69,10 +34,24 @@ int	free_all_and_error(char	**split_line, char *str)
 	return (msgErrExit(str, 1));
 }
 
-int	cleanupGame(t_game *game)
+int	cleanupCharDP(char **ptr)
 {
-	freeCharDP(game->mapdata.map);
-	freeCharDP(game->cpy_map);
+	int	i;
+
+	i = 0;
+	while (ptr[i])
+	{
+		free(ptr[i]);
+		i++;
+	}
+	free(ptr);
+	return (0);
+}
+
+int	cleanupEverything(t_game *game)
+{
+	cleanupCharDP(game->mapdata.map);
+	cleanupCharDP(game->cpy_map);
 	if (game->textures[NORTH] != NULL)
 		mlx_delete_texture(game->textures[NORTH]);
 	if (game->textures[EAST] != NULL)
