@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/09 11:04:59 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/09 12:17:50 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define GAME_HEIGHT 1000
 # define MOVE_SPEED 4
 # define ROT_SPEED 4
-# define WALL_BOUNCE 0.025
+# define BOUNCE 0.025
 
 // DEFINE WALLS
 # define NORTH 0
