@@ -6,7 +6,7 @@
 /*   By: dagmarkramer <dagmarkramer@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 22:08:38 by dkramer           #+#    #+#             */
-/*   Updated: 2023/01/10 21:32:22 by dagmarkrame      ###   ########.fr       */
+/*   Updated: 2023/01/10 21:55:18 by dagmarkrame      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int main(int argc, char **argv)
 	mlx_loop(game.mlx42);
 	mlx_terminate(game.mlx42);
 	cleanupEverything(&game);
-	// system ("leaks cub3D");
+	system ("leaks cub3D");
 	return (0);
 }
 

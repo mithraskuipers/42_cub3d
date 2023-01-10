@@ -6,7 +6,7 @@
 /*   By: dagmarkramer <dagmarkramer@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 22:08:10 by dkramer           #+#    #+#             */
-/*   Updated: 2023/01/10 21:33:11 by dagmarkrame      ###   ########.fr       */
+/*   Updated: 2023/01/10 21:56:58 by dagmarkrame      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,16 @@ int	parseColorsLine(char **split_line, t_mapdata *mapdata)
 	int		i;
 	char	*temp;
 
-	i = 1;
-	colors = "";
-	if (!split_line[2])
-		colors = split_line[1];
-	else
+	i = 2;
+	colors = ft_strdup(split_line[1]);
+	while (split_line[i])
 	{
-		while (split_line[i])
-		{
-			temp = ft_strdup(colors);
-			if (colors[0])
-				free (colors);
-			if (!temp)
-				msgErrExit("Malloc fail", 1);
-			colors = ft_strjoin(temp, split_line[i]);
-			free (temp);
-			if (!colors)
-				msgErrExit("Malloc fail", 1);
-			i++;
-		}
+		temp = colors;
+		colors = ft_strjoin(colors, split_line[i]);
+		free(temp);
+		if (!colors)
+			msgErrExit("Malloc fail", 1);
+		i++;
 	}
 	if (!ft_strncmp("F", split_line[0], 1))
 	{
