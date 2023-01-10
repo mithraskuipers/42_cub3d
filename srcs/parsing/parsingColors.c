@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parsingColors.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/21 22:08:10 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/10 16:10:12 by dkramer       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parsingColors.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dagmarkramer <dagmarkramer@student.42.f    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/21 22:08:10 by dkramer           #+#    #+#             */
+/*   Updated: 2023/01/10 21:33:11 by dagmarkrame      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,46 +24,44 @@ int getRGBA(int R, int G, int B, int A)
 
 int	parseColorsLine(char **split_line, t_mapdata *mapdata)
 {
-	char	**split_color;
-	// char	**line;
 	char	*colors;
 	int		i;
+	char	*temp;
 
 	i = 1;
-	// line = ft_split(split_line[1], ' ');
+	colors = "";
 	if (!split_line[2])
 		colors = split_line[1];
 	else
 	{
 		while (split_line[i])
 		{
-			colors = ft_strjoin(colors, split_line[i]);
-			// free (line[i]);
+			temp = ft_strdup(colors);
+			if (colors[0])
+				free (colors);
+			if (!temp)
+				msgErrExit("Malloc fail", 1);
+			colors = ft_strjoin(temp, split_line[i]);
+			free (temp);
+			if (!colors)
+				msgErrExit("Malloc fail", 1);
 			i++;
 		}
 	}
-	// free (line);
-	// free (split_line[1]);
-	printf("%s\n", colors);
-	split_color = ft_split(colors, ',');
-	if (!split_color[0] || !split_color[1] || !split_color[2])
-	{
-		freeSplit(split_color, false, 0);
-		return (free_all_and_error(split_line, "Wrong format variable."));
-	}
 	if (!ft_strncmp("F", split_line[0], 1))
 	{
-		checkRGB(split_line[1], mapdata->floorRGB);
-		processRGB(split_line[1], mapdata->floorRGB);
+		checkRGB(colors, mapdata->floorRGB);
+		processRGB(colors, mapdata->floorRGB);
 
 	}
 	if (!ft_strncmp("C", split_line[0], 1))
 	{
-		checkRGB(split_line[1], mapdata->ceilingRGB);
-		processRGB(split_line[1], mapdata->ceilingRGB);
+		checkRGB(colors, mapdata->ceilingRGB);
+		processRGB(colors, mapdata->ceilingRGB);
 	}
-	freeSplit(split_color, false, 0);
 	freeSplit(split_line, false, 0);
+	if (colors[0])
+		free (colors);
 	return (0);
 }
 
