@@ -1,12 +1,12 @@
 NO ./assets/codam/codam_fridge.png
 SO ./assets/codam/codam_fridge.png
-WE ./assets/codam/codam_fridge.png
+
+
+WE       ./assets/codam/codam_fridge.png
+EA ./assets/codam/codam_fridge.png
+
 F 255,255,255
 C 0,0,0
-1111
-1000111
-11111111
-10000001
-1N01111 
-1011
-1111
+ 111
+1N01
+ 111

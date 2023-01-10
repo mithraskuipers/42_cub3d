@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:02 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/10 12:45:56 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/10 16:16:17 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	get_other_cases(char **split_line, t_mapdata *mapdata, t_game *game)
 {
+	printf("test");
 	if (!ft_strncmp("F", split_line[0], 1) || !ft_strncmp("C", split_line[0], 1))
 	{
 		if (parseColorsLine(split_line, mapdata) == 1)
@@ -35,6 +36,9 @@ int	getMapConfigVar(t_game *game, char *line, t_mapdata *mapdata)
 	char	**split_line;
 
 	split_line = ft_split(line, ' ');
+	printf("%s\n", split_line[0]);
+	printf("%s\n", split_line[1]);
+
 	if ((!ft_strncmp("NO", split_line[0], 2) || !ft_strncmp("SO", split_line[0],
 				2) || !ft_strncmp("WE", split_line[0], 2) || !ft_strncmp("EA",
 				split_line[0], 2) || !ft_strncmp("F", split_line[0], 1)

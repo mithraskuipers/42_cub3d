@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:02 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/10 12:02:17 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/10 15:40:16 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	mapRead(t_game *game)
 		i++;
 		j++;
 	}
-	game->heightMap = game->mapFileDims.y - game->whenMapMazeStart;
+	game->heightMap = game->mapFileDims.y - game->whenMapMazeStart + 1;
 	if (game->has_player == 0)
 		msgErrExit("Your map contains no player spawning point.", 1);
 }

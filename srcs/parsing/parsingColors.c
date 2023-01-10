@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:10 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/09 11:04:59 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/10 16:10:12 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,27 @@ int getRGBA(int R, int G, int B, int A)
 int	parseColorsLine(char **split_line, t_mapdata *mapdata)
 {
 	char	**split_color;
+	// char	**line;
+	char	*colors;
+	int		i;
 
-	split_color = ft_split(split_line[1], ',');
+	i = 1;
+	// line = ft_split(split_line[1], ' ');
+	if (!split_line[2])
+		colors = split_line[1];
+	else
+	{
+		while (split_line[i])
+		{
+			colors = ft_strjoin(colors, split_line[i]);
+			// free (line[i]);
+			i++;
+		}
+	}
+	// free (line);
+	// free (split_line[1]);
+	printf("%s\n", colors);
+	split_color = ft_split(colors, ',');
 	if (!split_color[0] || !split_color[1] || !split_color[2])
 	{
 		freeSplit(split_color, false, 0);
