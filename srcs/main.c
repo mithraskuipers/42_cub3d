@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/09 18:00:36 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/10 13:08:50 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,34 @@ int	gameInit(t_game *game, int argc, char **argv)
 	return (0);
 }
 
+void	checkChar(t_game *game, char **map)
+{
+	int	j;
+	int	i;
+	int len;
+
+	j = 0;
+	i = 0;
+	while (j < game->heightMap)
+	{
+		i = 0;
+		len = (int)ft_strlen(map[j]);						// Waarom typecasting?
+		while (i < len)
+		{
+			if (!ft_strrchr("01NESW ", map[j][i]))
+				msgErrExit("Wrong characters included.", 1);
+			i++;
+		}
+		j++;
+	}
+}
+
 int	gameParsing(t_game *game)
 {
 	mapCheckExt(game);
 	char *line;
 	line = NULL;
-	if (getMapCfg(game, line, &game->mapdata))
+	if (getMapCfg(game, line, &game->mapdata) == 1)
 		msgErrExit("Your map is configured incorrectly.", 1);
 	mapOpen(game);
 	getMapFileDims(game, line);
@@ -36,6 +58,7 @@ int	gameParsing(t_game *game)
 	mapMemAllocator(game, &game->cpy_map);
 	mapOpen(game);
 	mapRead(game);
+	checkChar(game, game->mapdata.map);
 	mapFloodfill(game, game->player.x, game->player.y);
 	checkPlayerCount(game);
 	return (0);
@@ -58,7 +81,8 @@ int main(int argc, char **argv)
 	t_game game;
 
 	gameInit(&game, argc, argv);
-	gameParsing(&game);
+	if (gameParsing(&game))
+		return(cleanupEverything(&game));
 	if (gameExecute(&game))
 		return(cleanupEverything(&game));
 	mlx_loop_hook(game.mlx42, &frameCallback, &game);

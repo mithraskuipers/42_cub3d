@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:02 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/09 15:19:17 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/10 12:45:56 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	getMapConfigVar(t_game *game, char *line, t_mapdata *mapdata)
 	return (0);
 }
 
-int	loop_through_lines(t_game *game, char *line, t_mapdata *mapdata)
+int	 loop_through_lines(t_game *game, char *line, t_mapdata *mapdata)
 {
 	while (game->gnl_ret)
 	{
@@ -121,31 +121,33 @@ int	isCharInString(char c, char *s)
 	return (0);
 }
 
-void	mapFloodfill(t_game *game, int x, int y)
+int	mapFloodfill(t_game *game, int x, int y)
 {
-	int curChar;
-
-	curChar = game->cpy_map[y][x];
-	if (curChar != 'N' && curChar != 'E' && curChar != 'S' && curChar != 'W'
-	&& curChar != '1' && curChar != '0')
-		msgErrExit("Your map contains errors.", 1);
-	if (game->cpy_map[y][x] == '0')
-	{
-		game->cpy_map[y][x] = '1';
-		mapFloodfill(game, x, y - 1);
-		mapFloodfill(game, x, y + 1);
-		mapFloodfill(game, x - 1, y);
-		mapFloodfill(game, x + 1, y);
-	}
-	if (isCharInString(game->cpy_map[y][x], "NESW"))
-	{
-		game->player_count++;
-		game->cpy_map[y][x] = '1';
-		mapFloodfill(game, x, y - 1);
-		mapFloodfill(game, x, y + 1);
-		mapFloodfill(game, x - 1, y);
-		mapFloodfill(game, x + 1, y);
-	}
+	if (x < 0 || x >= game->widthMap || y < 0 || y >= game->heightMap)
+		return (0);
 	if (game->cpy_map[y][x] == '1')
-		return ;
+		return (0);
+	if (game->cpy_map[y][x] == 'x')
+		return (0);
+	if (isCharInString(game->cpy_map[y][x], "NESW"))
+		game->player_count++;
+	if ((x + 1 < game->widthMap && game->cpy_map[y][x + 1] == ' ')
+		|| (x - 1 >= 0 && game->cpy_map[y][x - 1] == ' ') || (y + 1
+		< game->heightMap && game->cpy_map[y + 1][x] == ' ') || (y - 1
+		>= 0 && game->cpy_map[y - 1][x] == ' '))
+		if (game->cpy_map[y][x] == '0')
+			return (msgErrExit("Player can walk walk out of map.", 1));
+	if (x == 0 || y == 0 || y == game->heightMap - 1
+		|| x == game->widthMap - 1)
+		return (msgErrExit("Player can walk walk out of map.", 1));
+	game->cpy_map[y][x] = 'x';
+	if (mapFloodfill(game, x - 1, y) == 1)
+		return (1);
+	if (mapFloodfill(game, x, y - 1) == 1)
+		return (1);
+	if (mapFloodfill(game, x + 1, y) == 1)
+		return (1);
+	if (mapFloodfill(game, x, y + 1) == 1)
+		return (1);
+	return (0);
 }

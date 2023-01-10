@@ -22,8 +22,8 @@ OBJS		= $(addsuffix .o, ${OBJ})
 CC			= gcc
 RM			= rm -f
 HEADER		= -I headers/ -I $(MLX)/include
-CFLAGS		= -Wall -Wextra -Werror -g -fsanitize=address
-# CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror #-g -fsanitize=address
+CFLAGS		= -Wall -Wextra -Werror
 LINKER		=  -lglfw -lm -L "/Users/$(USER)/.brew/opt/glfw/lib/" 
 
 LIBFT		= ./libs/libft/libft.a

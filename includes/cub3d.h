@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/09 18:59:41 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/10 12:02:28 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,8 @@ typedef struct s_game
 	int len;
 	int whenMapMazeStart;
 	int map_row_tmp;
-
+	int widthMap;
+	int heightMap;
 	mlx_image_t	*mlxImg;
 	uint32_t		screen_width;
 	uint32_t		screen_height;
@@ -197,7 +198,7 @@ int		whichTextureHasWall(t_game *game, char wallDirection);
 void	raycaster(t_game *game, t_pov *pov);
 
 // parsing.c
-void	mapFloodfill(t_game *game, int x, int y);
+int		mapFloodfill(t_game *game, int x, int y);
 void	mapRead(t_game *game);
 int		doesLineHavePlayer(char *line);
 int		getMapFileDims(t_game *game, char *line);
