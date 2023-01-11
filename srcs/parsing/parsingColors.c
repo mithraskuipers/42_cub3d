@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parsingColors.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dagmarkramer <dagmarkramer@student.42.f    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/21 22:08:10 by dkramer           #+#    #+#             */
-/*   Updated: 2023/01/10 21:56:58 by dagmarkrame      ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parsingColors.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dagmarkramer <dagmarkramer@student.42.f      +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/21 22:08:10 by dkramer       #+#    #+#                 */
+/*   Updated: 2023/01/11 09:34:46 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ Taken straight from the MLX readme file. It combines four individual channel
 bytes into a single integer using bit-shifting.
 */
 
-int getRGBA(int R, int G, int B, int A)
+int convertRgbBytesToInt(int R, int G, int B, int A)
 {
 	return (R << 24 | G << 16 | B << 8 | A);
 }

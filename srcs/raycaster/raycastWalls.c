@@ -6,29 +6,11 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:06:09 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/09 18:58:43 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 09:45:29 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../includes/cub3d.h"
-
-/**
- * Base object for disk loaded textures.
- * It contains rudementary information about the texture.
- *
- * @param width The width of the texture.
- * @param height The height of the texture.
- * @param pixels The literal pixel data.
- * @param bytes_per_pixel The amounst of bytes in a pixel, always 4.
- */
-
-/*
-getTexPixelColor() simply extract
-...
-
-first it calculates the total number of pixels in the texture of interest.
-multiplies that with a scale???? then by 4 because 4 bytes per pixel.
-*/
 
 void getTexPixelCol(t_game *game, int wallHeight, int wallLineHeight)
 {
@@ -45,7 +27,8 @@ void getTexPixelCol(t_game *game, int wallHeight, int wallLineHeight)
 	R = game->ray.texture->pixels[exactTexPixel + 1];
 	G = game->ray.texture->pixels[exactTexPixel + 2];
 	B = game->ray.texture->pixels[exactTexPixel + 3];
-	game->ray.pixelColor = getRGBA(	game->ray.texture->pixels[exactTexPixel], \
+	game->ray.pixelColor = convertRgbBytesToInt(\
+									game->ray.texture->pixels[exactTexPixel], \
 									R, \
 									G, \
 									B);
@@ -54,16 +37,21 @@ void getTexPixelCol(t_game *game, int wallHeight, int wallLineHeight)
 
 void setCurrentRayTexture(t_game *game)
 {
-	if ((game->ray.wallDirection == 'S') || (game->ray.wallDirection == 'E'))
+	if ((game->ray.wallDirection == 'N') || \
+	(game->ray.wallDirection == 'E'))
 	{
-		game->ray.curTex = game->ray.texture->width * fabs(1 - ft_fmod(game->ray.wallX));
+		game->ray.curTex = (game->ray.texture->width) * \
+		getDecimals(game->ray.wallX);
 		return;
 	}
-	else if ((game->ray.wallDirection == 'N') || (game->ray.wallDirection == 'W'))
+	else if ((game->ray.wallDirection == 'S') || \
+	(game->ray.wallDirection == 'W'))
 	{
-		game->ray.curTex = game->ray.texture->width * fabs(ft_fmod(game->ray.wallX));
+		game->ray.curTex = (game->ray.texture->width) - \
+		((game->ray.texture->width) * getDecimals(game->ray.wallX));
 		return;
 	}
+	return ;
 }
 
 void howToCenterLine(t_game *game, double player_height)
@@ -71,22 +59,22 @@ void howToCenterLine(t_game *game, double player_height)
 	double screenY;
 	uint32_t wallLineHeightHalf;
 
-	wallLineHeightHalf = game->ray.wallLineHeight / player_height; // divide by bigger number to give illusion of beging giant
-	screenY = game->screen_height / 2; //original, keep
-	// screenY = game->textures[0]->height / 2; // works, interesting? TODO INSPECT!
+	wallLineHeightHalf = game->ray.wallLineHeight / player_height;
+	screenY = game->screen_height / 2;
 	game->ray.offsetFromAbove = screenY - wallLineHeightHalf;
 	return;
 }
 
 void drawCurWallLine(t_game *game)
 {
-	u_int32_t curWallLineHeight;
+	uint32_t curWallLineHeight;
 
 	curWallLineHeight = START;
 	while (curWallLineHeight < game->ray.wallLineHeight)
 	{
 		game->ray.pixelPos.y = game->ray.offsetFromAbove + curWallLineHeight;
-		if (((game->ray.offsetFromAbove + curWallLineHeight) > 0) && ((game->ray.offsetFromAbove + curWallLineHeight) < game->screen_height))
+		if (((game->ray.offsetFromAbove + curWallLineHeight) > 0) && \
+		((game->ray.offsetFromAbove + curWallLineHeight) < game->screen_height))
 		{
 			getTexPixelCol(	game, curWallLineHeight, \
 							game->ray.wallLineHeight);
@@ -97,4 +85,13 @@ void drawCurWallLine(t_game *game)
 		}
 		curWallLineHeight++;
 	}
+}
+
+double getDecimals(float f)
+{
+	double	integral;
+	double	decimals;
+	
+	decimals = modf(f, &integral);
+	return (decimals);
 }

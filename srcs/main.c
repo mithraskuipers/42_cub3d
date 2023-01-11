@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dagmarkramer <dagmarkramer@student.42.f    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/21 22:08:38 by dkramer           #+#    #+#             */
-/*   Updated: 2023/01/10 21:55:18 by dagmarkrame      ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dagmarkramer <dagmarkramer@student.42.f      +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
+/*   Updated: 2023/01/11 09:41:05 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	checkChar(t_game *game, char **map)
 	while (j < game->heightMap)
 	{
 		i = 0;
-		len = (int)ft_strlen(map[j]);						// Waarom typecasting?
+		len = (int)ft_strlen(map[j]);
 		while (i < len)
 		{
 			if (!ft_strrchr("01NESW ", map[j][i]))
@@ -118,21 +118,12 @@ game->pov->plane.x/plane.y (vector) (line):
 	The player position is a point in front of the camera plane.
 game->ray:
 	In this game "rays" are send. 
-	Rays always start at the player position and are sent to the camera plane.
-	Remember that the camera plane is basically the computer screen. Here, we
-	send rays toward the camera plane for each x-axis value on the camera plane.
-	Also remember that the camera plane is dependent on the player direction,
-	since the former is always perpendicular to the latter, crossing eachother
-	by a 90 degrees angle.
+	Rays always start at the player position and are sent in a direction for 
+	every x-axis value on the camera plane.	
+game->ray.map.x/game->ray.map.y:
+    Current location of the ray. It can be used to check if a ray has hit a will.
 fov (field of vision):
 	The angle between the left-most ray and the right-most ray. You can imagine
 	these lines to be diagonal lines starting at the player position, toward to
 	first x-axis value and last x-axis value of the camera plane. 
-
-
-TODO
-rotation:
-	game->dir.x/dir.y
-Work in progress...:-)
-pov (point of view) TODO
 */

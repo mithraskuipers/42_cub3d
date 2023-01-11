@@ -13,7 +13,8 @@ OBJ			=	srcs/main \
 				srcs/parsing/parsingReadMap \
 				srcs/parsing/parsingCheck \
 				srcs/raycaster/raycast \
-				srcs/raycaster/raycastComp \
+				srcs/raycaster/raycastComp1 \
+				srcs/raycaster/raycastComp2 \
 				srcs/raycaster/raycastWalls \
 				srcs/cleanup/cleanup \
 				srcs/cleanup/error
@@ -47,12 +48,12 @@ clean:
 				$(info ************  $(NAME) Clean)
 
 cleanft:
-				#@${MAKE} clean -C ./libs/libft --no-print-directory
-				#@${MAKE} clean -C ./libs/MLX42 --no-print-directory
+				@${MAKE} clean -C ./libs/libft --no-print-directory
+				@${MAKE} clean -C ./libs/MLX42 --no-print-directory
 
 fclean:		clean
-				#@${MAKE} fclean -C ./libs/libft --no-print-directory
-				#@${MAKE} fclean -C ./libs/MLX42 --no-print-directory
+				@${MAKE} fclean -C ./libs/libft --no-print-directory
+				@${MAKE} fclean -C ./libs/MLX42 --no-print-directory
 				@${RM}  -f ${NAME}
 				$(info ************  $(NAME) Removed)
 

@@ -1,0 +1,13 @@
+NO ./assets/level0/CONSOLE_1A.png
+EA ./assets/level0/CONSOLE_1B.png
+SO ./assets/level0/CONSOLE_1C.png
+WE ./assets/level0/CONSOLE_1D.png
+F 255,255,255
+C 0,0,0
+1111
+1000111
+11111111
+10000001
+1N01111 
+1011
+1111

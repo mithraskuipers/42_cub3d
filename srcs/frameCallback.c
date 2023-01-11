@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:05:14 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/09 15:39:47 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 09:38:59 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ checkMlxWindowResize() simp
 
 void	checkMlxWindowResize(mlx_t *mlx, t_game *game)
 {
-	if (game->screen_width != (u_int32_t)mlx->width || game->screen_height != (u_int32_t)mlx->height)
+	if (game->screen_width != (uint32_t)mlx->width || game->screen_height != (uint32_t)mlx->height)
 	{
 		game->screen_width = mlx->width;
 		game->screen_height = mlx->height;

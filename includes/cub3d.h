@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/10 12:02:28 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 09:53:11 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,22 +179,24 @@ void	initPovDir(t_game *game, int cardinalDirection);
 void	initPovPlane(t_game *game, int cardinalDirection);
 void	initPlayerPos(t_game *game);
 
-// raycastComp.c
+// raycastComp1.c
 void	compCameraSpaceX(t_game *game, t_pov *pov, int col);
 void	compRayDir(t_ray *ray, t_pov *pov);
+void	compRayMap(t_ray *ray, t_pov *pov);
 void	compDeltaDist(t_ray *ray);
-void	compSideDist(t_ray *ray, char **map);
 void	setStep(t_ray *ray);
+
+// raycastComp2.c
+void	compSideDist(t_ray *ray, char **map);
 void	initSideDist(t_ray *ray, t_pov *pov);
 void	compPerpendicularWallDist(t_ray *ray);
 void	whichWallWasHit(t_game *game);
 void	whereWasWallHit(t_ray *ray, t_pov *pov);
 
+
+
 // raycasting.c
-float	ft_fmod(float f);
-void	compRayMap(t_ray *ray, t_pov *pov);
-void	howTallWallLine(t_ray *ray);
-int		whichTextureHasWall(t_game *game, char wallDirection);
+double	getDecimals(float f);
 void	raycaster(t_game *game, t_pov *pov);
 
 // parsing.c
@@ -232,7 +234,7 @@ void	keyboardRotateLeft(t_pov *pov, double prevDirX, double prevPlaneX, double r
 
 // utils.c
 int		msgErrExit(char *s, int exitCode);
-int		getRGBA(int R, int G, int B, int A);
+int		convertRgbBytesToInt(int R, int G, int B, int A);
 char	*get_next_line_wrapper(t_game *game);
 int		cleanupCharDP(char **ptr);
 

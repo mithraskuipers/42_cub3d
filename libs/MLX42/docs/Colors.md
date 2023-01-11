@@ -26,7 +26,7 @@ A function that combines four individual channel bytes into a single integer usi
 
 ```c
 // 'Encodes' four individual bytes into an int.
-int getRGBA(int R, int G, int B, int A)
+int convertRgbBytesToInt(int R, int G, int B, int A)
 {
     return (r << 24 | g << 16 | b << 8 | a);
 }
