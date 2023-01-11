@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:06:04 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/11 11:27:47 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 13:52:34 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	raycaster(t_game *game, t_pov *pov)
 {
 	game->ray.screenXPos = 0;
 
-	drawBackground(game);
+	draw_background(game);
 	while (game->ray.screenXPos < (int)game->screen_width)
 	{
 		compCameraSpaceX(game, pov, game->ray.screenXPos);

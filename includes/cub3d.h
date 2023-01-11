@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 13:35:44 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 13:52:32 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@
 
 // CONFIGURATION
 # define UNIQ_MAP_CHARS 6
-# define GAME_WIDTH 800
-# define GAME_HEIGHT 600
+# define GAME_HEIGHT 1200
+# define GAME_WIDTH GAME_HEIGHT * 1.75
 # define MOVE_SPEED 4
 # define ROT_SPEED 4
-# define BOUNCE 0.05
+# define DIST 0.05
 
 // DEFINE WALLS
 # define NORTH 0
@@ -146,12 +146,12 @@ typedef struct s_game
 // main.c
 
 // createImgs.c
-// static void	combineColors(t_game *game);
-// static void	drawImgPixelLoop(t_game *game, uint32_t Y_START, uint32_t Y_END, uint32_t color);
-void	drawBackground(t_game *game);
+// static void	combine_colors(t_game *game);
+// static void	draw_img_pixel_loop(t_game *game, uint32_t Y_START, uint32_t Y_END, uint32_t color);
+void	draw_background(t_game *game);
 
 // frame_callback.c
-// static void	updateGameCfg(t_game *game)
+// static void	update_game_cfg(t_game *game)
 void	frame_callback(void *arg);
 
 // gnl.c
@@ -168,7 +168,7 @@ char	*gnl(int fd);
 // hooksKeyboard.c
 void	hooksKeyboardWalking(t_game *game, double moveSpeed);
 void	hooksKeyboardRotate(t_game *game, double rotSpeed);
-void	hooksInput(t_game *game);
+void	hooks_input(t_game *game);
 
 // init.c
 void	initGame(t_game *game);

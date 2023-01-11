@@ -6,7 +6,7 @@
 /*   By: dagmarkramer <dagmarkramer@student.42.f      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 13:35:45 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 13:41:23 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ int	game_init(t_game *game, int argc, char **argv)
 	return (0);
 }
 
-void	checkChar(t_game *game, char **map)
+void	check_char(t_game *game, char **map)
 {
 	int	j;
 	int	i;
-	int len;
+	int	len;
 
 	j = 0;
 	i = 0;
@@ -47,9 +47,10 @@ void	checkChar(t_game *game, char **map)
 
 int	game_parsing(t_game *game)
 {
-	map_check_ext(game);
-	char *line;
+	char	*line;
+
 	line = NULL;
+	map_check_ext(game);
 	if (get_map_cfg(game, line, &game->mapdata) == 1)
 		msg_err_exit("Your map is configured incorrectly.", 1);
 	map_open(game);
@@ -57,12 +58,11 @@ int	game_parsing(t_game *game)
 	map_mem_allocator(game, &game->mapdata.map);
 	map_mem_allocator(game, &game->cpy_map);
 	map_open(game);
-	// line = NULL;
 	map_read(game, line);
 	game->heightMap = game->mapFileDims.y - game->whenMapMazeStart + 1;
 	if (game->has_player == 0)
 		msg_err_exit("Your map contains no player spawning point.", 1);
-	checkChar(game, game->mapdata.map);
+	check_char(game, game->mapdata.map);
 	map_floodfill(game, game->player.x, game->player.y);
 	check_player_count(game);
 	return (0);
@@ -80,15 +80,15 @@ int	game_execute(t_game *game)
 	return (0);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_game game;
+	t_game	game;
 
 	game_init(&game, argc, argv);
 	if (game_parsing(&game))
-		return(cleanup_everything(&game));
+		return (cleanup_everything(&game));
 	if (game_execute(&game))
-		return(cleanup_everything(&game));
+		return (cleanup_everything(&game));
 	mlx_loop_hook(game.mlx42, &frame_callback, &game);
 	mlx_loop(game.mlx42);
 	mlx_terminate(game.mlx42);

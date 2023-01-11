@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:02 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 13:19:28 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 13:30:36 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ int	get_map_file_dims(t_game *game, char *line)
 			break ;
 		}
 	}
-	if (game->mapFileDims.x < 3 || game->mapFileDims.y < 3)
-		msg_err_exit("Invalid map.", 1);
 	return (0);
 }
 
