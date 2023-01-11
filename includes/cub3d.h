@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 16:16:09 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 16:37:08 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,20 +67,20 @@ typedef struct s_ray
 {
 	uint32_t		pixel_color;
 	uint32_t		wall_line_height;
-	t_dvector		pixel_pos; // LETOP
-	int				cur_tex; // LETOP
+	t_dvector		pixel_pos;
+	int				cur_tex;
 	mlx_texture_t	*texture;
 	int				offset_from_above;
-	int				screenXPos;
+	int				screen_x_pos;
 	t_dvector		dir;
 	t_dvector		side_dist;
 	t_dvector		delta_dist;
 	t_ivector		step;
 	t_ivector		map;
 	t_dvector		end_pos;
-	int				wall_side; // LET OP
+	int				wall_side;
 	double			perp_wall_distance;
-	double			texLineScale;
+	double			tex_line_scale;
 	int				wall_direction;
 	double			wall_x;
 	double			dist;
@@ -94,19 +94,18 @@ typedef struct s_pov
 	t_dvector	dir;
 	t_dvector	pos;
 	t_dvector	plane;
-	double		cameraSpaceX; // LETOP
+	double		camera_space_x;
 }	t_pov;
 
 // MAPDATA STRUCT
 typedef struct s_mapdata
 {
-	int		mapFd;
-	char	*mapPath;
-	int		mapFileNbrLines;
-	int		floorRGB[3];
-	int		ceilingRGB[3];
-	int32_t	floorColor;
-	int32_t	ceilingColor;
+	int		map_fd;
+	char	*map_path;
+	int		floor_rgb[3];
+	int		ceiling_rgb[3];
+	int32_t	floor_color;
+	int32_t	ceiling_color;
 	char	*paths[4];
 	char	**map;
 }	t_mapdata;
@@ -114,16 +113,16 @@ typedef struct s_mapdata
 // GENERAL GAME DATA STRUCT
 typedef struct s_game
 {
-	double player_height;
-	int stop;
-	int gnl_ret;
-	int map_maxcols;
-	int len;
-	int whenMapMazeStart;
-	int map_row_tmp;
-	int widthMap;
-	int heightMap;
-	mlx_image_t	*mlxImg;
+	double			player_height;
+	int				stop;
+	int				gnl_ret;
+	int				map_maxcols;
+	int				len;
+	int				when_map_start;
+	int				map_row_tmp;
+	int				width_map;
+	int				height_map;
+	mlx_image_t		*mlx_img;
 	uint32_t		screen_width;
 	uint32_t		screen_height;
 	t_ray			ray;
@@ -132,21 +131,19 @@ typedef struct s_game
 	t_pov			pov;
 	mlx_texture_t	*textures[4];
 	char			**cpy_map;
-	t_ivector		mapFileDims;
+	t_ivector		map_file_dims;
 	int				player_count;
 	t_ivector		player;
 	int				has_player;
 	double			movement_speed;
 	double			rotation_speed;
-	t_dvector	dir_perp;
+	t_dvector		dir_perp;
 
 }	t_game;
 
 // main.c
 
 // createImgs.c
-// static void	combine_colors(t_game *game);
-// static void	draw_img_pixel_loop(t_game *game, uint32_t Y_START, uint32_t Y_END, uint32_t color);
 void	draw_background(t_game *game);
 
 // frame_callback.c
@@ -213,9 +210,9 @@ void	check_player_count(t_game *game);
 int		check_dup(char **split_line, t_mapdata *mapdata);
 
 // parsingColors.c
-int	parse_colors_line(char **split_line, t_mapdata *mapdata);
-int	check_rgb(char *rgbColors, int rgb[]);
-int	process_rgb(char *rgbColors, int rgb[]);
+int		parse_colors_line(char **split_line, t_mapdata *mapdata);
+int		check_rgb(char *rgbColors, int rgb[]);
+int		process_rgb(char *rgbColors, int rgb[]);
 
 // debug.c
 void	printMap(t_game *game);
@@ -229,8 +226,10 @@ void	how_to_center_line(t_game *game, double player_height);
 void	draw_cur_wall_line(t_game *game);
 
 // rotating.c
-void	keyboard_rotate_right(t_pov *pov, double prev_dir_x, double prev_cam_plane_x, double rot_speed);
-void	keyboard_rotate_left(t_pov *pov, double prev_dir_x, double prev_cam_plane_x, double rot_speed);
+void	keyboard_rotate_right(t_pov *pov, double prev_dir_x, \
+double prev_cam_plane_x, double rot_speed);
+void	keyboard_rotate_left(t_pov *pov, double prev_dir_x, \
+double prev_cam_plane_x, double rot_speed);
 
 int		msg_err_exit(char *s, int exitCode);
 int		convert_rgb_bytes_to_int(int R, int G, int B, int A);
@@ -242,9 +241,13 @@ int		cleanup_everything(t_game *game);
 int		free_all_and_error(char	**split_line, char *str);
 
 // walking.c
-void	keyboard_walk_up(t_dvector *pos, t_dvector *dir, char **map, double move_speed);
-void	keyboard_walk_down(t_dvector *pos, t_dvector *dir, char **map, double move_speed);
-void	keyboard_walk_left(t_dvector *pos, t_dvector *dir_perp, char **map, double move_speed);
-void	keyboard_walk_right(t_dvector *pos, t_dvector *dir_perp, char **map, double move_speed);
+void	keyboard_walk_up(t_dvector *pos, t_dvector *dir, char **map, \
+double move_speed);
+void	keyboard_walk_down(t_dvector *pos, t_dvector *dir, char **map, \
+double move_speed);
+void	keyboard_walk_left(t_dvector *pos, t_dvector *dir_perp, char **map, \
+double move_speed);
+void	keyboard_walk_right(t_dvector *pos, t_dvector *dir_perp, char **map, \
+double move_speed);
 
 #endif

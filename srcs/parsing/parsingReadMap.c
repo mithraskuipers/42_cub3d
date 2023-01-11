@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:02 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 15:04:47 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 16:32:07 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ int	get_map_file_dims(t_game *game, char *line)
 
 	while (TRUE)
 	{
-		gnlretval = get_next_line(game->mapdata.mapFd, &line);
+		gnlretval = get_next_line(game->mapdata.map_fd, &line);
 		if (gnlretval == 1)
 		{
 			width = ft_strlen(line);
-			if (width > game->mapFileDims.x)
-				game->mapFileDims.x = width;
-			game->mapFileDims.y++;
+			if (width > game->map_file_dims.x)
+				game->map_file_dims.x = width;
+			game->map_file_dims.y++;
 			free (line);
 			continue ;
 		}
@@ -43,14 +43,14 @@ void	map_mem_allocator(t_game *game, char ***map)
 	int	i;
 	int	j;
 
-	i = game->whenMapMazeStart;
+	i = game->when_map_start;
 	j = 0;
-	*map = ft_calloc((game->mapFileDims.y + 1), sizeof(char *));
+	*map = ft_calloc((game->map_file_dims.y + 1), sizeof(char *));
 	if (!*map)
 		msg_err_exit("Failure while allocation memory for map.", 1);
-	while (i < (game->mapFileDims.y + 1))
+	while (i < (game->map_file_dims.y + 1))
 	{
-		(*map)[j] = ft_calloc((game->mapFileDims.x + 1), sizeof(char));
+		(*map)[j] = ft_calloc((game->map_file_dims.x + 1), sizeof(char));
 		if (!(*map)[j])
 			msg_err_exit("Failure while allocation memory for map.", 1);
 		i++;
@@ -62,7 +62,7 @@ char	*return_line(char *line, t_game *game)
 {
 	int		gnlretval;
 
-	gnlretval = get_next_line(game->mapdata.mapFd, &line);
+	gnlretval = get_next_line(game->mapdata.map_fd, &line);
 	if (line == NULL || gnlretval == -1)
 		msg_err_exit("Failure when running get_next_line()", 1);
 	return (line);
@@ -75,19 +75,19 @@ void	map_read(t_game *game, char *line)
 
 	i = 0;
 	j = 0;
-	while (i <= (game->mapFileDims.y))
+	while (i <= (game->map_file_dims.y))
 	{
 		line = return_line(line, game);
-		if (i >= game->whenMapMazeStart)
+		if (i >= game->when_map_start)
 		{
 			if (does_line_have_player(line) > -1)
 			{
 				game->player.x = does_line_have_player(line);
-				game->player.y = i - game->whenMapMazeStart;
+				game->player.y = i - game->when_map_start;
 				game->has_player = 1;
 			}
-			if ((int)ft_strlen(line) > game->widthMap)
-				game->widthMap = ft_strlen(line);
+			if ((int)ft_strlen(line) > game->width_map)
+				game->width_map = ft_strlen(line);
 			ft_memcpy(game->mapdata.map[j], line, ft_strlen(line));
 			ft_memcpy(game->cpy_map[j], line, ft_strlen(line));
 			j++;

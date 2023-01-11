@@ -6,7 +6,7 @@
 /*   By: dagmarkramer <dagmarkramer@student.42.f      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:02 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 15:40:03 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 16:31:47 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	loop_through_lines(t_game *game, char *line, t_mapdata *mapdata)
 {
 	while (game->gnl_ret)
 	{
-		game->gnl_ret = get_next_line(game->mapdata.mapFd, &line);
+		game->gnl_ret = get_next_line(game->mapdata.map_fd, &line);
 		if (game->gnl_ret == -1)
 			return (1);
 		if (ft_strncmp(line, "", ft_strlen(line)) != 0)
@@ -81,30 +81,30 @@ int	loop_through_lines(t_game *game, char *line, t_mapdata *mapdata)
 		if (line)
 			free (line);
 		if (!game->stop)
-			game->whenMapMazeStart++;
+			game->when_map_start++;
 	}
 	return (0);
 }
 
 int	get_map_cfg(t_game *game, char *line, t_mapdata *mapdata)
 {
-	game->mapdata.mapFd = open(game->mapdata.mapPath, O_RDONLY);
-	if (game->mapdata.mapFd == -1)
+	game->mapdata.map_fd = open(game->mapdata.map_path, O_RDONLY);
+	if (game->mapdata.map_fd == -1)
 		return (1);
 	if (loop_through_lines(game, line, mapdata) == 1)
 		return (1);
-	close (game->mapdata.mapFd);
+	close (game->mapdata.map_fd);
 	if (!mapdata->paths[NORTH] || !mapdata->paths[EAST] || \
 	!mapdata->paths[SOUTH] || !mapdata->paths[WEST] || \
-	mapdata->floorRGB[0] == -1 || mapdata->ceilingRGB[0] == -1)
+	mapdata->floor_rgb[0] == -1 || mapdata->ceiling_rgb[0] == -1)
 		return (msg_err_exit("Variable in map is missing.", 1));
 	return (0);
 }
 
 int	map_open(t_game *game)
 {
-	game->mapdata.mapFd = open(game->mapdata.mapPath, O_RDONLY);
-	if (game->mapdata.mapFd < 0)
+	game->mapdata.map_fd = open(game->mapdata.map_path, O_RDONLY);
+	if (game->mapdata.map_fd < 0)
 		msg_err_exit("Failed to run open() on the provided map.", 1);
 	return (0);
 }

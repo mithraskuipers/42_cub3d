@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:05:59 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/11 15:04:13 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 16:33:21 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ to these new x-axis values as the camera space.
 
 void	comp_camera_space_x(t_game *game, t_pov *pov, int col)
 {
-	pov->cameraSpaceX = (2 * col / (double)game->screen_width - 1) * -1;
+	pov->camera_space_x = (2 * col / (double)game->screen_width - 1) * -1;
 }
 
 /*
@@ -38,8 +38,8 @@ value in camera space format.
 
 void	comp_ray_dir(t_ray *ray, t_pov *pov)
 {
-	ray->dir.x = pov->dir.x + pov->plane.x * pov->cameraSpaceX;
-	ray->dir.y = pov->dir.y + pov->plane.y * pov->cameraSpaceX;
+	ray->dir.x = pov->dir.x + pov->plane.x * pov->camera_space_x;
+	ray->dir.y = pov->dir.y + pov->plane.y * pov->camera_space_x;
 }
 
 void	comp_ray_map(t_ray *ray, t_pov *pov)

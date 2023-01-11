@@ -6,7 +6,7 @@
 /*   By: dagmarkramer <dagmarkramer@student.42.f      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 16:13:21 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 16:31:59 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	check_char(t_game *game, char **map)
 
 	j = 0;
 	i = 0;
-	while (j < game->heightMap)
+	while (j < game->height_map)
 	{
 		i = 0;
 		len = (int)ft_strlen(map[j]);
@@ -59,7 +59,7 @@ int	game_parsing(t_game *game)
 	map_mem_allocator(game, &game->cpy_map);
 	map_open(game);
 	map_read(game, line);
-	game->heightMap = game->mapFileDims.y - game->whenMapMazeStart + 1;
+	game->height_map = game->map_file_dims.y - game->when_map_start + 1;
 	if (game->has_player == 0)
 		msg_err_exit("Your map contains no player spawning point.", 1);
 	check_char(game, game->mapdata.map);

@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:58 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 16:16:29 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 16:35:39 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	init_game(t_game *game)
 	game->gnl_ret = 1;
 	game->map_maxcols = 0;
 	game->len = 0;
-	game->whenMapMazeStart = 0;
-	game->mapdata.ceilingRGB[0] = -1;
-	game->mapdata.floorRGB[0] = -1;
-	game->mlxImg = NULL;
+	game->when_map_start = 0;
+	game->mapdata.ceiling_rgb[0] = -1;
+	game->mapdata.floor_rgb[0] = -1;
+	game->mlx_img = NULL;
 	game->mapdata.paths[NORTH] = NULL;
 	game->mapdata.paths[EAST] = NULL;
 	game->mapdata.paths[SOUTH] = NULL;
@@ -32,8 +32,8 @@ void	init_game(t_game *game)
 	game->textures[SOUTH] = NULL;
 	game->textures[WEST] = NULL;
 	game->mapdata.map = NULL;
-	game->mapFileDims.x = 0;
-	game->mapFileDims.y = 0;
+	game->map_file_dims.x = 0;
+	game->map_file_dims.y = 0;
 	game->player_count = 0;
 	game->player.x = 0;
 	game->player.y = 0;
@@ -42,9 +42,8 @@ void	init_game(t_game *game)
 
 void	init_mapdata(t_mapdata *mapdata, char **argv)
 {
-	mapdata->mapFd = 0;
-	mapdata->mapPath = argv[1];
-	mapdata->mapFileNbrLines = 0;
+	mapdata->map_fd = 0;
+	mapdata->map_path = argv[1];
 }
 
 void	init_mlx(t_game *game)
@@ -55,7 +54,7 @@ void	init_mlx(t_game *game)
 							true);
 	if (!game->mlx42)
 		msg_err_exit("Failed during mlx_init().", 1);
-	game->mlxImg = mlx_new_image(game->mlx42, \
+	game->mlx_img = mlx_new_image(game->mlx42, \
 	game->screen_width, game->screen_height);
 }
 

@@ -6,7 +6,7 @@
 /*   By: dagmarkramer <dagmarkramer@student.42.f      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:10 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 16:13:41 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 16:29:15 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ void	get_color_values(char **split_line, t_mapdata *mapdata, char *colors)
 {
 	if (!ft_strncmp("F", split_line[0], 1))
 	{
-		check_rgb(colors, mapdata->floorRGB);
-		process_rgb(colors, mapdata->floorRGB);
+		check_rgb(colors, mapdata->floor_rgb);
+		process_rgb(colors, mapdata->floor_rgb);
 	}
 	if (!ft_strncmp("C", split_line[0], 1))
 	{
-		check_rgb(colors, mapdata->ceilingRGB);
-		process_rgb(colors, mapdata->ceilingRGB);
+		check_rgb(colors, mapdata->ceiling_rgb);
+		process_rgb(colors, mapdata->ceiling_rgb);
 	}
 }
 
