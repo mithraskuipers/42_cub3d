@@ -1,9 +1,11 @@
-      NO ./assets/codam/codam_fridge.png
-      EA ./assets/codam/codam_fridge.png
-      SO ./assets/codam/codam_fridge.png
-  WE ./assets/codam/codam_fridge.png
+
+      NO ./assets/codam/bob_00_1024.png
+      EA ./assets/codam/rowan_00_1024.png
+      SO ./assets/codam/codam_kitchen_down_01_1024.png
+  WE ./assets/codam/codam_kitchen_top_00_1024.png
           F 9,36,23
      C 161, 201, 255
+    a
                                                         111111
                                                         11000111111111
                 11111111111111111                       11000000000001

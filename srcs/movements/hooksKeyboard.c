@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/03 18:25:55 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/11 14:31:15 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 14:44:07 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	hooks_grow_and_shrink(t_game *game)
 {
 	if (mlx_is_key_down(game->mlx42, MLX_KEY_M))
 	{
-		if ((game->player_height * 1.1) < (int)(game->ray.wallLineHeight * .7))
+		if ((game->player_height * 1.1) < (int)(game->ray.wall_line_height * .7))
 			game->player_height = game->player_height * 1.1;
 		else
 			game->player_height = 2;

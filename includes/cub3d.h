@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 14:37:37 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 15:04:33 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 // CONFIGURATION
 # define UNIQ_MAP_CHARS 6
 # define GAME_HEIGHT 1200
-# define GAME_WIDTH GAME_HEIGHT * 1.75
+# define GAME_WIDTH 2100
 # define MOVE_SPEED 4
 # define ROT_SPEED 4
 # define DIST 0.05
@@ -49,14 +49,14 @@
 # define SIDE_VERT 1
 
 // VECTOR STRUCT: INTEGERS
-typedef struct	s_ivector
+typedef struct s_ivector
 {
 	int	x;
 	int	y;
 }				t_ivector;
 
 // VECTOR STRUCT: DOUBLES
-typedef struct	s_dvector
+typedef struct s_dvector
 {
 	double	x;
 	double	y;
@@ -65,13 +65,13 @@ typedef struct	s_dvector
 // RAY DATA STRUCT
 typedef struct s_ray
 {
-	uint32_t		pixelColor;
-	uint32_t		wallLineHeight;
-	t_dvector		pixelPos;
-	int				curTex;
+	uint32_t		pixel_color;
+	uint32_t		wall_line_height;
+	t_dvector		pixel_pos;
+	int				cur_tex;
 	mlx_texture_t	*texture;
-	int				offsetFromAbove;
-	int				screenXPos;
+	int				offset_from_above;
+	int				screen_x_pos;
 	t_dvector		dir;
 	t_dvector		sideDist;
 	t_dvector		deltaDist;
@@ -224,7 +224,7 @@ void	printMapCopy(t_game *game);
 void	printPlayerPos(t_game *game);
 
 // raycastWalls.c
-void	getTexPixelCol(t_game *game, int wallHeight, int wallLineHeight);
+void	getTexPixelCol(t_game *game, int wallHeight, int wall_line_height);
 void	setCurrentRayTexture(t_game *game);
 void	howToCenterLine(t_game *game, double player_height);
 void	drawCurWallLine(t_game *game);

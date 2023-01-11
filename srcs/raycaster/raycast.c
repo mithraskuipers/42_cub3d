@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:06:04 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/11 13:52:34 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 14:57:33 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ static int	whichTextureHasWall(t_game *game, char wallDirection)
 
 void	raycaster(t_game *game, t_pov *pov)
 {
-	game->ray.screenXPos = 0;
+	game->ray.screen_x_pos = 0;
 
 	draw_background(game);
-	while (game->ray.screenXPos < (int)game->screen_width)
+	while (game->ray.screen_x_pos < (int)game->screen_width)
 	{
-		compCameraSpaceX(game, pov, game->ray.screenXPos);
+		compCameraSpaceX(game, pov, game->ray.screen_x_pos);
 		compRayDir(&game->ray, pov);
 		compRayMap(&game->ray, pov);
 		compDeltaDist(&game->ray);
@@ -51,12 +51,12 @@ void	raycaster(t_game *game, t_pov *pov)
 		whichTextureHasWall(game, game->ray.wallDirection);
 		whereWasWallHit(&game->ray, pov);
 		howTallWallLine(&game->ray);
-		game->ray.pixelPos.x = game->ray.screenXPos;
+		game->ray.pixel_pos.x = game->ray.screen_x_pos;
 		setCurrentRayTexture(game);
-		game->ray.wallLineHeight = (game->ray.texture->height * \
+		game->ray.wall_line_height = (game->ray.texture->height * \
 		game->ray.texLineScale);
 		howToCenterLine(game, game->player_height);
 		drawCurWallLine(game);
-		game->ray.screenXPos++;
+		game->ray.screen_x_pos++;
 	}
 }
