@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:02 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 11:43:50 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 13:21:51 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,58 @@ int	map_check_ext(t_game *game)
 	if (!ft_strrchr(game->mapdata.mapPath, '.') || \
 	ft_strncmp(ft_strrchr(game->mapdata.mapPath, '.'), ".cub", 5))
 		return (msg_err_exit("Please provide a map with .cub extension.", 1));
+	return (0);
+}
+
+int	check_dup(char **split_line, t_mapdata *mapdata)
+{
+	if ((mapdata->paths[NORTH] && !ft_strncmp("NO", split_line[0], 2))
+		|| (mapdata->paths[SOUTH] && !ft_strncmp("SO", split_line[0], 2))
+		|| (mapdata->paths[EAST] && !ft_strncmp("EA", split_line[0], 2))
+		|| (mapdata->paths[WEST] && !ft_strncmp("WE", split_line[0], 2)))
+		return (1);
+	return (0);
+}
+
+int	is_char_in_string(char c, char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (c == s[i])
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	map_floodfill(t_game *game, int x, int y)
+{
+	if (x < 0 || x >= game->widthMap || y < 0 || y >= game->heightMap)
+		return (0);
+	if (game->cpy_map[y][x] == '1' || game->cpy_map[y][x] == 'x')
+		return (0);
+	if (is_char_in_string(game->cpy_map[y][x], "NESW"))
+		game->player_count++;
+	if ((x + 1 < game->widthMap && game->cpy_map[y][x + 1] == ' ')
+		|| (x - 1 >= 0 && game->cpy_map[y][x - 1] == ' ') || (y + 1
+		< game->heightMap && game->cpy_map[y + 1][x] == ' ') || (y - 1
+		>= 0 && game->cpy_map[y - 1][x] == ' '))
+		if (game->cpy_map[y][x] == '0')
+			return (msg_err_exit("Player can walk walk out of map.", 1));
+	if (x == 0 || y == 0 || y == game->heightMap - 1
+		|| x == game->widthMap - 1)
+		return (msg_err_exit("Player can walk walk out of map.", 1));
+	game->cpy_map[y][x] = 'x';
+	if (map_floodfill(game, x - 1, y) == 1)
+		return (1);
+	if (map_floodfill(game, x, y - 1) == 1)
+		return (1);
+	if (map_floodfill(game, x + 1, y) == 1)
+		return (1);
+	if (map_floodfill(game, x, y + 1) == 1)
+		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 11:44:59 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 13:22:22 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ void	raycaster(t_game *game, t_pov *pov);
 
 // parsing.c
 int		map_floodfill(t_game *game, int x, int y);
-void	map_read(t_game *game);
+void	map_read(t_game *game, char *line);
 int		does_line_have_player(char *line);
 int		get_map_file_dims(t_game *game, char *line);
 void	map_mem_allocator(t_game *game, char ***map);
@@ -211,11 +211,12 @@ int		is_char_in_string(char c, char *s);
 int		get_map_cfg(t_game *game, char *line, t_mapdata *mapdata);
 int		get_map_config_var(t_game *game, char *line, t_mapdata *mapdata);
 void	check_player_count(t_game *game);
+int		check_dup(char **split_line, t_mapdata *mapdata);
 
 // parsingColors.c
 int	parse_colors_line(char **split_line, t_mapdata *mapdata);
-int	checkRGB(char *rgbColors, int rgb[]);
-int	processRGB(char *rgbColors, int rgb[]);
+int	check_rgb(char *rgbColors, int rgb[]);
+int	process_rgb(char *rgbColors, int rgb[]);
 
 // debug.c
 void	printMap(t_game *game);
