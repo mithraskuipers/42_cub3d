@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:02 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 16:32:07 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 17:01:00 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	check_player_count(t_game *game)
 {
 	if (game->player_count != 1)
 		msg_err_exit("Your map contains more than 1 player \
-spawning position.", 1);
+		spawning position.", 1);
 }
 
 int	map_check_ext(t_game *game)

@@ -6,13 +6,14 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:06:09 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/11 16:35:39 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 16:56:10 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../includes/cub3d.h"
 
-void	get_tex_pixel_col(t_game *game, int wall_height, int wall_line_height)
+static void	get_tex_pixel_col(t_game *game, int wall_height, \
+int wall_line_height)
 {
 	uint8_t	r;
 	uint8_t	g;

@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:02 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 16:32:07 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 17:09:00 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	map_mem_allocator(t_game *game, char ***map)
 	}
 }
 
-char	*return_line(char *line, t_game *game)
+static char	*return_line(char *line, t_game *game)
 {
 	int		gnlretval;
 

@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:05:59 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/11 16:33:21 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 16:54:13 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	comp_camera_space_x(t_game *game, t_pov *pov, int col)
 }
 
 /*
-comp_ray_dir(2) computes the direction it should send the ray to. It receives
+comp_ray_dir() computes the direction it should send the ray to. It receives
 the data to compute a single ray direction. From the outside, this function is
 called for each possible screen x-axis value that is transformed to be an x-axis
 value in camera space format.

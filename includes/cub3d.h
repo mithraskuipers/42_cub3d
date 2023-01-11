@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 16:37:08 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 17:24:31 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,38 +143,15 @@ typedef struct s_game
 
 // main.c
 
-// createImgs.c
+// drawBackground.c
 void	draw_background(t_game *game);
 
 // frame_callback.c
-// static void	update_game_cfg(t_game *game)
+void	hooks_input(t_game *game);
 void	frame_callback(void *arg);
 
-// gnl.c
-// int	ft_strlen(const char *s);
-char	*ft_strchr(const char *s, int c);
-size_t	ft_strlcpy(char *dest, const char *src, size_t dest_size);
-char	*ft_strdup_gnl(const char *s1, int len_s1);
-char	*ft_strjoin(char const *s1, char const *s2);
-// static char	*make_remainder(char **string);
-// static char	*make_string(char **string, char *buff);
-// static char	*check_remainder_string(int fd, char *buff, char **string);
-char	*gnl(int fd);
-
-// hooksKeyboard.c
-void	hooks_keyboard_walking(t_game *game, double move_speed);
-void	hooks_keyboard_rotate(t_game *game, double rot_speed);
-void	hooks_input(t_game *game);
-void	hooks_grow_shrink(t_game *game);
-
-// init.c
-void	init_game(t_game *game);
-void	init_mapdata(t_mapdata *mapdata, char **argv);
-void	init_mlx(t_game *game);
-int		init_textures(t_game *game);
-void	init_pov_dir(t_game *game, int cardinalDirection);
-void	init_pov_plane(t_game *game, int cardinalDirection);
-void	init_player_pos(t_game *game);
+// raycast.c
+void	raycaster(t_game *game, t_pov *pov);
 
 // raycastComp1.c
 void	comp_camera_space_x(t_game *game, t_pov *pov, int col);
@@ -184,61 +161,53 @@ void	comp_delta_dist(t_ray *ray);
 void	set_step(t_ray *ray);
 
 // raycastComp2.c
-void	comp_side_dist(t_ray *ray, char **map);
 void	init_side_dist(t_ray *ray, t_pov *pov);
+void	comp_side_dist(t_ray *ray, char **map);
 void	comp_perp_wall_dist(t_ray *ray);
-void	which_wall_was_hit1(t_game *game);
-void	which_wall_was_hit2(t_game *game);
 void	where_was_wall_hit(t_ray *ray, t_pov *pov);
 
-// raycasting.c
-double	get_decimals(float f);
-void	raycaster(t_game *game, t_pov *pov);
-
-// parsing.c
-int		map_floodfill(t_game *game, int x, int y);
-void	map_read(t_game *game, char *line);
-int		does_line_have_player(char *line);
-int		get_map_file_dims(t_game *game, char *line);
-void	map_mem_allocator(t_game *game, char ***map);
-int		map_open(t_game *game);
-int		map_check_ext(t_game *game);
-int		is_char_in_string(char c, char *s);
-int		get_map_cfg(t_game *game, char *line, t_mapdata *mapdata);
-int		get_map_config_var(t_game *game, char *line, t_mapdata *mapdata);
-void	check_player_count(t_game *game);
-int		check_dup(char **split_line, t_mapdata *mapdata);
-
-// parsingColors.c
-int		parse_colors_line(char **split_line, t_mapdata *mapdata);
-int		check_rgb(char *rgbColors, int rgb[]);
-int		process_rgb(char *rgbColors, int rgb[]);
-
-// debug.c
-void	printMap(t_game *game);
-void	printMapCopy(t_game *game);
-void	printPlayerPos(t_game *game);
-
 // raycastWalls.c
-void	get_tex_pixel_col(t_game *game, int wall_height, int wall_line_height);
 void	set_current_ray_texture(t_game *game);
 void	how_to_center_line(t_game *game, double player_height);
 void	draw_cur_wall_line(t_game *game);
+double	get_decimals(float f);
+
+// raycastWhichWall.c
+void	which_wall_was_hit1(t_game *game);
+void	which_wall_was_hit2(t_game *game);
+
+// parsing.c
+int		get_map_cfg(t_game *game, char *line, t_mapdata *mapdata);
+int		map_open(t_game *game);
+
+// parsingCheck.c
+void	check_player_count(t_game *game);
+int		map_check_ext(t_game *game);
+int		check_dup(char **split_line, t_mapdata *mapdata);
+int		is_char_in_string(char c, char *s);
+int		map_floodfill(t_game *game, int x, int y);
+
+// parsingColors.c
+int		convert_rgb_bytes_to_int(int R, int G, int B, int A);
+int		parse_colors_line(char **split_line, t_mapdata *mapdata);
+void	get_color_values(char **split_line, t_mapdata *mapdata, char *colors);
+int		process_rgb(char *rgbColors, int rgb[]);
+
+// parsingReadMap.c
+int		get_map_file_dims(t_game *game, char *line);
+void	map_mem_allocator(t_game *game, char ***map);
+void	map_read(t_game *game, char *line);
+int		does_line_have_player(char *line);
+
+// hooksKeyboard.c
+void	hooks_keyboard_walking(t_game *game, double move_speed);
+void	hooks_keyboard_rotate(t_game *game, double rot_speed);
 
 // rotating.c
 void	keyboard_rotate_right(t_pov *pov, double prev_dir_x, \
-double prev_cam_plane_x, double rot_speed);
+		double prev_cam_plane_x, double rot_speed);
 void	keyboard_rotate_left(t_pov *pov, double prev_dir_x, \
-double prev_cam_plane_x, double rot_speed);
-
-int		msg_err_exit(char *s, int exitCode);
-int		convert_rgb_bytes_to_int(int R, int G, int B, int A);
-char	*get_next_line_wrapper(t_game *game);
-int		cleanup_char_dp(char **ptr);
-
-void	free_split(char **split, bool skip, int index);
-int		cleanup_everything(t_game *game);
-int		free_all_and_error(char	**split_line, char *str);
+		double prev_cam_plane_x, double rot_speed);
 
 // walking.c
 void	keyboard_walk_up(t_dvector *pos, t_dvector *dir, char **map, \
@@ -249,5 +218,25 @@ void	keyboard_walk_left(t_dvector *pos, t_dvector *dir_perp, char **map, \
 double move_speed);
 void	keyboard_walk_right(t_dvector *pos, t_dvector *dir_perp, char **map, \
 double move_speed);
+
+// initGame.c
+void	init_game(t_game *game);
+void	init_mapdata(t_mapdata *mapdata, char **argv);
+void	init_mlx(t_game *game);
+int		init_textures(t_game *game);
+
+// initDDA.c
+void	init_pov_dir(t_game *game, int cardinalDirection);
+void	init_pov_plane(t_game *game, int cardinalDirection);
+void	init_player_pos(t_game *game);
+
+// cleanup.c
+void	free_split(char **split, bool skip, int index);
+int		free_all_and_error(char	**split_line, char *str);
+int		cleanup_char_dp(char **ptr);
+int		cleanup_everything(t_game *game);
+
+// error.c
+int		msg_err_exit(char *s, int exitCode);
 
 #endif

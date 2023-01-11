@@ -6,7 +6,7 @@
 /*   By: dagmarkramer <dagmarkramer@student.42.f      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:10 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 16:29:15 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 17:08:14 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,6 @@ bytes into a single integer using bit-shifting.
 int	convert_rgb_bytes_to_int(int R, int G, int B, int A)
 {
 	return (R << 24 | G << 16 | B << 8 | A);
-}
-
-void	get_color_values(char **split_line, t_mapdata *mapdata, char *colors)
-{
-	if (!ft_strncmp("F", split_line[0], 1))
-	{
-		check_rgb(colors, mapdata->floor_rgb);
-		process_rgb(colors, mapdata->floor_rgb);
-	}
-	if (!ft_strncmp("C", split_line[0], 1))
-	{
-		check_rgb(colors, mapdata->ceiling_rgb);
-		process_rgb(colors, mapdata->ceiling_rgb);
-	}
 }
 
 int	parse_colors_line(char **split_line, t_mapdata *mapdata)
@@ -62,7 +48,7 @@ int	parse_colors_line(char **split_line, t_mapdata *mapdata)
 	return (0);
 }
 
-int	check_rgb(char *rgbColors, int rgb[])
+static int	check_rgb(char *rgbColors, int rgb[])
 {
 	char	**splitted_rgb_colors;
 	int		i;
@@ -79,6 +65,20 @@ int	check_rgb(char *rgbColors, int rgb[])
 		msg_err_exit("Your map cfg contains incorrect RGB data.", 1);
 	cleanup_char_dp(splitted_rgb_colors);
 	return (0);
+}
+
+void	get_color_values(char **split_line, t_mapdata *mapdata, char *colors)
+{
+	if (!ft_strncmp("F", split_line[0], 1))
+	{
+		check_rgb(colors, mapdata->floor_rgb);
+		process_rgb(colors, mapdata->floor_rgb);
+	}
+	if (!ft_strncmp("C", split_line[0], 1))
+	{
+		check_rgb(colors, mapdata->ceiling_rgb);
+		process_rgb(colors, mapdata->ceiling_rgb);
+	}
 }
 
 int	process_rgb(char *rgbColors, int rgb[])

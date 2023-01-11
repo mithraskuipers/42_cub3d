@@ -6,11 +6,30 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/03 18:25:55 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/11 16:07:38 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 17:11:50 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../includes/cub3d.h"
+
+static void	hooks_grow_shrink(t_game *game)
+{
+	if (mlx_is_key_down(game->mlx42, MLX_KEY_M))
+	{
+		if ((game->player_height * 1.1) < (int)(game->ray.wall_line_height * \
+		.7))
+			game->player_height = game->player_height * 1.1;
+		else
+			game->player_height = 2;
+	}
+	else if (mlx_is_key_down(game->mlx42, MLX_KEY_N))
+	{
+		if ((game->player_height * 0.95) > 1)
+			game->player_height = game->player_height * 0.95;
+		else
+			game->player_height = 2;
+	}
+}
 
 void	hooks_keyboard_walking(t_game *game, double move_speed)
 {
@@ -28,25 +47,6 @@ void	hooks_keyboard_walking(t_game *game, double move_speed)
 	else if (mlx_is_key_down(game->mlx42, MLX_KEY_D))
 		keyboard_walk_right(&game->pov.pos, &game->dir_perp, map, move_speed);
 	hooks_grow_shrink(game);
-}
-
-void	hooks_grow_shrink(t_game *game)
-{
-	if (mlx_is_key_down(game->mlx42, MLX_KEY_M))
-	{
-		if ((game->player_height * 1.1) < (int)(game->ray.wall_line_height * \
-		.7))
-			game->player_height = game->player_height * 1.1;
-		else
-			game->player_height = 2;
-	}
-	else if (mlx_is_key_down(game->mlx42, MLX_KEY_N))
-	{
-		if ((game->player_height * 0.95) > 1)
-			game->player_height = game->player_height * 0.95;
-		else
-			game->player_height = 2;
-	}
 }
 
 void	hooks_keyboard_rotate(t_game *game, double rot_speed)

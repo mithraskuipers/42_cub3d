@@ -6,13 +6,13 @@
 /*   By: dagmarkramer <dagmarkramer@student.42.f      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:02 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 16:31:47 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 16:59:34 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../includes/cub3d.h"
 
-int	get_all_cases(char **split_line, t_mapdata *mapdata)
+static int	get_all_cases(char **split_line, t_mapdata *mapdata)
 {
 	if (!ft_strncmp("NO", split_line[0], 2))
 		mapdata->paths[NORTH] = split_line[1];
@@ -35,7 +35,7 @@ int	get_all_cases(char **split_line, t_mapdata *mapdata)
 	return (0);
 }
 
-int	get_map_config_var(t_game *game, char *line, t_mapdata *mapdata)
+static int	get_map_config_var(t_game *game, char *line, t_mapdata *mapdata)
 {
 	char	**split_line;
 
@@ -61,7 +61,7 @@ int	get_map_config_var(t_game *game, char *line, t_mapdata *mapdata)
 	return (0);
 }
 
-int	loop_through_lines(t_game *game, char *line, t_mapdata *mapdata)
+static int	loop_through_lines(t_game *game, char *line, t_mapdata *mapdata)
 {
 	while (game->gnl_ret)
 	{

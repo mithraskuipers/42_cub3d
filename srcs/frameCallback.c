@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/11 15:40:36 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/11 16:37:46 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 16:52:14 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	hooks_input(t_game *game)
 check_mlx_win_resize() simp
 */
 
-void	check_mlx_win_resize(mlx_t *mlx, t_game *game)
+static void	check_mlx_win_resize(mlx_t *mlx, t_game *game)
 {
 	if (game->screen_width != (uint32_t)mlx->width || game->screen_height != \
 	(uint32_t)mlx->height)
