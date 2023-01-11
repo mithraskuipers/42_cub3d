@@ -6,13 +6,13 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:17 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/10 13:13:00 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 11:31:23 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../includes/cub3d.h"
 
-void	freeSplit(char **split, bool skip, int index)
+void	free_split(char **split, bool skip, int index)
 {
 	int	i;
 
@@ -30,8 +30,8 @@ void	freeSplit(char **split, bool skip, int index)
 
 int	free_all_and_error(char	**split_line, char *str)
 {
-	freeSplit(split_line, false, 0);
-	return (msgErrExit(str, 1));
+	free_split(split_line, false, 0);
+	return (msg_err_exit(str, 1));
 }
 
 int	cleanupCharDP(char **ptr)
@@ -48,7 +48,7 @@ int	cleanupCharDP(char **ptr)
 	return (0);
 }
 
-int	cleanupEverything(t_game *game)
+int	cleanup_everything(t_game *game)
 {
 	cleanupCharDP(game->mapdata.map);
 	cleanupCharDP(game->cpy_map);

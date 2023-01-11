@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:06:04 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/11 09:49:45 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 11:27:47 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	whichTextureHasWall(t_game *game, char wallDirection)
 	else if (wallDirection == 'W')
 		game->ray.texture = game->textures[WEST];
 	else
-		msgErrExit("Failure while running set_texture()", 1);
+		msg_err_exit("Failure while running set_texture()", 1);
 	return (1);
 }
 

@@ -6,13 +6,13 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:02 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/10 15:40:16 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 11:31:52 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../includes/cub3d.h"
 
-int	getMapFileDims(t_game *game, char *line)
+int	get_map_file_dims(t_game *game, char *line)
 {
 	int	width;
 	int gnlretval;
@@ -35,11 +35,11 @@ int	getMapFileDims(t_game *game, char *line)
 		}
 	}
 	if (game->mapFileDims.x < 3 || game->mapFileDims.y < 3)
-		msgErrExit("Invalid map.", 1);
+		msg_err_exit("Invalid map.", 1);
 	return (0);
 }
 
-void	mapMemAllocator(t_game *game, char ***map)
+void	map_mem_allocator(t_game *game, char ***map)
 {
 	int	i;
 	int j;
@@ -48,18 +48,18 @@ void	mapMemAllocator(t_game *game, char ***map)
 	j = 0;
 	*map = ft_calloc((game->mapFileDims.y + 1), sizeof(char *));
 	if (!*map)
-		msgErrExit("Failure while allocation memory for map.", 1);
+		msg_err_exit("Failure while allocation memory for map.", 1);
 	while (i < (game->mapFileDims.y + 1))
 	{
 		(*map)[j] = ft_calloc((game->mapFileDims.x + 1), sizeof(char));
 		if (!(*map)[j])
-			msgErrExit("Failure while allocation memory for map.", 1);
+			msg_err_exit("Failure while allocation memory for map.", 1);
 		i++;
 		j++;
 	}
 }
 
-void	mapRead(t_game *game)
+void	map_read(t_game *game)
 {
 	int		i;
 	char	*line;
@@ -72,16 +72,16 @@ void	mapRead(t_game *game)
 	{
 		gnlretval = get_next_line(game->mapdata.mapFd, &line);
 		if (line == NULL || gnlretval == -1)
-			msgErrExit("Failure when running get_next_line()", 1);
+			msg_err_exit("Failure when running get_next_line()", 1);
 		if (i < game->whenMapMazeStart)
 		{
 			i++;
 			free(line);
 			continue;
 		}
-		if (doesLineHavePlayer(line) > 0)
+		if (does_line_have_player(line) > 0)
 		{
-			game->player.x = doesLineHavePlayer(line);
+			game->player.x = does_line_have_player(line);
 			game->player.y = i - game->whenMapMazeStart;
 			game->has_player = 1;
 		}
@@ -95,10 +95,10 @@ void	mapRead(t_game *game)
 	}
 	game->heightMap = game->mapFileDims.y - game->whenMapMazeStart + 1;
 	if (game->has_player == 0)
-		msgErrExit("Your map contains no player spawning point.", 1);
+		msg_err_exit("Your map contains no player spawning point.", 1);
 }
 
-int	doesLineHavePlayer(char *line)
+int	does_line_have_player(char *line)
 {
 	if (ft_strchr(line, 'N'))
 		return (ft_strchr(line, 'N') - line);

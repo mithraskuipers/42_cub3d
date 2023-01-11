@@ -6,7 +6,7 @@
 /*   By: dagmarkramer <dagmarkramer@student.42.f      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 09:41:05 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 11:40:19 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	gameInit(t_game *game, int argc, char **argv)
 {
 	if (argc != 2)
-		msgErrExit("Error: No file or more than 1 file specified.\n", 1);
+		msg_err_exit("Error: No file or more than 1 file specified.\n", 1);
 	initGame(game);
 	initMapdata(&game->mapdata, argv);
 	game->screen_width = GAME_WIDTH;
@@ -38,7 +38,7 @@ void	checkChar(t_game *game, char **map)
 		while (i < len)
 		{
 			if (!ft_strrchr("01NESW ", map[j][i]))
-				msgErrExit("Wrong characters included.", 1);
+				msg_err_exit("Wrong characters included.", 1);
 			i++;
 		}
 		j++;
@@ -47,20 +47,20 @@ void	checkChar(t_game *game, char **map)
 
 int	gameParsing(t_game *game)
 {
-	mapCheckExt(game);
+	map_check_ext(game);
 	char *line;
 	line = NULL;
-	if (getMapCfg(game, line, &game->mapdata) == 1)
-		msgErrExit("Your map is configured incorrectly.", 1);
-	mapOpen(game);
-	getMapFileDims(game, line);
-	mapMemAllocator(game, &game->mapdata.map);
-	mapMemAllocator(game, &game->cpy_map);
-	mapOpen(game);
-	mapRead(game);
+	if (get_map_cfg(game, line, &game->mapdata) == 1)
+		msg_err_exit("Your map is configured incorrectly.", 1);
+	map_open(game);
+	get_map_file_dims(game, line);
+	map_mem_allocator(game, &game->mapdata.map);
+	map_mem_allocator(game, &game->cpy_map);
+	map_open(game);
+	map_read(game);
 	checkChar(game, game->mapdata.map);
-	mapFloodfill(game, game->player.x, game->player.y);
-	checkPlayerCount(game);
+	map_floodfill(game, game->player.x, game->player.y);
+	check_player_count(game);
 	return (0);
 }
 
@@ -72,7 +72,7 @@ int	gameExecute(t_game *game)
 	initMLX(game);
 	initTextures(game);
 	if (!game->mlx42)
-		msgErrExit("MLX failed.", EXIT_FAILURE);
+		msg_err_exit("MLX failed.", EXIT_FAILURE);
 	return (0);
 }
 
@@ -82,13 +82,13 @@ int main(int argc, char **argv)
 
 	gameInit(&game, argc, argv);
 	if (gameParsing(&game))
-		return(cleanupEverything(&game));
+		return(cleanup_everything(&game));
 	if (gameExecute(&game))
-		return(cleanupEverything(&game));
+		return(cleanup_everything(&game));
 	mlx_loop_hook(game.mlx42, &frameCallback, &game);
 	mlx_loop(game.mlx42);
 	mlx_terminate(game.mlx42);
-	cleanupEverything(&game);
+	cleanup_everything(&game);
 	system ("leaks cub3D");
 	return (0);
 }

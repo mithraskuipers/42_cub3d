@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:05:02 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/10 12:58:07 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 11:39:11 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	printMap(t_game *game)
 	char **map;
 
 	i = 0;
-	map = game->mapdata.map;
+	map = game->cpy_map;
 	while (map[i])
 	{
 		printf("%s\n", map[i]);

@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:05:09 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/11 09:34:33 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 11:45:01 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 static void	combineColors(t_game *game)
 {
-	game->mapdata.ceilingColor = convertRgbBytesToInt(	game->mapdata.ceilingRGB[0], \
+	game->mapdata.ceilingColor = convert_rgb_bytes_to_int(	game->mapdata.ceilingRGB[0], \
 											game->mapdata.ceilingRGB[1], \
 											game->mapdata.ceilingRGB[2], \
 											255);
-	game->mapdata.floorColor = convertRgbBytesToInt(		game->mapdata.floorRGB[0], \
+	game->mapdata.floorColor = convert_rgb_bytes_to_int(		game->mapdata.floorRGB[0], \
 											game->mapdata.floorRGB[1], \
 											game->mapdata.floorRGB[2], \
 											255);

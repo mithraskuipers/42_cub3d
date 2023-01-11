@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:06:09 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/11 09:45:29 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 11:45:03 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void getTexPixelCol(t_game *game, int wallHeight, int wallLineHeight)
 	R = game->ray.texture->pixels[exactTexPixel + 1];
 	G = game->ray.texture->pixels[exactTexPixel + 2];
 	B = game->ray.texture->pixels[exactTexPixel + 3];
-	game->ray.pixelColor = convertRgbBytesToInt(\
+	game->ray.pixelColor = convert_rgb_bytes_to_int(\
 									game->ray.texture->pixels[exactTexPixel], \
 									R, \
 									G, \

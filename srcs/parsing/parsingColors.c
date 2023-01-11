@@ -6,7 +6,7 @@
 /*   By: dagmarkramer <dagmarkramer@student.42.f      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:10 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 09:34:46 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 11:46:40 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ Taken straight from the MLX readme file. It combines four individual channel
 bytes into a single integer using bit-shifting.
 */
 
-int convertRgbBytesToInt(int R, int G, int B, int A)
+int	convert_rgb_bytes_to_int(int R, int G, int B, int A)
 {
 	return (R << 24 | G << 16 | B << 8 | A);
 }
 
-int	parseColorsLine(char **split_line, t_mapdata *mapdata)
+int	parse_colors_line(char **split_line, t_mapdata *mapdata)
 {
 	char	*colors;
 	int		i;
@@ -30,27 +30,28 @@ int	parseColorsLine(char **split_line, t_mapdata *mapdata)
 
 	i = 2;
 	colors = ft_strdup(split_line[1]);
+	if (!colors)
+		msg_err_exit("Malloc fail", 1);
 	while (split_line[i])
 	{
 		temp = colors;
 		colors = ft_strjoin(colors, split_line[i]);
 		free(temp);
 		if (!colors)
-			msgErrExit("Malloc fail", 1);
+			msg_err_exit("Malloc fail", 1);
 		i++;
 	}
 	if (!ft_strncmp("F", split_line[0], 1))
 	{
 		checkRGB(colors, mapdata->floorRGB);
 		processRGB(colors, mapdata->floorRGB);
-
 	}
 	if (!ft_strncmp("C", split_line[0], 1))
 	{
 		checkRGB(colors, mapdata->ceilingRGB);
 		processRGB(colors, mapdata->ceilingRGB);
 	}
-	freeSplit(split_line, false, 0);
+	free_split(split_line, false, 0);
 	if (colors[0])
 		free (colors);
 	return (0);
@@ -63,14 +64,14 @@ int	checkRGB(char *rgbColors, int rgb[])
 
 	i = 0;
 	if (rgb[0] != -1)
-		msgErrExit("Your map cfg contains duplicate RGB data..", 1);
+		msg_err_exit("Your map cfg contains duplicate RGB data..", 1);
 	splittedRgbColors = ft_split(rgbColors, ',');
 	if (!splittedRgbColors)
-		msgErrExit("Failure in ft_split() in checkRGB()", 1);
+		msg_err_exit("Failure in ft_split() in checkRGB()", 1);
 	while (splittedRgbColors[i])
 		i++;
 	if (i != 3)
-		msgErrExit("Your map cfg contains incorrect RGB data.", 1);
+		msg_err_exit("Your map cfg contains incorrect RGB data.", 1);
 	cleanupCharDP(splittedRgbColors);
 	return (0);
 }
@@ -82,7 +83,7 @@ int	processRGB(char *rgbColors, int rgb[])
 
 	splittedRgbColors = ft_split(rgbColors, ',');
 	if (!splittedRgbColors)
-		msgErrExit("Failure in ft_split() in processRGB()", 1);
+		msg_err_exit("Failure in ft_split() in processRGB()", 1);
 	rgb[0] = ft_atoi(splittedRgbColors[0]);
 	rgb[1] = ft_atoi(splittedRgbColors[1]);
 	rgb[2] = ft_atoi(splittedRgbColors[2]);
@@ -91,7 +92,7 @@ int	processRGB(char *rgbColors, int rgb[])
 	while (i < 3)
 	{
 		if (rgb[i] < 0 || rgb[i] > 255)
-			msgErrExit("Your map cfg contains incorrect RGB data.", 1);
+			msg_err_exit("Your map cfg contains incorrect RGB data.", 1);
 		i++;
 	}
 	return (0);

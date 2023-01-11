@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 09:53:11 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 11:44:59 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,20 +200,20 @@ double	getDecimals(float f);
 void	raycaster(t_game *game, t_pov *pov);
 
 // parsing.c
-int		mapFloodfill(t_game *game, int x, int y);
-void	mapRead(t_game *game);
-int		doesLineHavePlayer(char *line);
-int		getMapFileDims(t_game *game, char *line);
-void	mapMemAllocator(t_game *game, char ***map);
-int		mapOpen(t_game *game);
-int		mapCheckExt(t_game *game);
-int		isCharInString(char c, char *s);
-int		getMapCfg(t_game *game, char *line, t_mapdata *mapdata);
-int		getMapConfigVar(t_game *game, char *line, t_mapdata *mapdata);
-void	checkPlayerCount(t_game *game);
+int		map_floodfill(t_game *game, int x, int y);
+void	map_read(t_game *game);
+int		does_line_have_player(char *line);
+int		get_map_file_dims(t_game *game, char *line);
+void	map_mem_allocator(t_game *game, char ***map);
+int		map_open(t_game *game);
+int		map_check_ext(t_game *game);
+int		is_char_in_string(char c, char *s);
+int		get_map_cfg(t_game *game, char *line, t_mapdata *mapdata);
+int		get_map_config_var(t_game *game, char *line, t_mapdata *mapdata);
+void	check_player_count(t_game *game);
 
 // parsingColors.c
-int	parseColorsLine(char **split_line, t_mapdata *mapdata);
+int	parse_colors_line(char **split_line, t_mapdata *mapdata);
 int	checkRGB(char *rgbColors, int rgb[]);
 int	processRGB(char *rgbColors, int rgb[]);
 
@@ -232,14 +232,13 @@ void	drawCurWallLine(t_game *game);
 void	keyboardRotateRight(t_pov *pov, double prevDirX, double prevPlaneX, double rotSpeed);
 void	keyboardRotateLeft(t_pov *pov, double prevDirX, double prevPlaneX, double rotSpeed);
 
-// utils.c
-int		msgErrExit(char *s, int exitCode);
-int		convertRgbBytesToInt(int R, int G, int B, int A);
+int		msg_err_exit(char *s, int exitCode);
+int		convert_rgb_bytes_to_int(int R, int G, int B, int A);
 char	*get_next_line_wrapper(t_game *game);
 int		cleanupCharDP(char **ptr);
 
-void	freeSplit(char **split, bool skip, int index);
-int		cleanupEverything(t_game *game);
+void	free_split(char **split, bool skip, int index);
+int		cleanup_everything(t_game *game);
 int		free_all_and_error(char	**split_line, char *str);
 
 // walking.c

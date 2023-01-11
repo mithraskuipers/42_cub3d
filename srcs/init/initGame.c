@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:58 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/09 18:57:28 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 11:27:43 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	initMLX(t_game *game)
 							"cub3D", \
 							true);
 	if (!game->mlx42)
-		msgErrExit("Failed during mlx_init().", 1);
+		msg_err_exit("Failed during mlx_init().", 1);
 	game->mlxImg = mlx_new_image(game->mlx42, \
 	game->screen_width, game->screen_height);
 }
@@ -64,15 +64,15 @@ int	initTextures(t_game *game)
 {
 	game->textures[NORTH] = mlx_load_png(game->mapdata.paths[NORTH]);
 	if (game->textures[NORTH] == NULL)
-		msgErrExit("Failed during mlx_load_png().", 1);
+		msg_err_exit("Failed during mlx_load_png().", 1);
 	game->textures[EAST] = mlx_load_png(game->mapdata.paths[EAST]);
 	if (game->textures[EAST] == NULL)
-		msgErrExit("Failed during mlx_load_png().", 1);
+		msg_err_exit("Failed during mlx_load_png().", 1);
 	game->textures[SOUTH] = mlx_load_png(game->mapdata.paths[SOUTH]);
 	if (game->textures[SOUTH] == NULL)
-		msgErrExit("Failed during mlx_load_png().", 1);
+		msg_err_exit("Failed during mlx_load_png().", 1);
 	game->textures[WEST] = mlx_load_png(game->mapdata.paths[WEST]);
 	if (game->textures[WEST] == NULL)
-		msgErrExit("Failed during mlx_load_png().", 1);
+		msg_err_exit("Failed during mlx_load_png().", 1);
 	return (0);
 }
