@@ -6,92 +6,91 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:06:09 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/11 11:45:03 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 14:47:25 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../includes/cub3d.h"
 
-void getTexPixelCol(t_game *game, int wallHeight, int wallLineHeight)
+void	get_tex_pixel_col(t_game *game, int wall_height, int wall_line_height)
 {
-	uint8_t R;
-	uint8_t G;
-	uint8_t B;
-	size_t exactTexPixel;
+	uint8_t	r;
+	uint8_t	g;
+	uint8_t	b;
+	size_t	exact_tex_pixel;
 
-	exactTexPixel = ((size_t)(((double)wallHeight / (double)wallLineHeight) *
-					(int)game->ray.texture->height) *
-					(int)(game->ray.texture->width) +
-					(int)game->ray.curTex) *
-					4;
-	R = game->ray.texture->pixels[exactTexPixel + 1];
-	G = game->ray.texture->pixels[exactTexPixel + 2];
-	B = game->ray.texture->pixels[exactTexPixel + 3];
+	exact_tex_pixel = ((size_t)(((double)wall_height / \
+	(double)wall_line_height) \
+	* (int)game->ray.texture->height) \
+	* (int)(game->ray.texture->width) \
+	+ (int)game->ray.curTex) \
+	* 4;
+	r = game->ray.texture->pixels[exact_tex_pixel + 1];
+	g = game->ray.texture->pixels[exact_tex_pixel + 2];
+	b = game->ray.texture->pixels[exact_tex_pixel + 3];
 	game->ray.pixelColor = convert_rgb_bytes_to_int(\
-									game->ray.texture->pixels[exactTexPixel], \
-									R, \
-									G, \
-									B);
-	return;
-}
-
-void setCurrentRayTexture(t_game *game)
-{
-	if ((game->ray.wallDirection == 'N') || \
-	(game->ray.wallDirection == 'E'))
-	{
-		game->ray.curTex = (game->ray.texture->width) * \
-		getDecimals(game->ray.wallX);
-		return;
-	}
-	else if ((game->ray.wallDirection == 'S') || \
-	(game->ray.wallDirection == 'W'))
-	{
-		game->ray.curTex = (game->ray.texture->width) - \
-		((game->ray.texture->width) * getDecimals(game->ray.wallX));
-		return;
-	}
+									game->ray.texture->pixels[exact_tex_pixel], \
+									r, \
+									g, \
+									b);
 	return ;
 }
 
-void howToCenterLine(t_game *game, double player_height)
+void	set_current_ray_texture(t_game *game)
 {
-	double screenY;
-	uint32_t wallLineHeightHalf;
-
-	wallLineHeightHalf = game->ray.wallLineHeight / player_height;
-	screenY = game->screen_height / 2;
-	game->ray.offsetFromAbove = screenY - wallLineHeightHalf;
-	return;
+	if ((game->ray.wall_direction == 'N') || \
+	(game->ray.wall_direction == 'E'))
+	{
+		game->ray.curTex = (game->ray.texture->width) * \
+		get_decimals(game->ray.wall_x);
+	}
+	else if ((game->ray.wall_direction == 'S') || \
+	(game->ray.wall_direction == 'W'))
+	{
+		game->ray.curTex = (game->ray.texture->width) - \
+		((game->ray.texture->width) * get_decimals(game->ray.wall_x));
+	}
 }
 
-void drawCurWallLine(t_game *game)
+void	how_to_center_line(t_game *game, double player_height)
 {
-	uint32_t curWallLineHeight;
+	double		screen_y;
+	uint32_t	wall_line_height_half;
 
-	curWallLineHeight = START;
-	while (curWallLineHeight < game->ray.wallLineHeight)
+	wall_line_height_half = game->ray.wall_line_height / player_height;
+	screen_y = game->screen_height / 2;
+	game->ray.offset_from_above = screen_y - wall_line_height_half;
+}
+
+void	draw_cur_wall_line(t_game *game)
+{
+	uint32_t	curwall_line_height;
+
+	curwall_line_height = START;
+	while (curwall_line_height < game->ray.wall_line_height)
 	{
-		game->ray.pixelPos.y = game->ray.offsetFromAbove + curWallLineHeight;
-		if (((game->ray.offsetFromAbove + curWallLineHeight) > 0) && \
-		((game->ray.offsetFromAbove + curWallLineHeight) < game->screen_height))
+		game->ray.pixelPos.y = game->ray.offset_from_above \
+		+ curwall_line_height;
+		if (((game->ray.offset_from_above + curwall_line_height) > 0) && \
+		((game->ray.offset_from_above + curwall_line_height) < \
+		game->screen_height))
 		{
-			getTexPixelCol(	game, curWallLineHeight, \
-							game->ray.wallLineHeight);
-			mlx_put_pixel(	game->mlxImg, \
+			get_tex_pixel_col(game, curwall_line_height, \
+							game->ray.wall_line_height);
+			mlx_put_pixel(game->mlxImg, \
 							game->ray.pixelPos.x, \
 							game->ray.pixelPos.y, \
 							game->ray.pixelColor);
 		}
-		curWallLineHeight++;
+		curwall_line_height++;
 	}
 }
 
-double getDecimals(float f)
+double	get_decimals(float f)
 {
 	double	integral;
 	double	decimals;
-	
+
 	decimals = modf(f, &integral);
 	return (decimals);
 }

@@ -7,7 +7,6 @@ OBJ			=	srcs/main \
 				srcs/frameCallback \
 				srcs/movements/walking \
 				srcs/movements/rotating \
-				srcs/debug/debug \
 				srcs/parsing/parsing \
 				srcs/parsing/parsingColors \
 				srcs/parsing/parsingReadMap \
@@ -16,6 +15,7 @@ OBJ			=	srcs/main \
 				srcs/raycaster/raycastComp1 \
 				srcs/raycaster/raycastComp2 \
 				srcs/raycaster/raycastWalls \
+				srcs/raycaster/raycastWhichWall \
 				srcs/cleanup/cleanup \
 				srcs/cleanup/error
 

@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:58 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 11:27:43 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 14:34:19 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	initMapdata(t_mapdata *mapdata, char **argv)
 	mapdata->mapFileNbrLines = 0;
 }
 
-void	initMLX(t_game *game)
+void	init_mlx(t_game *game)
 {
 	game->mlx42 = mlx_init(	game->screen_width, \
 							game->screen_height, \
@@ -60,7 +60,7 @@ void	initMLX(t_game *game)
 	game->screen_width, game->screen_height);
 }
 
-int	initTextures(t_game *game)
+int	init_textures(t_game *game)
 {
 	game->textures[NORTH] = mlx_load_png(game->mapdata.paths[NORTH]);
 	if (game->textures[NORTH] == NULL)

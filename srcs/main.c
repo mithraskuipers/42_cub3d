@@ -6,13 +6,13 @@
 /*   By: dagmarkramer <dagmarkramer@student.42.f      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 13:08:33 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 14:35:07 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/cub3d.h"
 
-int	gameInit(t_game *game, int argc, char **argv)
+int	game_init(t_game *game, int argc, char **argv)
 {
 	if (argc != 2)
 		msg_err_exit("Error: No file or more than 1 file specified.\n", 1);
@@ -45,7 +45,7 @@ void	checkChar(t_game *game, char **map)
 	}
 }
 
-int	gameParsing(t_game *game)
+int	game_parsing(t_game *game)
 {
 	map_check_ext(game);
 	char *line;
@@ -57,7 +57,6 @@ int	gameParsing(t_game *game)
 	map_mem_allocator(game, &game->mapdata.map);
 	map_mem_allocator(game, &game->cpy_map);
 	map_open(game);
-	// line = NULL;
 	map_read(game, line);
 	game->heightMap = game->mapFileDims.y - game->whenMapMazeStart + 1;
 	if (game->has_player == 0)
@@ -68,13 +67,13 @@ int	gameParsing(t_game *game)
 	return (0);
 }
 
-int	gameExecute(t_game *game)
+int	game_execute(t_game *game)
 {
-	initPovDir(game, game->mapdata.map[game->player.y][game->player.x]);
-	initPovPlane(game, game->mapdata.map[game->player.y][game->player.x]);
-	initPlayerPos(game);
-	initMLX(game);
-	initTextures(game);
+	init_pov_dir(game, game->mapdata.map[game->player.y][game->player.x]);
+	init_pov_plane(game, game->mapdata.map[game->player.y][game->player.x]);
+	init_player_pos(game);
+	init_mlx(game);
+	init_textures(game);
 	if (!game->mlx42)
 		msg_err_exit("MLX failed.", EXIT_FAILURE);
 	return (0);
@@ -84,16 +83,15 @@ int main(int argc, char **argv)
 {
 	t_game game;
 
-	gameInit(&game, argc, argv);
-	if (gameParsing(&game))
+	game_init(&game, argc, argv);
+	if (game_parsing(&game))
 		return(cleanup_everything(&game));
-	if (gameExecute(&game))
+	if (game_execute(&game))
 		return(cleanup_everything(&game));
-	mlx_loop_hook(game.mlx42, &frameCallback, &game);
+	mlx_loop_hook(game.mlx42, &frame_callback, &game);
 	mlx_loop(game.mlx42);
 	mlx_terminate(game.mlx42);
 	cleanup_everything(&game);
-	system ("leaks cub3D");
 	return (0);
 }
 
@@ -130,4 +128,85 @@ fov (field of vision):
 	The angle between the left-most ray and the right-most ray. You can imagine
 	these lines to be diagonal lines starting at the player position, toward to
 	first x-axis value and last x-axis value of the camera plane. 
+*/
+
+/******************************************************************************/
+/* notes                                                                      */
+/******************************************************************************/
+
+/*
+- game->pov.dir: direction vector_xy (= vector_xy)
+	Simply the direction to which the player looks.
+	It is a line.
+
+- game->pov.pos: player position (= vector_xy)
+	Simply a single point in the map.
+	It is a point in front of the "camera plane".
+
+- camera plane (= vector_xy)
+	game->pov.plane
+	Not really a plane, but a line.
+	Is always perpendicular to the "direction vector_xy".
+	It is the horizontal line you would reach if you look straight ahead.
+	It represents the computer screen. The 2D window of your game (eg. 480x360)
+	By definition (?) you always touch exactly the center of the camera plane.
+
+- ray:
+	Line that starts at the player position and goes through the "camera plane".
+
+- ray direction (= vector_xy):
+	game->ray.dir
+	The x and y components are used by the DDA algorithm.
+	"direction vector_xy" + part of the "camera plane"
+	Here, part of the "camera plane" is expressed in terms of proportion of the
+	camera plane length, and is the distance between A and B, where..
+	A: Where the direction vector_xy crosses the camera plane (i.e. its center)
+	B: Where the ray vector_xy crosses the camera plane
+
+	Example:
+	                    part of camera plane
+	                    (about 1/3 of right half of camera plane)
+	                              |
+	                              |    intersection around 1/3 of camera plane
+	                            | |   /
+	                            | V  /
+	camera plane -> ------------|---/-------- <- ray vector_xy intersects
+	                            |  /             direction vector_xy
+	     direction vector_xy -> | / <- ray vector_xy
+	                            |/
+	                            P <- player position vector_xy
+
+	eg. The ray of interest crosses the camera plane about 1/3 of the camera
+	plane's vector_xy, assuming you would start at the camera plane's center.
+	The ray direction would then be computed as follows:
+	ray of interest = ("direction vector_xy" + (1/3 * "camera plane vector_xy"))
+
+- field of vision (fov)
+	Refers to the observable world. It is often expressed in degrees.
+	The higher the fov, the more of the world is visible.
+
+	Some insights regardins fov:
+	- If the direction vector_xy and the camera plane (measured from its center)
+	have the same length, then the fov is always 90 degrees.
+
+	- If the direction vector_xy is much longer than the camera plane (measured
+	from its center), then the fov is much narrower than 90 degrees.
+
+	- If the direction vector_xy is much shorter than the camera plane (measured
+	from its center), then the fov is much wider than 90 degrees. The max width
+	is a theoretical 180 degrees.
+
+- rotation
+	If the player rotates, then the camera plane also has to rotate.
+	This makes sense, because it is the camera plane that represents your
+	computer screen. You want the computer screen to depict images depending
+	on where your player is looking at.
+
+	If the player is rotated, you need to rotate the camera plane vector_xy.
+	You can rotate a vector_xy by multiplying the vector_xy with the "rotation 
+	matrix"
+	
+	rotation matrix
+	[cos(a) -sin(a)]
+	[sin(a)  cos(a)]
 */

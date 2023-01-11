@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   frameCallback.c                                    :+:    :+:            */
+/*   frame_callback.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
@@ -22,14 +22,14 @@ static void	updateGameCfg(t_game *game)
 {
 	game->movementSpeed = game->mlx42->delta_time * MOVE_SPEED;
 	game->rotationSpeed = game->mlx42->delta_time * ROT_SPEED;
-	game->dirPerp.x = game->pov.dir.y * -1;
-	game->dirPerp.y = game->pov.dir.x;
+	game->dir_perp.x = game->pov.dir.y * -1;
+	game->dir_perp.y = game->pov.dir.x;
 }
 
 void hooksInput(t_game *game)
 {
-	hooksKeyboardWalking(game, game->movementSpeed);
-	hooksKeyboardRotate(game, game->rotationSpeed);
+	hooks_keyboard_walking(game, game->movementSpeed);
+	hooks_keyboard_rotate(game, game->rotationSpeed);
 }
 
 /*
@@ -46,7 +46,7 @@ void	checkMlxWindowResize(mlx_t *mlx, t_game *game)
 	}
 }
 
-void	frameCallback(void *arg)
+void	frame_callback(void *arg)
 {
 	t_game	*game;
 

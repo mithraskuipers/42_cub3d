@@ -6,26 +6,26 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:06:04 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/11 11:27:47 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 15:03:07 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../includes/cub3d.h"
 
-static void	howTallWallLine(t_ray *ray)
+static void	how_tall_wall_line(t_ray *ray)
 {
-	ray->texLineScale = (1 / (ray->perpendicularWallDistance));
+	ray->texLineScale = (1 / (ray->perp_wall_distance) * .666);
 }
 
-static int	whichTextureHasWall(t_game *game, char wallDirection)
+static int	which_tex_has_wall(t_game *game, char wall_direction)
 {
-	if (wallDirection == 'N')
+	if (wall_direction == 'N')
 		game->ray.texture = game->textures[NORTH];
-	else if (wallDirection == 'E')
+	else if (wall_direction == 'E')
 		game->ray.texture = game->textures[EAST];
-	else if (wallDirection == 'S')
+	else if (wall_direction == 'S')
 		game->ray.texture = game->textures[SOUTH];
-	else if (wallDirection == 'W')
+	else if (wall_direction == 'W')
 		game->ray.texture = game->textures[WEST];
 	else
 		msg_err_exit("Failure while running set_texture()", 1);
@@ -35,28 +35,28 @@ static int	whichTextureHasWall(t_game *game, char wallDirection)
 void	raycaster(t_game *game, t_pov *pov)
 {
 	game->ray.screenXPos = 0;
-
 	drawBackground(game);
 	while (game->ray.screenXPos < (int)game->screen_width)
 	{
-		compCameraSpaceX(game, pov, game->ray.screenXPos);
-		compRayDir(&game->ray, pov);
-		compRayMap(&game->ray, pov);
-		compDeltaDist(&game->ray);
-		setStep(&game->ray);
-		initSideDist(&game->ray, pov);
-		compSideDist(&game->ray, game->mapdata.map);
-		compPerpendicularWallDist(&game->ray);
-		whichWallWasHit(game);
-		whichTextureHasWall(game, game->ray.wallDirection);
-		whereWasWallHit(&game->ray, pov);
-		howTallWallLine(&game->ray);
+		comp_camera_space_x(game, pov, game->ray.screenXPos);
+		comp_ray_dir(&game->ray, pov);
+		comp_ray_map(&game->ray, pov);
+		comp_delta_dist(&game->ray);
+		set_step(&game->ray);
+		init_side_dist(&game->ray, pov);
+		comp_side_dist(&game->ray, game->mapdata.map);
+		comp_perp_wall_dist(&game->ray);
+		which_wall_was_hit1(game);
+		which_wall_was_hit2(game);
+		which_tex_has_wall(game, game->ray.wall_direction);
+		where_was_wall_hit(&game->ray, pov);
+		how_tall_wall_line(&game->ray);
 		game->ray.pixelPos.x = game->ray.screenXPos;
-		setCurrentRayTexture(game);
-		game->ray.wallLineHeight = (game->ray.texture->height * \
+		set_current_ray_texture(game);
+		game->ray.wall_line_height = (game->ray.texture->height * \
 		game->ray.texLineScale);
-		howToCenterLine(game, game->player_height);
-		drawCurWallLine(game);
+		how_to_center_line(game, game->player_height);
+		draw_cur_wall_line(game);
 		game->ray.screenXPos++;
 	}
 }
