@@ -6,7 +6,7 @@
 /*   By: dagmarkramer <dagmarkramer@student.42.f      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 13:41:23 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 14:36:50 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int	game_init(t_game *game, int argc, char **argv)
 {
 	if (argc != 2)
 		msg_err_exit("Error: No file or more than 1 file specified.\n", 1);
-	initGame(game);
-	initMapdata(&game->mapdata, argv);
+	init_game(game);
+	init_map_data(&game->mapdata, argv);
 	game->screen_width = GAME_WIDTH;
 	game->screen_height = GAME_HEIGHT;
 	return (0);
@@ -70,11 +70,11 @@ int	game_parsing(t_game *game)
 
 int	game_execute(t_game *game)
 {
-	initPovDir(game, game->mapdata.map[game->player.y][game->player.x]);
-	initPovPlane(game, game->mapdata.map[game->player.y][game->player.x]);
-	initPlayerPos(game);
-	initMLX(game);
-	initTextures(game);
+	init_pov_dir(game, game->mapdata.map[game->player.y][game->player.x]);
+	init_pov_plane(game, game->mapdata.map[game->player.y][game->player.x]);
+	init_player_pos(game);
+	init_mlx(game);
+	init_textures(game);
 	if (!game->mlx42)
 		msg_err_exit("MLX failed.", EXIT_FAILURE);
 	return (0);

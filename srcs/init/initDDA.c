@@ -6,13 +6,13 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:05:27 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/09 12:04:56 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 14:35:04 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../includes/cub3d.h"
 
-void	initPovDir(t_game *game, int cardinalDirection)
+void	init_pov_dir(t_game *game, int cardinalDirection)
 {
 	if (cardinalDirection == 'N')
 	{
@@ -36,7 +36,7 @@ void	initPovDir(t_game *game, int cardinalDirection)
 	}
 }
 
-void	initPovPlane(t_game *game, int cardinalDirection)
+void	init_pov_plane(t_game *game, int cardinalDirection)
 {
 	if (cardinalDirection == 'N')
 	{
@@ -61,11 +61,11 @@ void	initPovPlane(t_game *game, int cardinalDirection)
 }
 
 /*
-initPlayerPos() offsets the player position. It is required to prevent the game
+init_player_pos() offsets the player position. It is required to prevent the game
 from glitching when the player spawning position is next to a wall.
 */
 
-void	initPlayerPos(t_game *game)
+void	init_player_pos(t_game *game)
 {
 	game->pov.pos.x = game->player.x + 0.5;
 	game->pov.pos.y = game->player.y + 0.5;

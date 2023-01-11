@@ -5,14 +5,14 @@
 /*                                                     +:+                    */
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/12/21 22:08:58 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 11:27:43 by dkramer       ########   odam.nl         */
+/*   Created: 2023/01/11 14:36:08 by dkramer       #+#    #+#                 */
+/*   Updated: 2023/01/11 14:37:01 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../includes/cub3d.h"
 
-void	initGame(t_game *game)
+void	init_game(t_game *game)
 {
 	game->player_height = 2;
 	game->stop = 0;
@@ -41,16 +41,16 @@ void	initGame(t_game *game)
 	game->has_player = 0;
 }
 
-void	initMapdata(t_mapdata *mapdata, char **argv)
+void	init_map_data(t_mapdata *mapdata, char **argv)
 {
 	mapdata->mapFd = 0;
 	mapdata->mapPath = argv[1];
 	mapdata->mapFileNbrLines = 0;
 }
 
-void	initMLX(t_game *game)
+void	init_mlx(t_game *game)
 {
-	game->mlx42 = mlx_init(	game->screen_width, \
+	game->mlx42 = mlx_init(game->screen_width, \
 							game->screen_height, \
 							"cub3D", \
 							true);
@@ -60,7 +60,7 @@ void	initMLX(t_game *game)
 	game->screen_width, game->screen_height);
 }
 
-int	initTextures(t_game *game)
+int	init_textures(t_game *game)
 {
 	game->textures[NORTH] = mlx_load_png(game->mapdata.paths[NORTH]);
 	if (game->textures[NORTH] == NULL)

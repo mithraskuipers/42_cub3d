@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 13:52:32 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 14:37:37 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,18 +166,18 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*gnl(int fd);
 
 // hooksKeyboard.c
-void	hooksKeyboardWalking(t_game *game, double moveSpeed);
-void	hooksKeyboardRotate(t_game *game, double rotSpeed);
+void	hooks_keyboard_walking(t_game *game, double moveSpeed);
+void	hooks_keyboard_rotate(t_game *game, double rotSpeed);
 void	hooks_input(t_game *game);
 
 // init.c
-void	initGame(t_game *game);
-void	initMapdata(t_mapdata *mapdata, char **argv);
-void	initMLX(t_game *game);
-int		initTextures(t_game *game);
-void	initPovDir(t_game *game, int cardinalDirection);
-void	initPovPlane(t_game *game, int cardinalDirection);
-void	initPlayerPos(t_game *game);
+void	init_game(t_game *game);
+void	init_map_data(t_mapdata *mapdata, char **argv);
+void	init_mlx(t_game *game);
+int		init_textures(t_game *game);
+void	init_pov_dir(t_game *game, int cardinalDirection);
+void	init_pov_plane(t_game *game, int cardinalDirection);
+void	init_player_pos(t_game *game);
 
 // raycastComp1.c
 void	compCameraSpaceX(t_game *game, t_pov *pov, int col);
@@ -230,22 +230,22 @@ void	howToCenterLine(t_game *game, double player_height);
 void	drawCurWallLine(t_game *game);
 
 // rotating.c
-void	keyboardRotateRight(t_pov *pov, double prevDirX, double prevPlaneX, double rotSpeed);
-void	keyboardRotateLeft(t_pov *pov, double prevDirX, double prevPlaneX, double rotSpeed);
+void	keyboard_rotate_right(t_pov *pov, double prevDirX, double prevPlaneX, double rotSpeed);
+void	keyboard_rotate_left(t_pov *pov, double prevDirX, double prevPlaneX, double rotSpeed);
 
 int		msg_err_exit(char *s, int exitCode);
 int		convert_rgb_bytes_to_int(int R, int G, int B, int A);
 char	*get_next_line_wrapper(t_game *game);
-int		cleanupCharDP(char **ptr);
+int		cleanup_char_dp(char **ptr);
 
 void	free_split(char **split, bool skip, int index);
 int		cleanup_everything(t_game *game);
 int		free_all_and_error(char	**split_line, char *str);
 
 // walking.c
-void	keyboardWalkUp(t_dvector *pos, t_dvector *dir, char **map, double moveSpeed);
-void	keyboardWalkDown(t_dvector *pos, t_dvector *dir, char **map, double moveSpeed);
-void	keyboardWalkLeft(t_dvector *pos, t_dvector *dirPerp, char **map, double moveSpeed);
-void	keyboardWalkRight(t_dvector *pos, t_dvector *dirPerp, char **map, double moveSpeed);
+void	keyboard_walk_up(t_dvector *pos, t_dvector *dir, char **map, double moveSpeed);
+void	keyboard_walk_down(t_dvector *pos, t_dvector *dir, char **map, double moveSpeed);
+void	keyboard_walk_left(t_dvector *pos, t_dvector *dirPerp, char **map, double moveSpeed);
+void	keyboard_walk_right(t_dvector *pos, t_dvector *dirPerp, char **map, double moveSpeed);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/11 13:41:56 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 13:48:21 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 13:57:47 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static void	update_game_cfg(t_game *game)
 
 void	hooks_input(t_game *game)
 {
-	hooksKeyboardWalking(game, game->movementSpeed);
-	hooksKeyboardRotate(game, game->rotationSpeed);
+	hooks_keyboard_walking(game, game->movementSpeed);
+	hooks_keyboard_rotate(game, game->rotationSpeed);
 }
 
 void	check_mlx_window_resize(mlx_t *mlx, t_game *game)

@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:06:19 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/11 13:12:16 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 14:32:53 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ With the defined preprocessor variable DIST, you can configure how much
 distance there should be between the player and the wall.
 */
 
-void	keyboardWalkUp(t_dvector *pos, t_dvector *dir, char **map, double moveSpeed)
+void	keyboard_walk_up(t_dvector *pos, t_dvector *dir, char **map,
+		double moveSpeed)
 {
 	if (map[(int)(pos->y + DIST)][(int)(pos->x + dir->x * moveSpeed)] != '1'
 		&& map[(int)(pos->y - DIST)][(int)(pos->x + dir->x * moveSpeed)] != '1'
@@ -38,21 +39,23 @@ void	keyboardWalkUp(t_dvector *pos, t_dvector *dir, char **map, double moveSpeed
 		pos->y = pos->y + dir->y * moveSpeed;
 }
 
-void	keyboardWalkDown(t_dvector *pos, t_dvector *dir, char **map, double moveSpeed)
+void	keyboard_walk_down(t_dvector *pos, t_dvector *dir, char **map,
+		double moveSpeed)
 {
 	if (map[(int)(pos->y + DIST)][(int)(pos->x - dir->x * moveSpeed)] != '1' \
 	&& map[(int)(pos->y - DIST)][(int)(pos->x - dir->x * moveSpeed)] != '1' \
 	&& map[(int)(pos->y)][(int)(pos->x - dir->x * moveSpeed + DIST)] != '1' \
-	&& map[(int)(pos->y)][(int)(pos->x - dir->x * moveSpeed - DIST)] != '1') \
-	pos->x = pos->x - dir->x * moveSpeed;
+	&& map[(int)(pos->y)][(int)(pos->x - dir->x * moveSpeed - DIST)] != '1')
+		pos->x = pos->x - (dir->x * moveSpeed);
 	if (map[(int)(pos->y - dir->y * moveSpeed + DIST)][(int)(pos->x)] != '1' \
 	&& map[(int)(pos->y - dir->y * moveSpeed - DIST)][(int)(pos->x)] != '1' \
 	&& map[(int)(pos->y - dir->y * moveSpeed)][(int)(pos->x + DIST)] != '1' \
-	&& map[(int)(pos->y - dir->y * moveSpeed)][(int)(pos->x - DIST)] != '1') \
-	pos->y = pos->y - dir->y * moveSpeed;
+	&& map[(int)(pos->y - dir->y * moveSpeed)][(int)(pos->x - DIST)] != '1')
+		pos->y = pos->y - dir->y * moveSpeed;
 }
 
-void	keyboardWalkLeft(t_dvector *pos, t_dvector *dirPerp, char **map, double moveSpeed)
+void	keyboard_walk_left(t_dvector *pos, t_dvector *dirPerp, char **map,
+		double moveSpeed)
 {
 	if (map[(int)(pos->y + DIST)][(int)(pos->x - dirPerp->x * moveSpeed)] != '1'
 	&& map[(int)(pos->y - DIST)][(int)(pos->x - dirPerp->x * moveSpeed)] != '1'
@@ -66,7 +69,8 @@ void	keyboardWalkLeft(t_dvector *pos, t_dvector *dirPerp, char **map, double mov
 	pos->y = pos->y - dirPerp->y * moveSpeed;
 }
 
-void	keyboardWalkRight(t_dvector *pos, t_dvector *dirPerp, char **map, double moveSpeed)
+void	keyboard_walk_right(t_dvector *pos, t_dvector *dirPerp, char **map,
+		double moveSpeed)
 {
 	if (map[(int)(pos->y + DIST)][(int)(pos->x + dirPerp->x * moveSpeed)] != '1'
 	&& map[(int)(pos->y - DIST)][(int)(pos->x + dirPerp->x * moveSpeed)] != '1'
