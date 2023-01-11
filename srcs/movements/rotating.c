@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:06:13 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/11 15:14:26 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 15:31:22 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,26 @@ with the rotation matrix:
 [ sin(a)  cos(a) ]
 */
 
-void	keyboard_rotate_right(t_pov *pov, double prevDirX, \
-		double prev_cam_plane_x, double rotSpeed)
+void	keyboard_rotate_right(t_pov *pov, double prev_dir_x, \
+		double prev_cam_plane_x, double rot_speed)
 {
-	pov->dir.x = pov->dir.x * cos(rotSpeed) - pov->dir.y * sin(rotSpeed);
-	pov->dir.y = prevDirX * sin(rotSpeed) + pov->dir.y * cos(rotSpeed);
-	pov->plane.x = pov->plane.x * cos(rotSpeed) - pov->plane.y * sin(rotSpeed);
-	pov->plane.y = prev_cam_plane_x * sin(rotSpeed) + pov->plane.y * \
-	cos(rotSpeed);
+	pov->dir.x = pov->dir.x * cos(rot_speed) - pov->dir.y * sin(rot_speed);
+	pov->dir.y = prev_dir_x * sin(rot_speed) + pov->dir.y * cos(rot_speed);
+	pov->plane.x = pov->plane.x * cos(rot_speed) - pov->plane.y * \
+	sin(rot_speed);
+	pov->plane.y = prev_cam_plane_x * sin(rot_speed) + pov->plane.y * \
+	cos(rot_speed);
 }
 
-void	keyboard_rotate_left(t_pov *pov, double prevDirX, \
-		double prev_cam_plane_x, double rotSpeed)
+void	keyboard_rotate_left(t_pov *pov, double prev_dir_x, \
+		double prev_cam_plane_x, double rot_speed)
 {
-	pov->dir.x = pov->dir.x * (1 * cos(rotSpeed)) - pov->dir.y * \
-	(-1 * sin(rotSpeed));
-	pov->dir.y = prevDirX * (-1 * sin(rotSpeed)) + pov->dir.y * \
-	(1 * cos(rotSpeed));
-	pov->plane.x = pov->plane.x * (1 * cos(rotSpeed)) - pov->plane.y * \
-	(-1 * sin(rotSpeed));
-	pov->plane.y = prev_cam_plane_x * (-1 * sin(rotSpeed)) + pov->plane.y * \
-	(1 * cos(rotSpeed));
+	pov->dir.x = pov->dir.x * (1 * cos(rot_speed)) - pov->dir.y * \
+	(-1 * sin(rot_speed));
+	pov->dir.y = prev_dir_x * (-1 * sin(rot_speed)) + pov->dir.y * \
+	(1 * cos(rot_speed));
+	pov->plane.x = pov->plane.x * (1 * cos(rot_speed)) - pov->plane.y * \
+	(-1 * sin(rot_speed));
+	pov->plane.y = prev_cam_plane_x * (-1 * sin(rot_speed)) + pov->plane.y * \
+	(1 * cos(rot_speed));
 }

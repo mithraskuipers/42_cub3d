@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 15:19:46 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 15:37:57 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ typedef struct s_game
 	double player_height;
 	int stop;
 	int gnl_ret;
-	int nRowsMapFile;
 	int map_maxcols;
 	int len;
 	int whenMapMazeStart;
@@ -137,8 +136,8 @@ typedef struct s_game
 	int				player_count;
 	t_ivector		player;
 	int				has_player;
-	double			movementSpeed;
-	double			rotationSpeed;
+	double			movement_speed;
+	double			rotation_speed;
 	t_dvector	dir_perp;
 
 }	t_game;
@@ -151,7 +150,7 @@ typedef struct s_game
 void	drawBackground(t_game *game);
 
 // frame_callback.c
-// static void	updateGameCfg(t_game *game)
+// static void	update_game_cfg(t_game *game)
 void	frame_callback(void *arg);
 
 // gnl.c
@@ -167,13 +166,13 @@ char	*gnl(int fd);
 
 // hooksKeyboard.c
 void	hooks_keyboard_walking(t_game *game, double move_speed);
-void	hooks_keyboard_rotate(t_game *game, double rotSpeed);
+void	hooks_keyboard_rotate(t_game *game, double rot_speed);
 void	hooks_input(t_game *game);
 void	hooks_grow_shrink(t_game *game);
 
 // init.c
-void	initGame(t_game *game);
-void	initMapdata(t_mapdata *mapdata, char **argv);
+void	init_game(t_game *game);
+void	init_mapdata(t_mapdata *mapdata, char **argv);
 void	init_mlx(t_game *game);
 int		init_textures(t_game *game);
 void	init_pov_dir(t_game *game, int cardinalDirection);
@@ -230,13 +229,13 @@ void	how_to_center_line(t_game *game, double player_height);
 void	draw_cur_wall_line(t_game *game);
 
 // rotating.c
-void	keyboard_rotate_right(t_pov *pov, double prevDirX, double prev_cam_plane_x, double rotSpeed);
-void	keyboard_rotate_left(t_pov *pov, double prevDirX, double prev_cam_plane_x, double rotSpeed);
+void	keyboard_rotate_right(t_pov *pov, double prev_dir_x, double prev_cam_plane_x, double rot_speed);
+void	keyboard_rotate_left(t_pov *pov, double prev_dir_x, double prev_cam_plane_x, double rot_speed);
 
 int		msg_err_exit(char *s, int exitCode);
 int		convert_rgb_bytes_to_int(int R, int G, int B, int A);
 char	*get_next_line_wrapper(t_game *game);
-int		cleanupCharDP(char **ptr);
+int		cleanup_char_dp(char **ptr);
 
 void	free_split(char **split, bool skip, int index);
 int		cleanup_everything(t_game *game);

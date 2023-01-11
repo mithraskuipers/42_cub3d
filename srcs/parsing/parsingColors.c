@@ -6,7 +6,7 @@
 /*   By: dagmarkramer <dagmarkramer@student.42.f      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:10 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 12:52:37 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 15:33:34 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	check_rgb(char *rgbColors, int rgb[])
 		i++;
 	if (i != 3)
 		msg_err_exit("Your map cfg contains incorrect RGB data.", 1);
-	cleanupCharDP(splitted_rgb_colors);
+	cleanup_char_dp(splitted_rgb_colors);
 	return (0);
 }
 
@@ -92,7 +92,7 @@ int	process_rgb(char *rgbColors, int rgb[])
 	rgb[0] = ft_atoi(splitted_rgb_colors[0]);
 	rgb[1] = ft_atoi(splitted_rgb_colors[1]);
 	rgb[2] = ft_atoi(splitted_rgb_colors[2]);
-	cleanupCharDP(splitted_rgb_colors);
+	cleanup_char_dp(splitted_rgb_colors);
 	i = 0;
 	while (i < 3)
 	{

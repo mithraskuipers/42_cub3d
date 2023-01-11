@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:17 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 11:31:23 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 15:33:34 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	free_all_and_error(char	**split_line, char *str)
 	return (msg_err_exit(str, 1));
 }
 
-int	cleanupCharDP(char **ptr)
+int	cleanup_char_dp(char **ptr)
 {
 	int	i;
 
@@ -50,8 +50,8 @@ int	cleanupCharDP(char **ptr)
 
 int	cleanup_everything(t_game *game)
 {
-	cleanupCharDP(game->mapdata.map);
-	cleanupCharDP(game->cpy_map);
+	cleanup_char_dp(game->mapdata.map);
+	cleanup_char_dp(game->cpy_map);
 	if (game->textures[NORTH] != NULL)
 		mlx_delete_texture(game->textures[NORTH]);
 	if (game->textures[EAST] != NULL)

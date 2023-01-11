@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/03 18:25:55 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/11 15:19:29 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 15:31:38 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	hooks_grow_shrink(t_game *game)
 {
 	if (mlx_is_key_down(game->mlx42, MLX_KEY_M))
 	{
-		if ((game->player_height * 1.1) < (int)(game->ray.wall_line_height * .7))
+		if ((game->player_height * 1.1) < (int)(game->ray.wall_line_height * \
+		.7))
 			game->player_height = game->player_height * 1.1;
 		else
 			game->player_height = 2;
@@ -48,15 +49,17 @@ void	hooks_grow_shrink(t_game *game)
 	}
 }
 
-void	hooks_keyboard_rotate(t_game *game, double rotSpeed)
+void	hooks_keyboard_rotate(t_game *game, double rot_speed)
 {
-	double	prevDirX;
+	double	prev_dir_x;
 	double	prev_cam_plane_x;
 
-	prevDirX = game->pov.dir.x;
+	prev_dir_x = game->pov.dir.x;
 	prev_cam_plane_x = game->pov.plane.x;
 	if (mlx_is_key_down(game->mlx42, MLX_KEY_LEFT))
-		keyboard_rotate_left(&game->pov, prevDirX, prev_cam_plane_x, rotSpeed);
+		keyboard_rotate_left(&game->pov, prev_dir_x, prev_cam_plane_x, \
+		rot_speed);
 	else if (mlx_is_key_down(game->mlx42, MLX_KEY_RIGHT))
-		keyboard_rotate_right(&game->pov, prevDirX, prev_cam_plane_x, rotSpeed);
+		keyboard_rotate_right(&game->pov, prev_dir_x, prev_cam_plane_x, \
+		rot_speed);
 }

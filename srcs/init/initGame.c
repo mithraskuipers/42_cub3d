@@ -6,18 +6,17 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:58 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 14:34:19 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 15:33:14 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../includes/cub3d.h"
 
-void	initGame(t_game *game)
+void	init_game(t_game *game)
 {
 	game->player_height = 2;
 	game->stop = 0;
 	game->gnl_ret = 1;
-	game->nRowsMapFile = 0;
 	game->map_maxcols = 0;
 	game->len = 0;
 	game->whenMapMazeStart = 0;
@@ -41,7 +40,7 @@ void	initGame(t_game *game)
 	game->has_player = 0;
 }
 
-void	initMapdata(t_mapdata *mapdata, char **argv)
+void	init_mapdata(t_mapdata *mapdata, char **argv)
 {
 	mapdata->mapFd = 0;
 	mapdata->mapPath = argv[1];
@@ -50,7 +49,7 @@ void	initMapdata(t_mapdata *mapdata, char **argv)
 
 void	init_mlx(t_game *game)
 {
-	game->mlx42 = mlx_init(	game->screen_width, \
+	game->mlx42 = mlx_init(game->screen_width, \
 							game->screen_height, \
 							"cub3D", \
 							true);

@@ -6,7 +6,7 @@
 /*   By: dagmarkramer <dagmarkramer@student.42.f      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 14:35:07 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 15:37:29 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@ int	game_init(t_game *game, int argc, char **argv)
 {
 	if (argc != 2)
 		msg_err_exit("Error: No file or more than 1 file specified.\n", 1);
-	initGame(game);
-	initMapdata(&game->mapdata, argv);
+	init_game(game);
+	init_mapdata(&game->mapdata, argv);
 	game->screen_width = GAME_WIDTH;
 	game->screen_height = GAME_HEIGHT;
 	return (0);
 }
 
-void	checkChar(t_game *game, char **map)
+void	check_char(t_game *game, char **map)
 {
 	int	j;
 	int	i;
-	int len;
+	int	len;
 
 	j = 0;
 	i = 0;
@@ -47,8 +47,9 @@ void	checkChar(t_game *game, char **map)
 
 int	game_parsing(t_game *game)
 {
+	char	*line;
+
 	map_check_ext(game);
-	char *line;
 	line = NULL;
 	if (get_map_cfg(game, line, &game->mapdata) == 1)
 		msg_err_exit("Your map is configured incorrectly.", 1);
@@ -61,7 +62,7 @@ int	game_parsing(t_game *game)
 	game->heightMap = game->mapFileDims.y - game->whenMapMazeStart + 1;
 	if (game->has_player == 0)
 		msg_err_exit("Your map contains no player spawning point.", 1);
-	checkChar(game, game->mapdata.map);
+	check_char(game, game->mapdata.map);
 	map_floodfill(game, game->player.x, game->player.y);
 	check_player_count(game);
 	return (0);
@@ -79,15 +80,15 @@ int	game_execute(t_game *game)
 	return (0);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_game game;
+	t_game	game;
 
 	game_init(&game, argc, argv);
 	if (game_parsing(&game))
-		return(cleanup_everything(&game));
+		return (cleanup_everything(&game));
 	if (game_execute(&game))
-		return(cleanup_everything(&game));
+		return (cleanup_everything(&game));
 	mlx_loop_hook(game.mlx42, &frame_callback, &game);
 	mlx_loop(game.mlx42);
 	mlx_terminate(game.mlx42);
