@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 13:22:22 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 13:35:44 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,9 +150,9 @@ typedef struct s_game
 // static void	drawImgPixelLoop(t_game *game, uint32_t Y_START, uint32_t Y_END, uint32_t color);
 void	drawBackground(t_game *game);
 
-// frameCallback.c
+// frame_callback.c
 // static void	updateGameCfg(t_game *game)
-void	frameCallback(void *arg);
+void	frame_callback(void *arg);
 
 // gnl.c
 // int	ft_strlen(const char *s);

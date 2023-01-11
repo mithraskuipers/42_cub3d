@@ -6,13 +6,13 @@
 /*   By: dagmarkramer <dagmarkramer@student.42.f      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 13:08:33 by dkramer       ########   odam.nl         */
+/*   Updated: 2023/01/11 13:35:45 by dkramer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/cub3d.h"
 
-int	gameInit(t_game *game, int argc, char **argv)
+int	game_init(t_game *game, int argc, char **argv)
 {
 	if (argc != 2)
 		msg_err_exit("Error: No file or more than 1 file specified.\n", 1);
@@ -45,7 +45,7 @@ void	checkChar(t_game *game, char **map)
 	}
 }
 
-int	gameParsing(t_game *game)
+int	game_parsing(t_game *game)
 {
 	map_check_ext(game);
 	char *line;
@@ -68,7 +68,7 @@ int	gameParsing(t_game *game)
 	return (0);
 }
 
-int	gameExecute(t_game *game)
+int	game_execute(t_game *game)
 {
 	initPovDir(game, game->mapdata.map[game->player.y][game->player.x]);
 	initPovPlane(game, game->mapdata.map[game->player.y][game->player.x]);
@@ -84,12 +84,12 @@ int main(int argc, char **argv)
 {
 	t_game game;
 
-	gameInit(&game, argc, argv);
-	if (gameParsing(&game))
+	game_init(&game, argc, argv);
+	if (game_parsing(&game))
 		return(cleanup_everything(&game));
-	if (gameExecute(&game))
+	if (game_execute(&game))
 		return(cleanup_everything(&game));
-	mlx_loop_hook(game.mlx42, &frameCallback, &game);
+	mlx_loop_hook(game.mlx42, &frame_callback, &game);
 	mlx_loop(game.mlx42);
 	mlx_terminate(game.mlx42);
 	cleanup_everything(&game);

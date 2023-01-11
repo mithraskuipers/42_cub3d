@@ -7,7 +7,6 @@ OBJ			=	srcs/main \
 				srcs/frameCallback \
 				srcs/movements/walking \
 				srcs/movements/rotating \
-				srcs/debug/debug \
 				srcs/parsing/parsing \
 				srcs/parsing/parsingColors \
 				srcs/parsing/parsingReadMap \

@@ -1,8 +1,0 @@
-# Branching and merging branch with master
-
-git branch
-git branch mithras
-git checkout mithras
-git add . ; git commit -m "update" ; git push origin mithras
-git checkout master
-git merge mithras

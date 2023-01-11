@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   frameCallback.c                                    :+:    :+:            */
+/*   frame_callback.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
@@ -46,7 +46,7 @@ void	checkMlxWindowResize(mlx_t *mlx, t_game *game)
 	}
 }
 
-void	frameCallback(void *arg)
+void	frame_callback(void *arg)
 {
 	t_game	*game;
 
