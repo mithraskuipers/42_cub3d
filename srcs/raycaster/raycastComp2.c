@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/11 09:50:33 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/11 14:54:18 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 16:17:43 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ running if a wall has been hit. When it is done looping, you have the data to
 calculate the distance of the ray to the wall. In turn, with this you can
 compute how tall the wall has to be drawn (see comp_perp_wall_dist()).
 
-"wallSide" contains information regarding the type of wall that has been hit,
-differentiating between "x-side" (wallSide = 0) and "y-side" walls 
-(wallSide = 1). By x-side and y-side, I mean the lines of the grid that are the
+"wall_side" contains information regarding the type of wall that has been hit,
+differentiating between "x-side" (wall_side = 0) and "y-side" walls 
+(wall_side = 1). By x-side and y-side, I mean the lines of the grid that are the
 borders between two squares.
 
 "map" refers to the current grid square that the ray is in. It is expressed in
@@ -77,13 +77,13 @@ void	comp_side_dist(t_ray *ray, char **map)
 		{
 			ray->side_dist.x = ray->side_dist.x + ray->delta_dist.x;
 			ray->map.x = ray->map.x + ray->step.x;
-			ray->wallSide = 0;
+			ray->wall_side = 0;
 		}
 		else
 		{
 			ray->side_dist.y = ray->side_dist.y + ray->delta_dist.y;
 			ray->map.y = ray->map.y + ray->step.y;
-			ray->wallSide = 1;
+			ray->wall_side = 1;
 		}
 		if (map[ray->map.y][ray->map.x] == '1')
 		{
@@ -108,9 +108,9 @@ https://lodev.org/cgtutor/images/raycastperpwalldist.png
 
 void	comp_perp_wall_dist(t_ray *ray)
 {
-	if (ray->wallSide == 0)
+	if (ray->wall_side == 0)
 		ray->perp_wall_distance = (ray->side_dist.x - ray->delta_dist.x);
-	else if (ray->wallSide == 1)
+	else if (ray->wall_side == 1)
 		ray->perp_wall_distance = (ray->side_dist.y - ray->delta_dist.y);
 }
 
@@ -123,7 +123,7 @@ value oftexture we need to check and project to the screen.
 
 void	where_was_wall_hit(t_ray *ray, t_pov *pov)
 {
-	if (ray->wallSide)
+	if (ray->wall_side)
 		ray->wall_x = pov->pos.x + (ray->perp_wall_distance * ray->dir.x);
 	else
 		ray->wall_x = pov->pos.y + (ray->perp_wall_distance * ray->dir.y);

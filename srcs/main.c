@@ -6,7 +6,7 @@
 /*   By: dagmarkramer <dagmarkramer@student.42.f      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 15:37:29 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 16:13:21 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int	game_parsing(t_game *game)
 {
 	char	*line;
 
-	map_check_ext(game);
 	line = NULL;
+	map_check_ext(game);
 	if (get_map_cfg(game, line, &game->mapdata) == 1)
 		msg_err_exit("Your map is configured incorrectly.", 1);
 	map_open(game);

@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/11 14:54:25 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/11 14:56:12 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 16:17:43 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,16 @@ void	which_wall_was_hit1(t_game *game)
 {	
 	if ((game->ray.dir.x >= 0) && (game->ray.dir.y < 0))
 	{
-		if (game->ray.wallSide == SIDE_VERT)
+		if (game->ray.wall_side == SIDE_VERT)
 			game->ray.wall_direction = 'N';
-		else if (game->ray.wallSide == SIDE_HORI)
+		else if (game->ray.wall_side == SIDE_HORI)
 			game->ray.wall_direction = 'E';
 	}
 	else if ((game->ray.dir.x >= 0) && (game->ray.dir.y >= 0))
 	{
-		if (game->ray.wallSide == SIDE_VERT)
+		if (game->ray.wall_side == SIDE_VERT)
 			game->ray.wall_direction = 'S';
-		else if (game->ray.wallSide == SIDE_HORI)
+		else if (game->ray.wall_side == SIDE_HORI)
 			game->ray.wall_direction = 'E';
 	}
 }
@@ -38,16 +38,16 @@ void	which_wall_was_hit2(t_game *game)
 {	
 	if ((game->ray.dir.x < 0) && (game->ray.dir.y >= 0))
 	{
-		if (game->ray.wallSide == SIDE_VERT)
+		if (game->ray.wall_side == SIDE_VERT)
 			game->ray.wall_direction = 'S';
-		else if (game->ray.wallSide == SIDE_HORI)
+		else if (game->ray.wall_side == SIDE_HORI)
 			game->ray.wall_direction = 'W';
 	}
 	if ((game->ray.dir.x < 0) && (game->ray.dir.y < 0))
 	{
-		if (game->ray.wallSide == SIDE_VERT)
+		if (game->ray.wall_side == SIDE_VERT)
 			game->ray.wall_direction = 'N';
-		else if (game->ray.wallSide == SIDE_HORI)
+		else if (game->ray.wall_side == SIDE_HORI)
 			game->ray.wall_direction = 'W';
 	}
 }

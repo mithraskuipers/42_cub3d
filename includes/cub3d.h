@@ -6,7 +6,7 @@
 /*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:08:38 by dkramer       #+#    #+#                 */
-/*   Updated: 2023/01/11 15:37:57 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 16:16:09 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@
 # define SIDE_VERT 1
 
 // VECTOR STRUCT: INTEGERS
-typedef struct	s_ivector
+typedef struct s_ivector
 {
 	int	x;
 	int	y;
 }				t_ivector;
 
 // VECTOR STRUCT: DOUBLES
-typedef struct	s_dvector
+typedef struct s_dvector
 {
 	double	x;
 	double	y;
@@ -65,10 +65,10 @@ typedef struct	s_dvector
 // RAY DATA STRUCT
 typedef struct s_ray
 {
-	uint32_t		pixelColor;
+	uint32_t		pixel_color;
 	uint32_t		wall_line_height;
-	t_dvector		pixelPos;
-	int				curTex;
+	t_dvector		pixel_pos; // LETOP
+	int				cur_tex; // LETOP
 	mlx_texture_t	*texture;
 	int				offset_from_above;
 	int				screenXPos;
@@ -78,7 +78,7 @@ typedef struct s_ray
 	t_ivector		step;
 	t_ivector		map;
 	t_dvector		end_pos;
-	int				wallSide;
+	int				wall_side; // LET OP
 	double			perp_wall_distance;
 	double			texLineScale;
 	int				wall_direction;
@@ -94,7 +94,7 @@ typedef struct s_pov
 	t_dvector	dir;
 	t_dvector	pos;
 	t_dvector	plane;
-	double		cameraSpaceX;
+	double		cameraSpaceX; // LETOP
 }	t_pov;
 
 // MAPDATA STRUCT
@@ -145,9 +145,9 @@ typedef struct s_game
 // main.c
 
 // createImgs.c
-// static void	combineColors(t_game *game);
-// static void	drawImgPixelLoop(t_game *game, uint32_t Y_START, uint32_t Y_END, uint32_t color);
-void	drawBackground(t_game *game);
+// static void	combine_colors(t_game *game);
+// static void	draw_img_pixel_loop(t_game *game, uint32_t Y_START, uint32_t Y_END, uint32_t color);
+void	draw_background(t_game *game);
 
 // frame_callback.c
 // static void	update_game_cfg(t_game *game)

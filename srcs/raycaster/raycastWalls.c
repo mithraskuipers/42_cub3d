@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:06:09 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/11 14:47:25 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 16:18:14 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ void	get_tex_pixel_col(t_game *game, int wall_height, int wall_line_height)
 	(double)wall_line_height) \
 	* (int)game->ray.texture->height) \
 	* (int)(game->ray.texture->width) \
-	+ (int)game->ray.curTex) \
+	+ (int)game->ray.cur_tex) \
 	* 4;
 	r = game->ray.texture->pixels[exact_tex_pixel + 1];
 	g = game->ray.texture->pixels[exact_tex_pixel + 2];
 	b = game->ray.texture->pixels[exact_tex_pixel + 3];
-	game->ray.pixelColor = convert_rgb_bytes_to_int(\
+	game->ray.pixel_color = convert_rgb_bytes_to_int(\
 									game->ray.texture->pixels[exact_tex_pixel], \
 									r, \
 									g, \
@@ -41,13 +41,13 @@ void	set_current_ray_texture(t_game *game)
 	if ((game->ray.wall_direction == 'N') || \
 	(game->ray.wall_direction == 'E'))
 	{
-		game->ray.curTex = (game->ray.texture->width) * \
+		game->ray.cur_tex = (game->ray.texture->width) * \
 		get_decimals(game->ray.wall_x);
 	}
 	else if ((game->ray.wall_direction == 'S') || \
 	(game->ray.wall_direction == 'W'))
 	{
-		game->ray.curTex = (game->ray.texture->width) - \
+		game->ray.cur_tex = (game->ray.texture->width) - \
 		((game->ray.texture->width) * get_decimals(game->ray.wall_x));
 	}
 }
@@ -69,18 +69,16 @@ void	draw_cur_wall_line(t_game *game)
 	curwall_line_height = START;
 	while (curwall_line_height < game->ray.wall_line_height)
 	{
-		game->ray.pixelPos.y = game->ray.offset_from_above \
-		+ curwall_line_height;
+		game->ray.pixel_pos.y = game->ray.offset_from_above + curwall_line_height;
 		if (((game->ray.offset_from_above + curwall_line_height) > 0) && \
-		((game->ray.offset_from_above + curwall_line_height) < \
-		game->screen_height))
+		((game->ray.offset_from_above + curwall_line_height) < game->screen_height))
 		{
 			get_tex_pixel_col(game, curwall_line_height, \
 							game->ray.wall_line_height);
 			mlx_put_pixel(game->mlxImg, \
-							game->ray.pixelPos.x, \
-							game->ray.pixelPos.y, \
-							game->ray.pixelColor);
+							game->ray.pixel_pos.x, \
+							game->ray.pixel_pos.y, \
+							game->ray.pixel_color);
 		}
 		curwall_line_height++;
 	}

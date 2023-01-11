@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   frameCallback.c                                    :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
+/*   By: dkramer <dkramer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/11 15:40:36 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/11 15:40:38 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 16:12:34 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

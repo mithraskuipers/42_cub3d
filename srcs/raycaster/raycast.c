@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/21 22:06:04 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/01/11 15:03:07 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/01/11 16:17:10 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	which_tex_has_wall(t_game *game, char wall_direction)
 void	raycaster(t_game *game, t_pov *pov)
 {
 	game->ray.screenXPos = 0;
-	drawBackground(game);
+	draw_background(game);
 	while (game->ray.screenXPos < (int)game->screen_width)
 	{
 		comp_camera_space_x(game, pov, game->ray.screenXPos);
@@ -51,7 +51,7 @@ void	raycaster(t_game *game, t_pov *pov)
 		which_tex_has_wall(game, game->ray.wall_direction);
 		where_was_wall_hit(&game->ray, pov);
 		how_tall_wall_line(&game->ray);
-		game->ray.pixelPos.x = game->ray.screenXPos;
+		game->ray.pixel_pos.x = game->ray.screenXPos;
 		set_current_ray_texture(game);
 		game->ray.wall_line_height = (game->ray.texture->height * \
 		game->ray.texLineScale);
