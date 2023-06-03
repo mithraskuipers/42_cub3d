@@ -1,5 +1,3 @@
-# 42_cub3d
-
 <p align="center" style="margin-bottom: 0px !important;">
   <img width="600" src="https://github.com/mithraskuipers/mithraskuipers/blob/master/readme_srcs/42/logo.png?raw=true" alt="42_Network_Amsterdam" align="center"> </p>
 <h1 align="center" style="margin-top: 0px;">cub3d <a href="https://github.com/JaeSeoKim/badge42"><img src="https://badge42.vercel.app/api/v2/cl483ajsd008309l6suq9l256/project/2862013" alt="mikuiper's 42 cub3d Score" /></a></h1>
