@@ -8,6 +8,20 @@ In this project, we've used the C programming language and the miniLibX graphics
 
 We're excited to share our project with you. Please feel free to explore the code and leave us any feedback you have.
 
+## Raycasting and the Math Behind it
+
+The Cub3d game utilizes raycasting techniques to create a 3D effect in a 2D environment. Raycasting involves simulating the behavior of light rays to render a 3D scene from a 2D map. To achieve this, several mathematical calculations are involved. Here's a brief overview of the math used in our raycaster:
+
+1. Trigonometry: Trigonometric functions such as sine and cosine are essential for determining the angles at which rays are cast. These angles are used to calculate the ray direction and perform various calculations during raycasting.
+
+2. Line Intersection: The raycaster traces rays from the player's position to the walls of the game world. To determine where a ray intersects with a wall, we use line intersection formulas. These formulas involve vector operations and algebraic equations.
+
+3. Distance Calculation: To render the walls correctly, we need to calculate the distance between the player and the wall intersection point. This calculation is based on the Pythagorean theorem or other distance formulas.
+
+4. Texture Mapping: In order to apply textures to the walls, we map the 2D textures onto the 3D walls based on the intersection points. This process involves converting the 3D coordinates to texture coordinates using mathematical transformations.
+
+During the development of Cub3d, we extensively applied these mathematical concepts to achieve accurate rendering, depth perception, and movement within the game.
+
 ## Compilation
 
 To compile the Cub3d game, follow these steps:
