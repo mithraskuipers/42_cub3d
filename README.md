@@ -1,12 +1,17 @@
 # 42_cub3d
 
-## Introduction
+<p align="center" style="margin-bottom: 0px !important;">
+  <img width="600" src="https://github.com/mithraskuipers/mithraskuipers/blob/master/readme_srcs/42/logo.png?raw=true" alt="42_Network_Amsterdam" align="center"> </p>
+<h1 align="center" style="margin-top: 0px;">cub3d <a href="https://github.com/JaeSeoKim/badge42"><img src="https://badge42.vercel.app/api/v2/cl483ajsd008309l6suq9l256/project/2862013" alt="mikuiper's 42 cub3d Score" /></a></h1>
 
-Welcome to our Cub3d project! Dagmar Kramer and myself worked together as a team to create a simple 3D game using raycasting techniques. Our game is inspired by the classic Wolfenstein 3D, and we've added some fun features to make it our own.
+<p align="center" style="margin-top: 0px;">
+<img src="https://forthebadge.com/images/badges/made-with-c.svg"/>
+<img src="https://forthebadge.com/images/badges/built-with-love.svg"/>
+</p>
 
-In this project, we've used the C programming language and the miniLibX graphics library to build the game from scratch.
+## :book: About the project
 
-We're excited to share our project with you. Please feel free to explore the code and leave us any feedback you have.
+Welcome to our Cub3d project! Dagmar Kramer and myself worked together as a team to create a simple 3D game using raycasting techniques. Our game is inspired by the classic Wolfenstein 3D, and we've added some fun features to make it our own. In this project, we've used the C programming language and the miniLibX graphics library to build the game from scratch. We're excited to share our project with you. Please feel free to explore the code and leave us any feedback you have.
 
 ## Raycasting and the Math Behind it
 
